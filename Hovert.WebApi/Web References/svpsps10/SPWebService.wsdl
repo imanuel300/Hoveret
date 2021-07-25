@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://moch.gov.il/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://moch.gov.il/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://moch.gov.il/">
+      <s:element name="GetItems">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="path" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetItemsResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ReturnType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Exception" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DocID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ErrorCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="FolderPath" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsSuccess" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="DocsCount" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="DataSet">
+            <s:complexType>
+              <s:sequence>
+                <s:element ref="s:schema" />
+                <s:any />
+              </s:sequence>
+            </s:complexType>
+          </s:element>
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorMsg" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Result" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SaveItem">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="uploadPath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filePath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jsonPropFolder" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jsonPropFile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveItemResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveItemResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveItemByPath">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="uploadPath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filePath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jsonPropFolder" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jsonPropFile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveItemByPathResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveItemByPathResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveItemNoToken">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="uploadPath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filePath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jsonPropFolder" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jsonPropFile" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveItemNoTokenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveItemNoTokenResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDocuments">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="uploadPath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="queryStr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="viewFields" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDocumentsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDocumentsResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActionsOnDocuments">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="method" type="tns:Method" />
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="queryStr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jsonPropFile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="viewFields" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="Method">
+        <s:restriction base="s:string">
+          <s:enumeration value="Get" />
+          <s:enumeration value="Update" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="ActionsOnDocumentsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ActionsOnDocumentsResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActionsOnDocumentsOld">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="method" type="tns:Method" />
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="queryStr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jsonPropFile" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActionsOnDocumentsOldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ActionsOnDocumentsOldResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReferenceNumber">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetReferenceNumberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetReferenceNumberResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsLocationExists">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pathToCheck" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsLocationExistsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IsLocationExistsResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDocumentByQuery">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="uploadPath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="queryStr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDocumentByQueryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDocumentByQueryResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MoveFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="filepath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="despath" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MoveFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MoveFileResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="filePath" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteFileResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateNewAtar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="atarPath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jsonPropFolder" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateNewAtarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateNewAtarResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPropertiesToItem">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="uploadPath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jsonPropFolder" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPropertiesToItemResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetPropertiesToItemResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPathByQuery">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="queryStr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPathByQueryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPathByQueryResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemsByCrossSiteQuery">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="queryStr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="viewFields" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="rowLimit" type="s:unsignedInt" />
+            <s:element minOccurs="0" maxOccurs="1" name="userCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemsByCrossSiteQueryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetItemsByCrossSiteQueryResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateDirectory">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jsonPropFolder" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateDirectoryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateDirectoryResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateDocLibrary1">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="docLibName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="docLibUrl" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="docLibDesc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="docLibTemp" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jsonPermissions" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateDocLibrary1Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateDocLibrary1Result" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateDocLibrary">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="docLibName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="docLibUrl" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="docLibDesc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="docLibTemp" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jsonPermissions" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateDocLibraryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateDocLibraryResult" type="tns:ReturnType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetItemsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetItems" />
+  </wsdl:message>
+  <wsdl:message name="GetItemsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveItemSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveItem" />
+  </wsdl:message>
+  <wsdl:message name="SaveItemSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveItemByPathSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveItemByPath" />
+  </wsdl:message>
+  <wsdl:message name="SaveItemByPathSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveItemByPathResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveItemNoTokenSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveItemNoToken" />
+  </wsdl:message>
+  <wsdl:message name="SaveItemNoTokenSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveItemNoTokenResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDocuments" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDocumentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ActionsOnDocumentsSoapIn">
+    <wsdl:part name="parameters" element="tns:ActionsOnDocuments" />
+  </wsdl:message>
+  <wsdl:message name="ActionsOnDocumentsSoapOut">
+    <wsdl:part name="parameters" element="tns:ActionsOnDocumentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ActionsOnDocumentsOldSoapIn">
+    <wsdl:part name="parameters" element="tns:ActionsOnDocumentsOld" />
+  </wsdl:message>
+  <wsdl:message name="ActionsOnDocumentsOldSoapOut">
+    <wsdl:part name="parameters" element="tns:ActionsOnDocumentsOldResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetReferenceNumberSoapIn">
+    <wsdl:part name="parameters" element="tns:GetReferenceNumber" />
+  </wsdl:message>
+  <wsdl:message name="GetReferenceNumberSoapOut">
+    <wsdl:part name="parameters" element="tns:GetReferenceNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsLocationExistsSoapIn">
+    <wsdl:part name="parameters" element="tns:IsLocationExists" />
+  </wsdl:message>
+  <wsdl:message name="IsLocationExistsSoapOut">
+    <wsdl:part name="parameters" element="tns:IsLocationExistsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentByQuerySoapIn">
+    <wsdl:part name="parameters" element="tns:GetDocumentByQuery" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentByQuerySoapOut">
+    <wsdl:part name="parameters" element="tns:GetDocumentByQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="MoveFileSoapIn">
+    <wsdl:part name="parameters" element="tns:MoveFile" />
+  </wsdl:message>
+  <wsdl:message name="MoveFileSoapOut">
+    <wsdl:part name="parameters" element="tns:MoveFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteFileSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteFile" />
+  </wsdl:message>
+  <wsdl:message name="DeleteFileSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateNewAtarSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateNewAtar" />
+  </wsdl:message>
+  <wsdl:message name="CreateNewAtarSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateNewAtarResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetPropertiesToItemSoapIn">
+    <wsdl:part name="parameters" element="tns:SetPropertiesToItem" />
+  </wsdl:message>
+  <wsdl:message name="SetPropertiesToItemSoapOut">
+    <wsdl:part name="parameters" element="tns:SetPropertiesToItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPathByQuerySoapIn">
+    <wsdl:part name="parameters" element="tns:GetPathByQuery" />
+  </wsdl:message>
+  <wsdl:message name="GetPathByQuerySoapOut">
+    <wsdl:part name="parameters" element="tns:GetPathByQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetItemsByCrossSiteQuerySoapIn">
+    <wsdl:part name="parameters" element="tns:GetItemsByCrossSiteQuery" />
+  </wsdl:message>
+  <wsdl:message name="GetItemsByCrossSiteQuerySoapOut">
+    <wsdl:part name="parameters" element="tns:GetItemsByCrossSiteQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateDirectorySoapIn">
+    <wsdl:part name="parameters" element="tns:CreateDirectory" />
+  </wsdl:message>
+  <wsdl:message name="CreateDirectorySoapOut">
+    <wsdl:part name="parameters" element="tns:CreateDirectoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateDocLibrary1SoapIn">
+    <wsdl:part name="parameters" element="tns:CreateDocLibrary1" />
+  </wsdl:message>
+  <wsdl:message name="CreateDocLibrary1SoapOut">
+    <wsdl:part name="parameters" element="tns:CreateDocLibrary1Response" />
+  </wsdl:message>
+  <wsdl:message name="CreateDocLibrarySoapIn">
+    <wsdl:part name="parameters" element="tns:CreateDocLibrary" />
+  </wsdl:message>
+  <wsdl:message name="CreateDocLibrarySoapOut">
+    <wsdl:part name="parameters" element="tns:CreateDocLibraryResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SPWebServiceSoap">
+    <wsdl:operation name="GetItems">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets items by path and user name in DataSet format</wsdl:documentation>
+      <wsdl:input message="tns:GetItemsSoapIn" />
+      <wsdl:output message="tns:GetItemsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveItem">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Save item by upload path, file path, folder properties, file properties, user name</wsdl:documentation>
+      <wsdl:input message="tns:SaveItemSoapIn" />
+      <wsdl:output message="tns:SaveItemSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveItemByPath">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Save item by upload path, file path, folder properties, file properties, user name</wsdl:documentation>
+      <wsdl:input message="tns:SaveItemByPathSoapIn" />
+      <wsdl:output message="tns:SaveItemByPathSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveItemNoToken">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Save Item No Token item by upload path, file path, folder properties, file properties, user name</wsdl:documentation>
+      <wsdl:input message="tns:SaveItemNoTokenSoapIn" />
+      <wsdl:output message="tns:SaveItemNoTokenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocuments">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get DataSet by folder path, query, user name</wsdl:documentation>
+      <wsdl:input message="tns:GetDocumentsSoapIn" />
+      <wsdl:output message="tns:GetDocumentsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActionsOnDocuments">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Can do two types of action on the documents - Get and Update</wsdl:documentation>
+      <wsdl:input message="tns:ActionsOnDocumentsSoapIn" />
+      <wsdl:output message="tns:ActionsOnDocumentsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActionsOnDocumentsOld">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Can do two types of action on the documents - Get and Update - AAAA</wsdl:documentation>
+      <wsdl:input message="tns:ActionsOnDocumentsOldSoapIn" />
+      <wsdl:output message="tns:ActionsOnDocumentsOldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetReferenceNumber">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get reference number</wsdl:documentation>
+      <wsdl:input message="tns:GetReferenceNumberSoapIn" />
+      <wsdl:output message="tns:GetReferenceNumberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsLocationExists">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Checks if location exists in SP</wsdl:documentation>
+      <wsdl:input message="tns:IsLocationExistsSoapIn" />
+      <wsdl:output message="tns:IsLocationExistsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentByQuery">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get url of file by folder path, query, user name</wsdl:documentation>
+      <wsdl:input message="tns:GetDocumentByQuerySoapIn" />
+      <wsdl:output message="tns:GetDocumentByQuerySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MoveFile">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">move file from one location to another</wsdl:documentation>
+      <wsdl:input message="tns:MoveFileSoapIn" />
+      <wsdl:output message="tns:MoveFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete file by URL</wsdl:documentation>
+      <wsdl:input message="tns:DeleteFileSoapIn" />
+      <wsdl:output message="tns:DeleteFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewAtar">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create new atar</wsdl:documentation>
+      <wsdl:input message="tns:CreateNewAtarSoapIn" />
+      <wsdl:output message="tns:CreateNewAtarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetPropertiesToItem">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set properties to item</wsdl:documentation>
+      <wsdl:input message="tns:SetPropertiesToItemSoapIn" />
+      <wsdl:output message="tns:SetPropertiesToItemSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPathByQuery">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get cross site items</wsdl:documentation>
+      <wsdl:input message="tns:GetPathByQuerySoapIn" />
+      <wsdl:output message="tns:GetPathByQuerySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetItemsByCrossSiteQuery">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get cross site items</wsdl:documentation>
+      <wsdl:input message="tns:GetItemsByCrossSiteQuerySoapIn" />
+      <wsdl:output message="tns:GetItemsByCrossSiteQuerySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateDirectory">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create the new directory of folder type</wsdl:documentation>
+      <wsdl:input message="tns:CreateDirectorySoapIn" />
+      <wsdl:output message="tns:CreateDirectorySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateDocLibrary1">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create the new directory of folder type</wsdl:documentation>
+      <wsdl:input message="tns:CreateDocLibrary1SoapIn" />
+      <wsdl:output message="tns:CreateDocLibrary1SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateDocLibrary">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create the new directory of folder type</wsdl:documentation>
+      <wsdl:input message="tns:CreateDocLibrarySoapIn" />
+      <wsdl:output message="tns:CreateDocLibrarySoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SPWebServiceSoap" type="tns:SPWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetItems">
+      <soap:operation soapAction="http://moch.gov.il/GetItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveItem">
+      <soap:operation soapAction="http://moch.gov.il/SaveItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveItemByPath">
+      <soap:operation soapAction="http://moch.gov.il/SaveItemByPath" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveItemNoToken">
+      <soap:operation soapAction="http://moch.gov.il/SaveItemNoToken" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocuments">
+      <soap:operation soapAction="http://moch.gov.il/GetDocuments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActionsOnDocuments">
+      <soap:operation soapAction="http://moch.gov.il/ActionsOnDocuments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActionsOnDocumentsOld">
+      <soap:operation soapAction="http://moch.gov.il/ActionsOnDocumentsOld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReferenceNumber">
+      <soap:operation soapAction="http://moch.gov.il/GetReferenceNumber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsLocationExists">
+      <soap:operation soapAction="http://moch.gov.il/IsLocationExists" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentByQuery">
+      <soap:operation soapAction="http://moch.gov.il/GetDocumentByQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveFile">
+      <soap:operation soapAction="http://moch.gov.il/MoveFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <soap:operation soapAction="http://moch.gov.il/DeleteFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewAtar">
+      <soap:operation soapAction="http://moch.gov.il/CreateNewAtar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPropertiesToItem">
+      <soap:operation soapAction="http://moch.gov.il/SetPropertiesToItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPathByQuery">
+      <soap:operation soapAction="http://moch.gov.il/GetPathByQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemsByCrossSiteQuery">
+      <soap:operation soapAction="http://moch.gov.il/GetItemsByCrossSiteQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateDirectory">
+      <soap:operation soapAction="http://moch.gov.il/CreateDirectory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateDocLibrary1">
+      <soap:operation soapAction="http://moch.gov.il/CreateDocLibrary1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateDocLibrary">
+      <soap:operation soapAction="http://moch.gov.il/CreateDocLibrary" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SPWebServiceSoap12" type="tns:SPWebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetItems">
+      <soap12:operation soapAction="http://moch.gov.il/GetItems" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveItem">
+      <soap12:operation soapAction="http://moch.gov.il/SaveItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveItemByPath">
+      <soap12:operation soapAction="http://moch.gov.il/SaveItemByPath" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveItemNoToken">
+      <soap12:operation soapAction="http://moch.gov.il/SaveItemNoToken" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocuments">
+      <soap12:operation soapAction="http://moch.gov.il/GetDocuments" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActionsOnDocuments">
+      <soap12:operation soapAction="http://moch.gov.il/ActionsOnDocuments" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActionsOnDocumentsOld">
+      <soap12:operation soapAction="http://moch.gov.il/ActionsOnDocumentsOld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReferenceNumber">
+      <soap12:operation soapAction="http://moch.gov.il/GetReferenceNumber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsLocationExists">
+      <soap12:operation soapAction="http://moch.gov.il/IsLocationExists" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentByQuery">
+      <soap12:operation soapAction="http://moch.gov.il/GetDocumentByQuery" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveFile">
+      <soap12:operation soapAction="http://moch.gov.il/MoveFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <soap12:operation soapAction="http://moch.gov.il/DeleteFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewAtar">
+      <soap12:operation soapAction="http://moch.gov.il/CreateNewAtar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPropertiesToItem">
+      <soap12:operation soapAction="http://moch.gov.il/SetPropertiesToItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPathByQuery">
+      <soap12:operation soapAction="http://moch.gov.il/GetPathByQuery" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemsByCrossSiteQuery">
+      <soap12:operation soapAction="http://moch.gov.il/GetItemsByCrossSiteQuery" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateDirectory">
+      <soap12:operation soapAction="http://moch.gov.il/CreateDirectory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateDocLibrary1">
+      <soap12:operation soapAction="http://moch.gov.il/CreateDocLibrary1" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateDocLibrary">
+      <soap12:operation soapAction="http://moch.gov.il/CreateDocLibrary" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SPWebService">
+    <wsdl:port name="SPWebServiceSoap" binding="tns:SPWebServiceSoap">
+      <soap:address location="http://svpsps10/_layouts/MochSPWebService/SPWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SPWebServiceSoap12" binding="tns:SPWebServiceSoap12">
+      <soap12:address location="http://svpsps10/_layouts/MochSPWebService/SPWebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

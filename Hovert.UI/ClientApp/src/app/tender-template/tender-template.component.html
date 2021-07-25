@@ -1,0 +1,30 @@
+<div dir="rtl" class="jumbotron">
+  <h1>תבנית כללית עבור חוברת מכרז</h1>
+  <h3>מסך לביצוע תצוגה והוצאה של חוברות מכרזים</h3>
+
+
+  <form>
+
+    <div [class.centered]="cClasses != null">
+      <button (click)="GetData()" class="btn btn-primary">הצגת נתונים</button>
+      <!-- <button *ngIf="DisplayExportButton" class="btn btn-primary" (click)="SendData()"> הוצאה לקובץ </button> -->
+      <!--*ngIf="DisplayExportButton"-->
+    </div>
+    <div class="form-group">
+
+
+    </div>
+
+
+  </form>
+</div>
+<br />
+<div *ngIf="DisplayExportButton" dir="rtl" class="jumbotron">
+  <quill-editor *ngIf="!IsHtml" [(ngModel)]="sectionToDisplay.SectionBody" [placeholder]="'כתוב משהוא..'"
+    [modules]="editorOptions">
+  </quill-editor>
+  <div *ngIf="IsHtml" id="output" dir="rtl" [innerHTML]="sectionToDisplay.SectionBody | safeHtml"></div>
+  <button type="button" class="btn btn-secondary btn-sm shadow-none m-1"
+    (click)="IsHtml ? IsHtml = false : IsHtml = true; "><span *ngIf="!IsHtml">Html</span><span
+      *ngIf="IsHtml">View</span></button>
+</div>

@@ -1,0 +1,16 @@
+<Target Name="InstallNpm" BeforeTargets="cleanWwwRoot">
+    <Exec Command="npm install" WorkingDirectory="appClient" />
+  </Target>
+
+  <Target Name="cleanWwwRoot" BeforeTargets="angularBuild">
+    <Exec Command="del /q wwwroot\*" />
+  </Target>
+  
+  <Target Name="angularBuild" BeforeTargets="Build">
+    <Exec Command="npm run build_webroot" WorkingDirectory="appClient" />
+  </Target>
+
+  <ItemGroup>
+    <!-- extends watching group to include *.js files -->
+    <Watch Include="appClent\src\**" Exclude="appClient\node_modules\**;$(DefaultExcludes)" />
+  </ItemGroup>

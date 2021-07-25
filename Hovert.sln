@@ -1,0 +1,78 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31105.61
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hovert.Common", "Hovert.Common\Hovert.Common.csproj", "{6486DC2C-EDC9-4998-8F3A-DD1D35E0F864}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hovert.Data", "Hovert.Data\Hovert.Data.csproj", "{0F06A531-C231-439E-AB1C-FF78C00E7707}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hovert.DataRepositories", "Hovert.DataRepositories\Hovert.DataRepositories.csproj", "{C6764F69-A005-407F-B94A-A508448F0462}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hovert.IDataRepositories", "Hovert.IDataRepositories\Hovert.IDataRepositories.csproj", "{4C8C8C2B-6DB6-4735-B8E4-6318618AD0BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hovert.WebApi", "Hovert.WebApi\Hovert.WebApi.csproj", "{564A7B58-E60A-4349-B07E-86C1A3214128}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hovert.UI", "Hovert.UI\Hovert.UI.csproj", "{14D3B505-34BE-4668-8D86-BD3027405E5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6486DC2C-EDC9-4998-8F3A-DD1D35E0F864}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6486DC2C-EDC9-4998-8F3A-DD1D35E0F864}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6486DC2C-EDC9-4998-8F3A-DD1D35E0F864}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6486DC2C-EDC9-4998-8F3A-DD1D35E0F864}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F06A531-C231-439E-AB1C-FF78C00E7707}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F06A531-C231-439E-AB1C-FF78C00E7707}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F06A531-C231-439E-AB1C-FF78C00E7707}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F06A531-C231-439E-AB1C-FF78C00E7707}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6764F69-A005-407F-B94A-A508448F0462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6764F69-A005-407F-B94A-A508448F0462}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6764F69-A005-407F-B94A-A508448F0462}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6764F69-A005-407F-B94A-A508448F0462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C8C8C2B-6DB6-4735-B8E4-6318618AD0BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C8C8C2B-6DB6-4735-B8E4-6318618AD0BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C8C8C2B-6DB6-4735-B8E4-6318618AD0BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C8C8C2B-6DB6-4735-B8E4-6318618AD0BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{564A7B58-E60A-4349-B07E-86C1A3214128}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{564A7B58-E60A-4349-B07E-86C1A3214128}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{564A7B58-E60A-4349-B07E-86C1A3214128}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{564A7B58-E60A-4349-B07E-86C1A3214128}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14D3B505-34BE-4668-8D86-BD3027405E5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14D3B505-34BE-4668-8D86-BD3027405E5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14D3B505-34BE-4668-8D86-BD3027405E5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B1E15AE2-F3D7-4194-AA78-A529096C29F4}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://mochtfs:8080/tfs/mochcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Hovert.Common\\Hovert.Common.csproj
+		SccProjectName1 = Hovert.Common
+		SccLocalPath1 = Hovert.Common
+		SccProjectUniqueName2 = Hovert.DataRepositories\\Hovert.DataRepositories.csproj
+		SccProjectName2 = Hovert.DataRepositories
+		SccLocalPath2 = Hovert.DataRepositories
+		SccProjectUniqueName3 = Hovert.IDataRepositories\\Hovert.IDataRepositories.csproj
+		SccProjectName3 = Hovert.IDataRepositories
+		SccLocalPath3 = Hovert.IDataRepositories
+		SccProjectUniqueName4 = Hovert.UI\\Hovert.UI.csproj
+		SccProjectName4 = Hovert.UI
+		SccLocalPath4 = Hovert.UI
+		SccProjectUniqueName5 = Hovert.WebApi\\Hovert.WebApi.csproj
+		SccProjectName5 = Hovert.WebApi
+		SccLocalPath5 = Hovert.WebApi
+		SccProjectUniqueName6 = Hovert.Data\\Hovert.Data.csproj
+		SccProjectName6 = Hovert.Data
+		SccLocalPath6 = Hovert.Data
+	EndGlobalSection
+EndGlobal

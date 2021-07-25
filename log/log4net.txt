@@ -1,0 +1,28 @@
+﻿2021-07-22 14:18:49,353 INFO [8] WEBAPIODATAV3.Controllers.TenderBookletSectionsController.Post - TenderBookletSection
+2021-07-22 14:18:49,411 INFO [8] WEBAPIODATAV3.Controllers.TenderBookletSectionsController.Post - pre OutputToWordFromPOST
+2021-07-22 14:19:58,848 INFO [8] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - AsposelicD:\inetpub\WebSites\Hoveret\Aspose.lic\Aspose.Words.lic
+2021-07-22 14:20:11,124 INFO [8] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - GetData: 2475
+2021-07-22 14:20:11,125 INFO [8] WEBAPIODATAV3.Utilities.UtilityMethods.GetBookMarks - spLett_TenderBooklet
+2021-07-22 14:20:11,127 INFO [8] WEBAPIODATAV3.Utilities.UtilityMethods.GetDataByCommand - OpenConnection
+2021-07-22 14:20:11,428 INFO [8] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - ReplaceBookmarks: 
+2021-07-22 14:20:12,867 INFO [8] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - BuildBuilder: 
+2021-07-22 14:20:12,868 INFO [8] WEBAPIODATAV3.Utilities.UtilityMethods.GetBookMarks - spLett_TenderBooklet
+2021-07-22 14:20:12,869 INFO [8] WEBAPIODATAV3.Utilities.UtilityMethods.GetDataByCommand - OpenConnection
+2021-07-22 14:20:13,307 INFO [8] WEBAPIODATAV3.Utilities.UtilityMethods.GetBookMarks - spLett_TenderBooklet
+2021-07-22 14:20:13,307 INFO [8] WEBAPIODATAV3.Utilities.UtilityMethods.GetDataByCommand - OpenConnection
+2021-07-22 14:20:13,537 INFO [8] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - localhost
+2021-07-22 14:20:13,537 INFO [8] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - localhost:52253
+2021-07-22 14:20:13,537 INFO [8] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - 52253
+2021-07-22 14:20:13,540 INFO [8] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - /api/TenderBookletSections/Post
+2021-07-22 14:20:13,541 INFO [8] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - /
+2021-07-22 14:20:13,541 INFO [8] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - http://localhost:52253/api/TenderBookletSections/Post
+2021-07-22 14:20:13,541 INFO [8] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - /api/TenderBookletSections/Post
+2021-07-22 14:20:13,542 INFO [8] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - new file fileNameLocal:D:\inetpub\WebSites\Hoveret\Hovert.WebApi\Doc\4\50\2\2021-07-22_14-20-13.docx
+2021-07-22 14:20:13,542 INFO [8] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - new file httpfileName:localhost:52253/Doc/4/50/2/2021-07-22_14-20-13.docx
+2021-07-22 14:23:20,919 INFO [11] WEBAPIODATAV3.Controllers.TenderBookletSectionsController.Post - TenderBookletSection
+2021-07-22 14:23:20,920 INFO [11] WEBAPIODATAV3.Controllers.TenderBookletSectionsController.Post - pre OutputToWordFromPOST
+2021-07-22 14:23:20,920 INFO [11] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - AsposelicD:\inetpub\WebSites\Hoveret\Aspose.lic\Aspose.Words.lic
+2021-07-22 14:25:40,035 INFO [11] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - GetData: 2475
+2021-07-22 14:25:46,452 INFO [11] WEBAPIODATAV3.Utilities.UtilityMethods.GetBookMarks - spLett_TenderBooklet
+2021-07-22 14:25:46,453 INFO [11] WEBAPIODATAV3.Utilities.UtilityMethods.GetDataByCommand - OpenConnection
+2021-07-22 14:26:04,329 INFO [11] WEBAPIODATAV3.ExportAsposeMultilevel.OutputToWordFromPOST - ReplaceBookmarks: 

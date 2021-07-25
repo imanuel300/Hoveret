@@ -1,0 +1,199 @@
+<html>
+<head>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+
+  <script>
+
+var fnFillDetails  = () => {
+
+	let pn = parent.Xrm.Page.getAttribute("phonenumber").getValue();
+	let s = parent.Xrm.Page.getAttribute("subject").getValue();
+	alert("מספר טלפון  = " + pn  + " - נושא = " + s);
+}
+ 
+  </script>
+  <script>
+    var fnCreateLeadFromPhonecall = () => {
+ 
+
+      var entity = {};
+      if (Xrm.Page.getAttribute("").getValue() != null) entity.lastname = "LASTNAME";//parent.Xrm.Page.getAttribute("").getValue();
+      entity.address1_telephone1 = "PHONE";
+      entity.telephone1 = "PHONE";
+      entity.subject = "SUBJECT";
+   //   entity.ownerid =  parent.Xrm.Page.context.getUserId();
+
+     
+
+      parent.$.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        datatype: "json",
+        url: parent.Xrm.Page.context.getClientUrl() + "/api/data/v8.2/leads",
+        data: JSON.stringify(entity),
+        beforeSend: function (XMLHttpRequest) {
+          XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+          XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+          XMLHttpRequest.setRequestHeader("Accept", "application/json");
+        },
+        async: true,
+        success: function (data, textStatus, xhr) {
+          var uri = xhr.getResponseHeader("OData-EntityId");
+          var regExp = /\(([^)]+)\)/;
+          var matches = regExp.exec(uri);
+          var newEntityId = matches[1]; var recordname = "Lead"; var entityname = "lead";
+          parent.Xrm.Page.getAttribute("regardingobjectid").setValue([{ id: newEntityId, name: recordname, entityType: entityname }]);
+
+        },
+        error: function (xhr, textStatus, errorThrown) {
+          parent.Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+        }
+      });
+
+
+
+
+    }
+
+  </script>
+
+  <script>
+    var fnGetAllPhonecalls = () => {
+      parent.Xrm.Page.ui.clearFormNotification();
+    parent.$.ajax({
+      type: "GET",
+      contentType: "application/json; charset=utf-8",
+      datatype: "json",
+      url: parent.Xrm.Page.context.getClientUrl() + "/api/data/v8.2/phonecalls?$select=activityid,description,phonenumber&$expand=regardingobjectid_contact_phonecall($select=contactid,fullname)",
+      beforeSend: function (XMLHttpRequest) {
+        XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+        XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+        XMLHttpRequest.setRequestHeader("Accept", "application/json");
+        XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+      },
+      async: true,
+      success: function (data, textStatus, xhr) {
+        var results = data; debugger;
+        let msg = data != null ? "" : "No results";
+        for (var i = 0; i < results.value.length; i++) {
+          var activityid = results.value[i]["activityid"];
+          var description = results.value[i]["description"];
+          var phonenumber = results.value[i]["phonenumber"];
+          //Use @odata.nextLink to query resulting related records
+          var regardingobjectid_contact_phonecall_NextLink = results.value[i]["regardingobjectid_contact_phonecall@odata.nextLink"];
+          msg += description + " : " + phonenumber + " : " + regardingobjectid_contact_phonecall_NextLink != undefined ? regardingobjectid_contact_phonecall_NextLink : "" + "\n";
+        }
+        parent.Xrm.Page.ui.setFormNotification(msg, "INFO", "infoMsgAllCalls");
+        setTimeout(() => { parent.Xrm.Page.ui.clearFormNotification("infoMsgAllCalls") },2000);
+      },
+      error: function (xhr, textStatus, errorThrown) {
+        parent.Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+      }
+    });
+ }
+
+    var fnGetContactPhonecalls = () => {
+      parent.$("#msg").html("HELLO: HERE ARE THE PHONECALLS");
+      parent.Xrm.Page.ui.clearFormNotification();
+      parent.$.ajax({
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        datatype: "json",
+        url: parent.Xrm.Page.context.getClientUrl() + "/api/data/v8.2/phonecalls(phonenumber='67')?$select=activityid,phonenumber&$expand=regardingobjectid_contact_phonecall($select=contactid,fullname)",
+        beforeSend: function (XMLHttpRequest) {
+          XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+          XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+          XMLHttpRequest.setRequestHeader("Accept", "application/json");
+          XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+        },
+        async: true,
+        success: function (data, textStatus, xhr) {
+          var result = data; debugger;
+          let msg = "";
+          var activityid = result["activityid"];
+          var phonenumber = result["phonenumber"];
+          if (result.hasOwnProperty("regardingobjectid_contact_phonecall")) {
+            var id = result["regardingobjectid_contact_phonecall"]["contactid"];
+            var regardingobjectid_contact_phonecall_fullname = result["regardingobjectid_contact_phonecall"]["fullname"];
+            msg += " שם איש קשר   " + " : " + regardingobjectid_contact_phonecall_fullname + "<br >";
+            
+
+
+            /////////GET CHILDREN ///////////////////////////////////////////////////////////////////////////////////////////////
+            parent.$.ajax({
+              type: "GET",
+              contentType: "application/json; charset=utf-8",
+              datatype: "json",
+              url: parent.Xrm.Page.context.getClientUrl() + "/api/data/v8.2/contacts(" + id+")?$select=contactid,fullname&$expand=Contact_Phonecalls($select=activityid,subject,phonenumber)",
+              beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("OData-MaxVersion", "4.0");
+                XMLHttpRequest.setRequestHeader("OData-Version", "4.0");
+                XMLHttpRequest.setRequestHeader("Accept", "application/json");
+                XMLHttpRequest.setRequestHeader("Prefer", "odata.include-annotations=\"*\"");
+              },
+              async: true,
+              success: function (data, textStatus, xhr) {
+                var result = data; debugger;
+                var contactid = result["contactid"];
+                var fullname = result["fullname"];
+                msg += "  יש #" + result.Contact_Phonecalls.length+" שיחות טלפון מאיש קשר זה  " + " : " + "<br>";
+                for (let a = 0; a < result.Contact_Phonecalls.length; a++) {
+                  let contact_Phonecalls_activityid = result.Contact_Phonecalls[a]["activityid"];
+                  let contact_Phonecalls_description = result.Contact_Phonecalls[a]["subject"];
+                  let contact_Phonecalls_phonenumber = result.Contact_Phonecalls[a]["phonenumber"];
+
+                  msg += " " + contact_Phonecalls_phonenumber + " : " + contact_Phonecalls_description + "<br >";
+                  //  <a href='javascript:parent.Xrm.Utility.openEntityForm(contact,id,null,{openInNewWindow: true})'></a>
+                }
+                //alert("Inside SUCCESS inner Ajax children call : # of phonecalls = " + result.Contact_Phonecalls.length);
+                //parent.Xrm.Page.ui.setFormNotification(msg, "INFO", "infoMsgContactCalls");
+                
+                document.getElementById("msg").innerHTML = msg;
+              },
+              error: function (xhr, textStatus, errorThrown) {
+                parent.Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+              }
+            });
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+          }
+          
+        },
+        error: function (xhr, textStatus, errorThrown) {
+          parent.Xrm.Utility.alertDialog(textStatus + " " + errorThrown);
+        }
+      });
+
+
+    }
+
+
+
+
+  </script>
+ 
+</head>
+
+<body style="direction: rtl; overflow-wrap: break-word;">
+  <br>
+  <div class="container">
+    <div class="jumbotron" style="text-align:center;">
+
+      <button class="btn btn-secondary" type="button" onclick="fnFillDetails()"> <b>מילוי פרטים</b></button>
+      <button class="btn btn-secondary" onclick="fnGetContactPhonecalls()"><b>שיחות טלפון</b></button>
+      <button class="btn btn-secondary" onclick="fnGetAllPhonecalls()"><b>כל השיחות טלפון</b></button>
+      <button class="btn btn-secondary" onclick="fnCreateLeadFromPhonecall()"><b>צור פניה</b></button>
+      <div id="msg">  </div>
+
+
+
+    </div>
+  </div>
+</body>
+</html>

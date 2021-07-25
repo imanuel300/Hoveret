@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WEBAPIODATAV3.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WEBAPIODATAV3_SPWebService_SPWebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://svtmos10/_layouts/MochSPWebService/SPWebService.asmx</Value>
+    </Setting>
+    <Setting Name="WEBAPIODATAV3_svpsps10_SPWebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://svpsps10/_layouts/MochSPWebService/SPWebService.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

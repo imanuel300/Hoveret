@@ -1,0 +1,976 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBBMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DBBM.dbo.BankDoarIncomes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="BankDoarIncomes">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Amount" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" />
+          <Property Name="CheshbonNo" Type="nvarchar" MaxLength="9" />
+          <Property Name="ReferanceNumber" Type="nvarchar" MaxLength="10" />
+          <Property Name="SnifNo" Type="nvarchar" MaxLength="6" />
+          <Property Name="FileDate" Type="date" />
+          <Property Name="ValueDate" Type="nvarchar" MaxLength="4" />
+          <Property Name="ReferanceNumber2" Type="nvarchar" MaxLength="10" />
+          <Property Name="MutavNo" Type="nvarchar" MaxLength="7" />
+          <Property Name="TransactionType" Type="int" />
+          <Property Name="ProcessingStatus" Type="int" />
+          <Property Name="ProcessingDate" Type="datetime" />
+          <Property Name="Amount" Type="money" Nullable="false" />
+          <Property Name="PaymentDate" Type="date" />
+          <Property Name="TransactionCode" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="BankDoarCommandType" Type="int" />
+          <Property Name="fileDoarName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Emails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="ProviderId" Type="int" Nullable="false" />
+          <Property Name="EmailTo" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmailSubject" Type="nvarchar" MaxLength="255" />
+          <Property Name="EmailBody" Type="nvarchar(max)" />
+          <Property Name="EmailImportance" Type="nvarchar" MaxLength="6" />
+          <Property Name="EmailAttachments" Type="nvarchar(max)" />
+          <Property Name="IsEnabled" Type="bit" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" Nullable="false" />
+          <Property Name="IsSend" Type="bit" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="255" />
+          <Property Name="SendingDate" Type="datetime" />
+          <Property Name="EmailType" Type="int" />
+          <Property Name="ReportUrl" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DBBM.dbo.Letters' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Letters">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="ModifiedBy" />
+            <PropertyRef Name="ModifiedDate" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="TemplatePath" Type="nvarchar" MaxLength="250" />
+          <Property Name="ProcedureName" Type="nvarchar" MaxLength="100" />
+          <Property Name="NameEng" Type="nvarchar" MaxLength="250" />
+          <Property Name="Class" Type="nvarchar" MaxLength="50" />
+          <Property Name="SpecialRecipients" Type="int" />
+          <Property Name="TableName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Params" Type="nvarchar" MaxLength="200" />
+          <Property Name="version" Type="nvarchar" MaxLength="3" />
+          <Property Name="UserSign" Type="bit" />
+          <Property Name="Header" Type="bit" />
+          <Property Name="Footer" Type="bit" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="MahozCode" Type="int" Nullable="false" />
+          <Property Name="MashbashCode" Type="int" Nullable="false" />
+          <Property Name="AtarCode" Type="int" Nullable="false" />
+          <Property Name="ActiveWorkPlanId" Type="int" />
+          <Property Name="ActiveTenderId" Type="int" />
+          <Property Name="ProviderId" Type="int" />
+          <Property Name="FranchiseeName" Type="nvarchar" MaxLength="255" />
+          <Property Name="EffectiveDate" Type="datetime" />
+          <Property Name="PrimeryContractId" Type="int" />
+          <Property Name="ProjectType" Type="int" Nullable="false" />
+          <Property Name="HousingUnits" Type="int" Nullable="false" />
+          <Property Name="MarketingMethodHousingUnits" Type="int" />
+          <Property Name="ReportedHousingUnits" Type="int" />
+          <Property Name="MarketingMethod" Type="int" Nullable="false" />
+          <Property Name="DevelopmentMethod" Type="int" Nullable="false" />
+          <Property Name="MmiNumber" Type="nvarchar" MaxLength="13" />
+          <Property Name="IsRequiredSalesReports" Type="bit" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="2000" />
+          <Property Name="SupervisorId" Type="int" />
+          <Property Name="SalesReportingBeginDate" Type="datetime" />
+          <Property Name="RecommendationExpiration" Type="datetime" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" Nullable="false" />
+          <Property Name="Version" Type="int" Nullable="false" />
+          <Property Name="IsEnabled" Type="bit" Nullable="false" />
+          <Property Name="ConstructionProgressBeginDate" Type="datetime" />
+          <Property Name="IsRequiredConstructionProgress" Type="bit" />
+          <Property Name="MerkavaStatus" Type="int" />
+          <Property Name="MerkavaStatusDate" Type="datetime" />
+          <Property Name="MerkavaInterfaceWbs" Type="int" />
+          <Property Name="WbsElement" Type="nvarchar" MaxLength="50" />
+          <Property Name="MerkavaStatusWbs" Type="int" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="IsMerged" Type="bit" Nullable="false" />
+          <Property Name="IsNeedManualLotsChanges" Type="bit" />
+          <Property Name="IsHeskemGag" Type="bit" Nullable="false" />
+          <Property Name="FirstApartmentHandoverDate" Type="datetime" />
+          <Property Name="PublicHousingUnits" Type="int" />
+          <Property Name="EstimationNo" Type="int" />
+        </EntityType>
+        <EntityType Name="Providers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="MerkavaId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1000" />
+          <Property Name="City" Type="nvarchar" MaxLength="15" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="ZipCode" Type="int" />
+          <Property Name="POB" Type="int" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="InternetPassword" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" Nullable="false" />
+          <Property Name="MerkavaActiveType" Type="int" />
+          <Property Name="MerkavaRemark" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DBBM.dbo.TenderBookletSections' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TenderBookletSections">
+          <Key>
+            <PropertyRef Name="Id" />
+            
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="TenderSectionId" Type="int" />
+          <Property Name="TenderId" Type="int" Nullable="false" />
+          <Property Name="SectionNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="SectionBody" Type="nvarchar(max)" />
+          <Property Name="versionBooklat" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TenderSections">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Version" Type="int" />
+          <Property Name="Numerator" Type="nvarchar" MaxLength="100" />
+          <Property Name="SectionsOrder" Type="int" />
+          <Property Name="Section" Type="nvarchar" MaxLength="50" />
+          <Property Name="ParentSection" Type="nvarchar" MaxLength="50" />
+          <Property Name="Text" Type="nvarchar(max)" />
+          <Property Name="ConditionId" Type="bit" />
+        </EntityType>
+        <EntityType Name="TenderSectionType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="SectionType" Type="nvarchar(max)" />
+          <Property Name="SectionHTML" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="TenderTemplatesBookletSections">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="TenderSectionId" Type="int" />
+          <Property Name="TenderId" Type="int" Nullable="false" />
+          <Property Name="SectionNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="ConditionText" Type="nvarchar" MaxLength="400" />
+          <Property Name="SectionBody" Type="nvarchar(max)" />
+          <Property Name="CM_0" Type="bit" />
+          <Property Name="CM_1" Type="bit" />
+          <Property Name="CM_2" Type="bit" />
+          <Property Name="CM_3" Type="bit" />
+          <Property Name="CM_4" Type="bit" />
+          <Property Name="CM_5" Type="bit" />
+          <Property Name="CM_6" Type="bit" />
+          <Property Name="CM_7" Type="bit" />
+          <Property Name="CM_8" Type="bit" />
+          <Property Name="CM_9" Type="bit" />
+          <Property Name="CM_10" Type="bit" />
+          <Property Name="CM_11" Type="bit" />
+          <Property Name="CM_12" Type="bit" />
+          <Property Name="CM_13" Type="bit" />
+          <Property Name="CM_14" Type="bit" />
+          <Property Name="CM_15" Type="bit" />
+          <Property Name="CM_16" Type="bit" />
+          <Property Name="CM_17" Type="bit" />
+          <Property Name="CM_18" Type="bit" />
+          <Property Name="CM_19" Type="bit" />
+          <Property Name="CM_20" Type="bit" />
+          <Property Name="CD_0" Type="bit" />
+          <Property Name="CD_1" Type="bit" />
+          <Property Name="CD_2" Type="bit" />
+          <Property Name="CD_3" Type="bit" />
+          <Property Name="CD_4" Type="bit" />
+          <Property Name="CD_5" Type="bit" />
+          <Property Name="CD_6" Type="bit" />
+          <Property Name="CD_7" Type="bit" />
+          <Property Name="CD_8" Type="bit" />
+          <Property Name="onlyDevPayBigZeroo" Type="bit" />
+          <Property Name="HeadLand" Type="bit" />
+          <Property Name="PublicBuildingBihZero" Type="bit" />
+          <Property Name="OldByNewBigZero" Type="bit" />
+          <Property Name="Ayosh" Type="bit" />
+          <Property Name="Sipsud40K" Type="bit" />
+          <Property Name="ProjectMoreOne" Type="bit" />
+          <Property Name="ProjectMore4" Type="bit" />
+          <Property Name="NOConditions" Type="bit" />
+          <Property Name="ProjectOnlyOne" Type="bit" />
+        </EntityType>
+        <Function Name="spLett_TenderBooklet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TenderId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spTenderBooklettConditions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TenderId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="DBBMModelStoreContainer">
+          <EntitySet Name="Emails" EntityType="Self.Emails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Providers" EntityType="Self.Providers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TenderSectionType" EntityType="Self.TenderSectionType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TenderTemplatesBookletSections" EntityType="Self.TenderTemplatesBookletSections" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BankDoarIncomes" EntityType="Self.BankDoarIncomes" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [BankDoarIncomes].[id] AS [id], 
+    [BankDoarIncomes].[ProjectId] AS [ProjectId], 
+    [BankDoarIncomes].[CheshbonNo] AS [CheshbonNo], 
+    [BankDoarIncomes].[ReferanceNumber] AS [ReferanceNumber], 
+    [BankDoarIncomes].[SnifNo] AS [SnifNo], 
+    [BankDoarIncomes].[FileDate] AS [FileDate], 
+    [BankDoarIncomes].[ValueDate] AS [ValueDate], 
+    [BankDoarIncomes].[ReferanceNumber2] AS [ReferanceNumber2], 
+    [BankDoarIncomes].[MutavNo] AS [MutavNo], 
+    [BankDoarIncomes].[TransactionType] AS [TransactionType], 
+    [BankDoarIncomes].[ProcessingStatus] AS [ProcessingStatus], 
+    [BankDoarIncomes].[ProcessingDate] AS [ProcessingDate], 
+    [BankDoarIncomes].[Amount] AS [Amount], 
+    [BankDoarIncomes].[PaymentDate] AS [PaymentDate], 
+    [BankDoarIncomes].[TransactionCode] AS [TransactionCode], 
+    [BankDoarIncomes].[CreatedDate] AS [CreatedDate], 
+    [BankDoarIncomes].[BankDoarCommandType] AS [BankDoarCommandType], 
+    [BankDoarIncomes].[fileDoarName] AS [fileDoarName]
+    FROM [dbo].[BankDoarIncomes] AS [BankDoarIncomes]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Letters" EntityType="Self.Letters" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Letters].[Id] AS [Id], 
+    [Letters].[Name] AS [Name], 
+    [Letters].[ModifiedBy] AS [ModifiedBy], 
+    [Letters].[ModifiedDate] AS [ModifiedDate], 
+    [Letters].[TemplatePath] AS [TemplatePath], 
+    [Letters].[ProcedureName] AS [ProcedureName], 
+    [Letters].[NameEng] AS [NameEng], 
+    [Letters].[Class] AS [Class], 
+    [Letters].[SpecialRecipients] AS [SpecialRecipients], 
+    [Letters].[TableName] AS [TableName], 
+    [Letters].[Params] AS [Params], 
+    [Letters].[version] AS [version], 
+    [Letters].[UserSign] AS [UserSign], 
+    [Letters].[Header] AS [Header], 
+    [Letters].[Footer] AS [Footer]
+    FROM [dbo].[Letters] AS [Letters]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TenderBookletSections" EntityType="Self.TenderBookletSections" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TenderBookletSections].[Id] AS [Id], 
+    [TenderBookletSections].[TenderSectionId] AS [TenderSectionId], 
+    [TenderBookletSections].[TenderId] AS [TenderId], 
+    [TenderBookletSections].[SectionNumber] AS [SectionNumber], 
+    [TenderBookletSections].[SectionBody] AS [SectionBody], 
+    [TenderBookletSections].[versionBooklat] AS [versionBooklat]
+    FROM [dbo].[TenderBookletSections] AS [TenderBookletSections]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TenderSections" EntityType="Self.TenderSections" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TenderSections].[Id] AS [Id], 
+    [TenderSections].[Version] AS [Version], 
+    [TenderSections].[Numerator] AS [Numerator], 
+    [TenderSections].[SectionsOrder] AS [SectionsOrder], 
+    [TenderSections].[Section] AS [Section], 
+    [TenderSections].[ParentSection] AS [ParentSection], 
+    [TenderSections].[Text] AS [Text], 
+    [TenderSections].[ConditionId] AS [ConditionId]
+    FROM [dbo].[TenderSections] AS [TenderSections]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBBMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BankDoarIncome">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Amount" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" />
+          <Property Name="CheshbonNo" Type="String" MaxLength="9" FixedLength="false" Unicode="true" />
+          <Property Name="ReferanceNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="SnifNo" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="FileDate" Type="DateTime" Precision="0" />
+          <Property Name="ValueDate" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="ReferanceNumber2" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="MutavNo" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+          <Property Name="TransactionType" Type="Int32" />
+          <Property Name="ProcessingStatus" Type="Int32" />
+          <Property Name="ProcessingDate" Type="DateTime" Precision="3" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="0" />
+          <Property Name="TransactionCode" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="BankDoarCommandType" Type="Int32" />
+          <Property Name="fileDoarName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="DBBMEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BankDoarIncomes" EntityType="Self.BankDoarIncome" />
+          <EntitySet Name="Emails" EntityType="DBBMModel.Email" />
+          <EntitySet Name="Projects" EntityType="DBBMModel.Project" />
+          <EntitySet Name="Providers" EntityType="DBBMModel.Provider" />
+          <EntitySet Name="Letters" EntityType="DBBMModel.Letter" />
+          <EntitySet Name="TenderSections" EntityType="DBBMModel.TenderSection" />
+          <EntitySet Name="TenderBookletSections" EntityType="DBBMModel.TenderBookletSection" />
+          <EntitySet Name="TenderTemplatesBookletSections" EntityType="DBBMModel.TenderTemplatesBookletSection" />
+          <FunctionImport Name="spTenderBooklettConditions" ReturnType="Collection(DBBMModel.spTenderBooklettConditions_Result)">
+          <Parameter Name="TenderId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spLett_TenderBooklet" ReturnType="Collection(DBBMModel.spLett_TenderBooklet_Result)">
+          <Parameter Name="TenderId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="TenderSectionTypes" EntityType="DBBMModel.TenderSectionType" />
+        </EntityContainer>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="ProviderId" Type="Int32" Nullable="false" />
+          <Property Name="EmailTo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmailSubject" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="EmailBody" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmailImportance" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAttachments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ModifiedBy" Type="Int32" Nullable="false" />
+          <Property Name="IsSend" Type="Boolean" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SendingDate" Type="DateTime" Precision="3" />
+          <Property Name="EmailType" Type="Int32" />
+          <Property Name="ReportUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="MahozCode" Type="Int32" Nullable="false" />
+          <Property Name="MashbashCode" Type="Int32" Nullable="false" />
+          <Property Name="AtarCode" Type="Int32" Nullable="false" />
+          <Property Name="ActiveWorkPlanId" Type="Int32" />
+          <Property Name="ActiveTenderId" Type="Int32" />
+          <Property Name="ProviderId" Type="Int32" />
+          <Property Name="FranchiseeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="EffectiveDate" Type="DateTime" Precision="3" />
+          <Property Name="PrimeryContractId" Type="Int32" />
+          <Property Name="ProjectType" Type="Int32" Nullable="false" />
+          <Property Name="HousingUnits" Type="Int32" Nullable="false" />
+          <Property Name="MarketingMethodHousingUnits" Type="Int32" />
+          <Property Name="ReportedHousingUnits" Type="Int32" />
+          <Property Name="MarketingMethod" Type="Int32" Nullable="false" />
+          <Property Name="DevelopmentMethod" Type="Int32" Nullable="false" />
+          <Property Name="MmiNumber" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="IsRequiredSalesReports" Type="Boolean" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="SupervisorId" Type="Int32" />
+          <Property Name="SalesReportingBeginDate" Type="DateTime" Precision="3" />
+          <Property Name="RecommendationExpiration" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ModifiedBy" Type="Int32" Nullable="false" />
+          <Property Name="Version" Type="Int32" Nullable="false" />
+          <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="ConstructionProgressBeginDate" Type="DateTime" Precision="3" />
+          <Property Name="IsRequiredConstructionProgress" Type="Boolean" />
+          <Property Name="MerkavaStatus" Type="Int32" />
+          <Property Name="MerkavaStatusDate" Type="DateTime" Precision="3" />
+          <Property Name="MerkavaInterfaceWbs" Type="Int32" />
+          <Property Name="WbsElement" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MerkavaStatusWbs" Type="Int32" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="IsMerged" Type="Boolean" Nullable="false" />
+          <Property Name="IsNeedManualLotsChanges" Type="Boolean" />
+          <Property Name="IsHeskemGag" Type="Boolean" Nullable="false" />
+          <Property Name="FirstApartmentHandoverDate" Type="DateTime" Precision="3" />
+          <Property Name="PublicHousingUnits" Type="Int32" />
+          <Property Name="EstimationNo" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Provider">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="MerkavaId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ZipCode" Type="Int32" />
+          <Property Name="POB" Type="Int32" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InternetPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ModifiedBy" Type="Int32" Nullable="false" />
+          <Property Name="MerkavaActiveType" Type="Int32" />
+          <Property Name="MerkavaRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Letter">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="ModifiedBy" />
+            <PropertyRef Name="ModifiedDate" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedBy" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TemplatePath" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ProcedureName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NameEng" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SpecialRecipients" Type="Int32" />
+          <Property Name="TableName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Params" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="version" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="Header" Type="Boolean" />
+          <Property Name="Footer" Type="Boolean" />
+          <Property Name="UserSign" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="TenderSection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Section" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentSection" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ConditionId" Type="Boolean" />
+          <Property Name="SectionsOrder" Type="Int32" />
+          <Property Name="Version" Type="Int32" />
+          <Property Name="Numerator" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TenderBookletSection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="TenderSectionId" Type="Int32" />
+          <Property Name="TenderId" Type="Int32" Nullable="false" />
+          <Property Name="SectionNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SectionBody" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="versionBooklat" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TenderTemplatesBookletSection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="TenderSectionId" Type="Int32" />
+          <Property Name="TenderId" Type="Int32" Nullable="false" />
+          <Property Name="SectionNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SectionBody" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CM_0" Type="Boolean" />
+          <Property Name="CM_1" Type="Boolean" />
+          <Property Name="CM_2" Type="Boolean" />
+          <Property Name="CM_3" Type="Boolean" />
+          <Property Name="CM_4" Type="Boolean" />
+          <Property Name="CM_5" Type="Boolean" />
+          <Property Name="CM_6" Type="Boolean" />
+          <Property Name="CM_7" Type="Boolean" />
+          <Property Name="CM_8" Type="Boolean" />
+          <Property Name="CM_9" Type="Boolean" />
+          <Property Name="CM_10" Type="Boolean" />
+          <Property Name="CM_11" Type="Boolean" />
+          <Property Name="CM_12" Type="Boolean" />
+          <Property Name="CM_13" Type="Boolean" />
+          <Property Name="CM_14" Type="Boolean" />
+          <Property Name="CM_15" Type="Boolean" />
+          <Property Name="CM_16" Type="Boolean" />
+          <Property Name="CM_17" Type="Boolean" />
+          <Property Name="CM_18" Type="Boolean" />
+          <Property Name="CM_19" Type="Boolean" />
+          <Property Name="CM_20" Type="Boolean" />
+          <Property Name="CD_0" Type="Boolean" />
+          <Property Name="CD_1" Type="Boolean" />
+          <Property Name="CD_2" Type="Boolean" />
+          <Property Name="CD_3" Type="Boolean" />
+          <Property Name="CD_4" Type="Boolean" />
+          <Property Name="CD_5" Type="Boolean" />
+          <Property Name="CD_6" Type="Boolean" />
+          <Property Name="CD_7" Type="Boolean" />
+          <Property Name="CD_8" Type="Boolean" />
+          <Property Name="onlyDevPayBigZeroo" Type="Boolean" />
+          <Property Name="HeadLand" Type="Boolean" />
+          <Property Name="PublicBuildingBihZero" Type="Boolean" />
+          <Property Name="OldByNewBigZero" Type="Boolean" />
+          <Property Name="Ayosh" Type="Boolean" />
+          <Property Name="Sipsud40K" Type="Boolean" />
+          <Property Name="ProjectMoreOne" Type="Boolean" />
+          <Property Name="ProjectMore4" Type="Boolean" />
+          <Property Name="ConditionText" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="NOConditions" Type="Boolean" />
+          <Property Name="ProjectOnlyOne" Type="Boolean" />
+        </EntityType>
+        <ComplexType Name="spTenderBooklettConditions_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="TenderSectionId" Nullable="true" />
+          <Property Type="Int32" Name="TenderId" Nullable="false" />
+          <Property Type="String" Name="SectionNumber" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ConditionText" Nullable="true" MaxLength="400" />
+          <Property Type="String" Name="SectionBody" Nullable="true" />
+          <Property Type="Boolean" Name="CM_0" Nullable="true" />
+          <Property Type="Boolean" Name="CM_1" Nullable="true" />
+          <Property Type="Boolean" Name="CM_2" Nullable="true" />
+          <Property Type="Boolean" Name="CM_3" Nullable="true" />
+          <Property Type="Boolean" Name="CM_4" Nullable="true" />
+          <Property Type="Boolean" Name="CM_5" Nullable="true" />
+          <Property Type="Boolean" Name="CM_6" Nullable="true" />
+          <Property Type="Boolean" Name="CM_7" Nullable="true" />
+          <Property Type="Boolean" Name="CM_8" Nullable="true" />
+          <Property Type="Boolean" Name="CM_9" Nullable="true" />
+          <Property Type="Boolean" Name="CM_10" Nullable="true" />
+          <Property Type="Boolean" Name="CM_11" Nullable="true" />
+          <Property Type="Boolean" Name="CM_12" Nullable="true" />
+          <Property Type="Boolean" Name="CM_13" Nullable="true" />
+          <Property Type="Boolean" Name="CM_14" Nullable="true" />
+          <Property Type="Boolean" Name="CM_15" Nullable="true" />
+          <Property Type="Boolean" Name="CM_16" Nullable="true" />
+          <Property Type="Boolean" Name="CM_17" Nullable="true" />
+          <Property Type="Boolean" Name="CM_18" Nullable="true" />
+          <Property Type="Boolean" Name="CM_19" Nullable="true" />
+          <Property Type="Boolean" Name="CM_20" Nullable="true" />
+          <Property Type="Boolean" Name="CD_0" Nullable="true" />
+          <Property Type="Boolean" Name="CD_1" Nullable="true" />
+          <Property Type="Boolean" Name="CD_2" Nullable="true" />
+          <Property Type="Boolean" Name="CD_3" Nullable="true" />
+          <Property Type="Boolean" Name="CD_4" Nullable="true" />
+          <Property Type="Boolean" Name="CD_5" Nullable="true" />
+          <Property Type="Boolean" Name="CD_6" Nullable="true" />
+          <Property Type="Boolean" Name="CD_7" Nullable="true" />
+          <Property Type="Boolean" Name="CD_8" Nullable="true" />
+          <Property Type="Boolean" Name="onlyDevPayBigZeroo" Nullable="true" />
+          <Property Type="Boolean" Name="HeadLand" Nullable="true" />
+          <Property Type="Boolean" Name="PublicBuildingBihZero" Nullable="true" />
+          <Property Type="Boolean" Name="OldByNewBigZero" Nullable="true" />
+          <Property Type="Boolean" Name="Ayosh" Nullable="true" />
+          <Property Type="Boolean" Name="Sipsud40K" Nullable="true" />
+          <Property Type="Boolean" Name="ProjectMoreOne" Nullable="true" />
+          <Property Type="Boolean" Name="ProjectMore4" Nullable="true" />
+          <Property Type="Boolean" Name="NOConditions" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spLett_TenderBooklet_Result">
+          <Property Type="Int32" Name="ObjectId" Nullable="false" />
+          <Property Type="Int32" Name="MahozCode" Nullable="false" />
+          <Property Type="String" Name="MahozName" Nullable="true" MaxLength="17" />
+          <Property Type="Int32" Name="MashbashCode" Nullable="false" />
+          <Property Type="String" Name="MashbashName" Nullable="true" MaxLength="17" />
+          <Property Type="Int32" Name="AtarCode" Nullable="true" />
+          <Property Type="String" Name="AtarName" Nullable="true" MaxLength="17" />
+          <Property Type="String" Name="DeadlineDate" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="GurenteeLastDate" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="marketindMethodNispach" Nullable="false" />
+          <Property Type="Int32" Name="CountProjects" Nullable="true" />
+          <Property Type="Int32" Name="hidden_mishtakenMore4" Nullable="false" />
+          <Property Type="Int32" Name="hidden_More1" Nullable="false" />
+          <Property Type="Int32" Name="SumHousingUnits" Nullable="true" />
+          <Property Type="DateTime" Name="DeadlineDate1" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="TenderNumber" Nullable="true" />
+          <Property Type="Int32" Name="TenderYear" Nullable="true" />
+          <Property Type="Int32" Name="Hidden_SpecialTenders" Nullable="false" />
+          <Property Type="Int32" Name="TourYesNo" Nullable="false" />
+          <Property Type="DateTime" Name="TourDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Tokef" Nullable="false" />
+          <Property Type="DateTime" Name="DeadlineDate7" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DeadlineDate8" Nullable="true" Precision="23" />
+          <Property Type="String" Name="MmiMahozName" Nullable="true" MaxLength="17" />
+          <Property Type="String" Name="MmiMahozShortName" Nullable="true" MaxLength="3" />
+          <Property Type="Int32" Name="ArvutPituachClaliYesNo" Nullable="false" />
+          <Property Type="String" Name="LandUseList" Nullable="true" />
+          <Property Type="String" Name="TabasLotsList" Nullable="true" />
+          <Property Type="Int32" Name="BalconyOrGardenAreaSize" Nullable="false" />
+          <Property Type="Int32" Name="WarehousesAreaSize" Nullable="false" />
+          <Property Type="Int32" Name="ParkingSpacesAreaSize" Nullable="false" />
+          <Property Type="Int32" Name="MechirMin" Nullable="true" />
+          <Property Type="Int32" Name="MarketingMethod" Nullable="true" />
+          <Property Type="String" Name="TenderIndexMonth" Nullable="true" MaxLength="21" />
+        </ComplexType>
+        <EntityType Name="TenderSectionType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="SectionType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SectionHTML" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBBMModelStoreContainer" CdmEntityContainer="DBBMEntities">
+          <EntitySetMapping Name="BankDoarIncomes">
+            <EntityTypeMapping TypeName="DBBMModel.BankDoarIncome">
+              <MappingFragment StoreEntitySet="BankDoarIncomes">
+                <ScalarProperty Name="fileDoarName" ColumnName="fileDoarName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="CheshbonNo" ColumnName="CheshbonNo" />
+                <ScalarProperty Name="ReferanceNumber" ColumnName="ReferanceNumber" />
+                <ScalarProperty Name="SnifNo" ColumnName="SnifNo" />
+                <ScalarProperty Name="FileDate" ColumnName="FileDate" />
+                <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
+                <ScalarProperty Name="ReferanceNumber2" ColumnName="ReferanceNumber2" />
+                <ScalarProperty Name="MutavNo" ColumnName="MutavNo" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="ProcessingStatus" ColumnName="ProcessingStatus" />
+                <ScalarProperty Name="ProcessingDate" ColumnName="ProcessingDate" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="TransactionCode" ColumnName="TransactionCode" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="BankDoarCommandType" ColumnName="BankDoarCommandType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emails">
+            <EntityTypeMapping TypeName="DBBMModel.Email">
+              <MappingFragment StoreEntitySet="Emails">
+                <ScalarProperty Name="ReportUrl" ColumnName="ReportUrl" />
+                <ScalarProperty Name="EmailType" ColumnName="EmailType" />
+                <ScalarProperty Name="SendingDate" ColumnName="SendingDate" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="IsSend" ColumnName="IsSend" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="EmailAttachments" ColumnName="EmailAttachments" />
+                <ScalarProperty Name="EmailImportance" ColumnName="EmailImportance" />
+                <ScalarProperty Name="EmailBody" ColumnName="EmailBody" />
+                <ScalarProperty Name="EmailSubject" ColumnName="EmailSubject" />
+                <ScalarProperty Name="EmailTo" ColumnName="EmailTo" />
+                <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="DBBMModel.Project">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="EstimationNo" ColumnName="EstimationNo" />
+                <ScalarProperty Name="PublicHousingUnits" ColumnName="PublicHousingUnits" />
+                <ScalarProperty Name="FirstApartmentHandoverDate" ColumnName="FirstApartmentHandoverDate" />
+                <ScalarProperty Name="IsHeskemGag" ColumnName="IsHeskemGag" />
+                <ScalarProperty Name="IsNeedManualLotsChanges" ColumnName="IsNeedManualLotsChanges" />
+                <ScalarProperty Name="IsMerged" ColumnName="IsMerged" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="MerkavaStatusWbs" ColumnName="MerkavaStatusWbs" />
+                <ScalarProperty Name="WbsElement" ColumnName="WbsElement" />
+                <ScalarProperty Name="MerkavaInterfaceWbs" ColumnName="MerkavaInterfaceWbs" />
+                <ScalarProperty Name="MerkavaStatusDate" ColumnName="MerkavaStatusDate" />
+                <ScalarProperty Name="MerkavaStatus" ColumnName="MerkavaStatus" />
+                <ScalarProperty Name="IsRequiredConstructionProgress" ColumnName="IsRequiredConstructionProgress" />
+                <ScalarProperty Name="ConstructionProgressBeginDate" ColumnName="ConstructionProgressBeginDate" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="RecommendationExpiration" ColumnName="RecommendationExpiration" />
+                <ScalarProperty Name="SalesReportingBeginDate" ColumnName="SalesReportingBeginDate" />
+                <ScalarProperty Name="SupervisorId" ColumnName="SupervisorId" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="IsRequiredSalesReports" ColumnName="IsRequiredSalesReports" />
+                <ScalarProperty Name="MmiNumber" ColumnName="MmiNumber" />
+                <ScalarProperty Name="DevelopmentMethod" ColumnName="DevelopmentMethod" />
+                <ScalarProperty Name="MarketingMethod" ColumnName="MarketingMethod" />
+                <ScalarProperty Name="ReportedHousingUnits" ColumnName="ReportedHousingUnits" />
+                <ScalarProperty Name="MarketingMethodHousingUnits" ColumnName="MarketingMethodHousingUnits" />
+                <ScalarProperty Name="HousingUnits" ColumnName="HousingUnits" />
+                <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
+                <ScalarProperty Name="PrimeryContractId" ColumnName="PrimeryContractId" />
+                <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
+                <ScalarProperty Name="FranchiseeName" ColumnName="FranchiseeName" />
+                <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
+                <ScalarProperty Name="ActiveTenderId" ColumnName="ActiveTenderId" />
+                <ScalarProperty Name="ActiveWorkPlanId" ColumnName="ActiveWorkPlanId" />
+                <ScalarProperty Name="AtarCode" ColumnName="AtarCode" />
+                <ScalarProperty Name="MashbashCode" ColumnName="MashbashCode" />
+                <ScalarProperty Name="MahozCode" ColumnName="MahozCode" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Providers">
+            <EntityTypeMapping TypeName="DBBMModel.Provider">
+              <MappingFragment StoreEntitySet="Providers">
+                <ScalarProperty Name="MerkavaRemark" ColumnName="MerkavaRemark" />
+                <ScalarProperty Name="MerkavaActiveType" ColumnName="MerkavaActiveType" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="InternetPassword" ColumnName="InternetPassword" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="POB" ColumnName="POB" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MerkavaId" ColumnName="MerkavaId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Letters">
+            <EntityTypeMapping TypeName="DBBMModel.Letter">
+              <MappingFragment StoreEntitySet="Letters">
+                <ScalarProperty Name="UserSign" ColumnName="UserSign" />
+                <ScalarProperty Name="Footer" ColumnName="Footer" />
+                <ScalarProperty Name="Header" ColumnName="Header" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="Params" ColumnName="Params" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="SpecialRecipients" ColumnName="SpecialRecipients" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="NameEng" ColumnName="NameEng" />
+                <ScalarProperty Name="ProcedureName" ColumnName="ProcedureName" />
+                <ScalarProperty Name="TemplatePath" ColumnName="TemplatePath" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TenderSections">
+            <EntityTypeMapping TypeName="DBBMModel.TenderSection">
+              <MappingFragment StoreEntitySet="TenderSections">
+                <ScalarProperty Name="Numerator" ColumnName="Numerator" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="SectionsOrder" ColumnName="SectionsOrder" />
+                <ScalarProperty Name="ConditionId" ColumnName="ConditionId" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="ParentSection" ColumnName="ParentSection" />
+                <ScalarProperty Name="Section" ColumnName="Section" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TenderBookletSections">
+            <EntityTypeMapping TypeName="DBBMModel.TenderBookletSection">
+              <MappingFragment StoreEntitySet="TenderBookletSections">
+                <ScalarProperty Name="versionBooklat" ColumnName="versionBooklat" />
+                <ScalarProperty Name="SectionBody" ColumnName="SectionBody" />
+                <ScalarProperty Name="SectionNumber" ColumnName="SectionNumber" />
+                <ScalarProperty Name="TenderId" ColumnName="TenderId" />
+                <ScalarProperty Name="TenderSectionId" ColumnName="TenderSectionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TenderTemplatesBookletSections">
+            <EntityTypeMapping TypeName="DBBMModel.TenderTemplatesBookletSection">
+              <MappingFragment StoreEntitySet="TenderTemplatesBookletSections">
+                <ScalarProperty Name="ProjectOnlyOne" ColumnName="ProjectOnlyOne" />
+                <ScalarProperty Name="NOConditions" ColumnName="NOConditions" />
+                <ScalarProperty Name="ConditionText" ColumnName="ConditionText" />
+                <ScalarProperty Name="ProjectMore4" ColumnName="ProjectMore4" />
+                <ScalarProperty Name="ProjectMoreOne" ColumnName="ProjectMoreOne" />
+                <ScalarProperty Name="Sipsud40K" ColumnName="Sipsud40K" />
+                <ScalarProperty Name="Ayosh" ColumnName="Ayosh" />
+                <ScalarProperty Name="OldByNewBigZero" ColumnName="OldByNewBigZero" />
+                <ScalarProperty Name="PublicBuildingBihZero" ColumnName="PublicBuildingBihZero" />
+                <ScalarProperty Name="HeadLand" ColumnName="HeadLand" />
+                <ScalarProperty Name="onlyDevPayBigZeroo" ColumnName="onlyDevPayBigZeroo" />
+                <ScalarProperty Name="CD_8" ColumnName="CD_8" />
+                <ScalarProperty Name="CD_7" ColumnName="CD_7" />
+                <ScalarProperty Name="CD_6" ColumnName="CD_6" />
+                <ScalarProperty Name="CD_5" ColumnName="CD_5" />
+                <ScalarProperty Name="CD_4" ColumnName="CD_4" />
+                <ScalarProperty Name="CD_3" ColumnName="CD_3" />
+                <ScalarProperty Name="CD_2" ColumnName="CD_2" />
+                <ScalarProperty Name="CD_1" ColumnName="CD_1" />
+                <ScalarProperty Name="CD_0" ColumnName="CD_0" />
+                <ScalarProperty Name="CM_20" ColumnName="CM_20" />
+                <ScalarProperty Name="CM_19" ColumnName="CM_19" />
+                <ScalarProperty Name="CM_18" ColumnName="CM_18" />
+                <ScalarProperty Name="CM_17" ColumnName="CM_17" />
+                <ScalarProperty Name="CM_16" ColumnName="CM_16" />
+                <ScalarProperty Name="CM_15" ColumnName="CM_15" />
+                <ScalarProperty Name="CM_14" ColumnName="CM_14" />
+                <ScalarProperty Name="CM_13" ColumnName="CM_13" />
+                <ScalarProperty Name="CM_12" ColumnName="CM_12" />
+                <ScalarProperty Name="CM_11" ColumnName="CM_11" />
+                <ScalarProperty Name="CM_10" ColumnName="CM_10" />
+                <ScalarProperty Name="CM_9" ColumnName="CM_9" />
+                <ScalarProperty Name="CM_8" ColumnName="CM_8" />
+                <ScalarProperty Name="CM_7" ColumnName="CM_7" />
+                <ScalarProperty Name="CM_6" ColumnName="CM_6" />
+                <ScalarProperty Name="CM_5" ColumnName="CM_5" />
+                <ScalarProperty Name="CM_4" ColumnName="CM_4" />
+                <ScalarProperty Name="CM_3" ColumnName="CM_3" />
+                <ScalarProperty Name="CM_2" ColumnName="CM_2" />
+                <ScalarProperty Name="CM_1" ColumnName="CM_1" />
+                <ScalarProperty Name="CM_0" ColumnName="CM_0" />
+                <ScalarProperty Name="SectionBody" ColumnName="SectionBody" />
+                <ScalarProperty Name="SectionNumber" ColumnName="SectionNumber" />
+                <ScalarProperty Name="TenderId" ColumnName="TenderId" />
+                <ScalarProperty Name="TenderSectionId" ColumnName="TenderSectionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spTenderBooklettConditions" FunctionName="DBBMModel.Store.spTenderBooklettConditions">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBBMModel.spTenderBooklettConditions_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TenderSectionId" ColumnName="TenderSectionId" />
+                <ScalarProperty Name="TenderId" ColumnName="TenderId" />
+                <ScalarProperty Name="SectionNumber" ColumnName="SectionNumber" />
+                <ScalarProperty Name="ConditionText" ColumnName="ConditionText" />
+                <ScalarProperty Name="SectionBody" ColumnName="SectionBody" />
+                <ScalarProperty Name="CM_0" ColumnName="CM_0" />
+                <ScalarProperty Name="CM_1" ColumnName="CM_1" />
+                <ScalarProperty Name="CM_2" ColumnName="CM_2" />
+                <ScalarProperty Name="CM_3" ColumnName="CM_3" />
+                <ScalarProperty Name="CM_4" ColumnName="CM_4" />
+                <ScalarProperty Name="CM_5" ColumnName="CM_5" />
+                <ScalarProperty Name="CM_6" ColumnName="CM_6" />
+                <ScalarProperty Name="CM_7" ColumnName="CM_7" />
+                <ScalarProperty Name="CM_8" ColumnName="CM_8" />
+                <ScalarProperty Name="CM_9" ColumnName="CM_9" />
+                <ScalarProperty Name="CM_10" ColumnName="CM_10" />
+                <ScalarProperty Name="CM_11" ColumnName="CM_11" />
+                <ScalarProperty Name="CM_12" ColumnName="CM_12" />
+                <ScalarProperty Name="CM_13" ColumnName="CM_13" />
+                <ScalarProperty Name="CM_14" ColumnName="CM_14" />
+                <ScalarProperty Name="CM_15" ColumnName="CM_15" />
+                <ScalarProperty Name="CM_16" ColumnName="CM_16" />
+                <ScalarProperty Name="CM_17" ColumnName="CM_17" />
+                <ScalarProperty Name="CM_18" ColumnName="CM_18" />
+                <ScalarProperty Name="CM_19" ColumnName="CM_19" />
+                <ScalarProperty Name="CM_20" ColumnName="CM_20" />
+                <ScalarProperty Name="CD_0" ColumnName="CD_0" />
+                <ScalarProperty Name="CD_1" ColumnName="CD_1" />
+                <ScalarProperty Name="CD_2" ColumnName="CD_2" />
+                <ScalarProperty Name="CD_3" ColumnName="CD_3" />
+                <ScalarProperty Name="CD_4" ColumnName="CD_4" />
+                <ScalarProperty Name="CD_5" ColumnName="CD_5" />
+                <ScalarProperty Name="CD_6" ColumnName="CD_6" />
+                <ScalarProperty Name="CD_7" ColumnName="CD_7" />
+                <ScalarProperty Name="CD_8" ColumnName="CD_8" />
+                <ScalarProperty Name="onlyDevPayBigZeroo" ColumnName="onlyDevPayBigZeroo" />
+                <ScalarProperty Name="HeadLand" ColumnName="HeadLand" />
+                <ScalarProperty Name="PublicBuildingBihZero" ColumnName="PublicBuildingBihZero" />
+                <ScalarProperty Name="OldByNewBigZero" ColumnName="OldByNewBigZero" />
+                <ScalarProperty Name="Ayosh" ColumnName="Ayosh" />
+                <ScalarProperty Name="Sipsud40K" ColumnName="Sipsud40K" />
+                <ScalarProperty Name="ProjectMoreOne" ColumnName="ProjectMoreOne" />
+                <ScalarProperty Name="ProjectMore4" ColumnName="ProjectMore4" />
+                <ScalarProperty Name="NOConditions" ColumnName="NOConditions" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spLett_TenderBooklet" FunctionName="DBBMModel.Store.spLett_TenderBooklet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBBMModel.spLett_TenderBooklet_Result">
+                <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
+                <ScalarProperty Name="MahozCode" ColumnName="MahozCode" />
+                <ScalarProperty Name="MahozName" ColumnName="MahozName" />
+                <ScalarProperty Name="MashbashCode" ColumnName="MashbashCode" />
+                <ScalarProperty Name="MashbashName" ColumnName="MashbashName" />
+                <ScalarProperty Name="AtarCode" ColumnName="AtarCode" />
+                <ScalarProperty Name="AtarName" ColumnName="AtarName" />
+                <ScalarProperty Name="DeadlineDate" ColumnName="DeadlineDate" />
+                <ScalarProperty Name="GurenteeLastDate" ColumnName="GurenteeLastDate" />
+                <ScalarProperty Name="marketindMethodNispach" ColumnName="marketindMethodNispach" />
+                <ScalarProperty Name="CountProjects" ColumnName="CountProjects" />
+                <ScalarProperty Name="hidden_mishtakenMore4" ColumnName="hidden_mishtakenMore4" />
+                <ScalarProperty Name="hidden_More1" ColumnName="hidden_More1" />
+                <ScalarProperty Name="SumHousingUnits" ColumnName="SumHousingUnits" />
+                <ScalarProperty Name="DeadlineDate1" ColumnName="DeadlineDate1" />
+                <ScalarProperty Name="TenderNumber" ColumnName="TenderNumber" />
+                <ScalarProperty Name="TenderYear" ColumnName="TenderYear" />
+                <ScalarProperty Name="Hidden_SpecialTenders" ColumnName="Hidden_SpecialTenders" />
+                <ScalarProperty Name="TourYesNo" ColumnName="TourYesNo" />
+                <ScalarProperty Name="TourDate" ColumnName="TourDate" />
+                <ScalarProperty Name="Tokef" ColumnName="Tokef" />
+                <ScalarProperty Name="DeadlineDate7" ColumnName="DeadlineDate7" />
+                <ScalarProperty Name="DeadlineDate8" ColumnName="DeadlineDate8" />
+                <ScalarProperty Name="MmiMahozName" ColumnName="MmiMahozName" />
+                <ScalarProperty Name="MmiMahozShortName" ColumnName="MmiMahozShortName" />
+                <ScalarProperty Name="ArvutPituachClaliYesNo" ColumnName="ArvutPituachClaliYesNo" />
+                <ScalarProperty Name="LandUseList" ColumnName="LandUseList" />
+                <ScalarProperty Name="TabasLotsList" ColumnName="TabasLotsList" />
+                <ScalarProperty Name="BalconyOrGardenAreaSize" ColumnName="BalconyOrGardenAreaSize" />
+                <ScalarProperty Name="WarehousesAreaSize" ColumnName="WarehousesAreaSize" />
+                <ScalarProperty Name="ParkingSpacesAreaSize" ColumnName="ParkingSpacesAreaSize" />
+                <ScalarProperty Name="MechirMin" ColumnName="MechirMin" />
+                <ScalarProperty Name="MarketingMethod" ColumnName="MarketingMethod" />
+                <ScalarProperty Name="TenderIndexMonth" ColumnName="TenderIndexMonth" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="TenderSectionTypes">
+            <EntityTypeMapping TypeName="DBBMModel.TenderSectionType">
+              <MappingFragment StoreEntitySet="TenderSectionType">
+                <ScalarProperty Name="SectionHTML" ColumnName="SectionHTML" />
+                <ScalarProperty Name="SectionType" ColumnName="SectionType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
