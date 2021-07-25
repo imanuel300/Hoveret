@@ -163,7 +163,7 @@ export class CounterComponent {
       withCredentials: true
     });
     */
-
+//test
 
     //let url = this.host + ":" + this.port + "/odata/TenderBookletSections";
     let um = JSON.stringify({
