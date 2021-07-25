@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a825e62a6b4e49c48a20af2ef9464845" Name="Diagram1" ZoomLevel="59">
+      <Diagram DiagramId="a825e62a6b4e49c48a20af2ef9464845" Name="Diagram1" ZoomLevel="67">
         <EntityTypeShape EntityType="DBBMModel.BankDoarIncome" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBBMModel.Email" Width="1.5" PointX="3.75" PointY="0.75" />
         <EntityTypeShape EntityType="DBBMModel.Project" Width="1.5" PointX="5.75" PointY="0.75" />
@@ -12,8 +12,8 @@
         <EntityTypeShape EntityType="DBBMModel.Letter" Width="1.5" PointX="2.75" PointY="6.75" />
         <EntityTypeShape EntityType="DBBMModel.TenderSection" Width="1.5" PointX="8.375" PointY="5.75" />
         <EntityTypeShape EntityType="DBBMModel.TenderBookletSection" Width="1.5" PointX="8.375" PointY="9.75" />
-        <EntityTypeShape EntityType="DBBMModel.TenderTemplatesBookletSection" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="DBBMModel.TenderSectionType" Width="1.5" PointX="5.375" PointY="10.75" />
+        <EntityTypeShape EntityType="DBBMModel.TenderTemplatesBookletSection" Width="1.5" PointX="0.75" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

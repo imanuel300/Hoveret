@@ -25,3 +25,5 @@ export const AppRoute = RouterModule.forRoot(routes);
 
 //ng build --configuration=production && copy dist \\svdweb12\Hoveret /y
 //ng serve --source-map --optimization=false
+
+//SELECT * INTO [dbo].TenderTemplatesBookletSections FROM [dbo].TenderTemplatesBookletSectionsAspose

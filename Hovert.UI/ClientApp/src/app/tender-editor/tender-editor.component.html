@@ -8,7 +8,9 @@
           toolbar_location : 'top',     
           toolbar_mode     : 'floating',
           language: 'he_IL',
+          content_css : '/styles.css',
           menubar: false,
+          table_default_attributes: {border: '0'},
           plugins: ['autoresize lists link table directionality'],
           toolbar:
             'undo redo | formatselect | bold italic backcolor | \
@@ -17,7 +19,8 @@
         }">
       </editor>
       <div class="col col-lg-12 AddNewRow">
-        <button type="button" class="btn btn-success btn-sm shadow-none m-1" (click)="onSubmitSave(Result)">עדכן</button>
+        <button type="button" class="btn btn-success btn-sm shadow-none m-1"
+          (click)="onSubmitSave(Result)">עדכן</button>
         <!-- <button type="button" class="btn btn-secondary btn-sm shadow-none m-1"
           (click)="Result.IsHtml ? Result.IsHtml = false : Result.IsHtml = true; "><span
             *ngIf="!Result.IsHtml">Html</span><span *ngIf="Result.IsHtml">View</span></button> -->
@@ -219,6 +222,9 @@
               <input class="form-check-input" type="checkbox" id="NOConditions_{{i}}"
                 [(ngModel)]="Result.NOConditions" />
             </div>
+            <p dir="rtl">האם זו פסקה:
+              <input class="form-check-input" type="checkbox" id="PARAGRAPH_{{i}}" [(ngModel)]="Result.PARAGRAPH" />
+            </p>
             <input type="text" class="form-control" placeholder="הקלד תנאים נוספים.." aria-label="ConditionText"
               id="ConditionText_{{i}}" [(ngModel)]="Result.ConditionText">
           </div>
@@ -230,6 +236,10 @@
               <input type="text" class="form-control" placeholder="סדר ההופעה" aria-label="ConditionText"
                 id="TenderSectionId_{{i}}" [(ngModel)]="Result.TenderSectionId">
             </p>
+            <p dir="rtl">רמת מספור פסקה:
+              <input type="text" class="form-control" placeholder="סדר ההופעה" aria-label="ConditionText"
+                id="MULTILEVEL_{{i}}" [(ngModel)]="Result.MULTILEVEL">
+            </p>
           </div>
           <div class="col">
             <!-- <p dir="rtl">TenderId: {{Result.TenderId}}</p> -->
@@ -237,6 +247,7 @@
               <input type="text" class="form-control" placeholder="SectionNumber" aria-label="ConditionText"
                 id="SectionNumber_{{i}}" [(ngModel)]="Result.SectionNumber">
             </p>
+           
           </div>
           <p dir="ltr"><textarea [(ngModel)]='Result.SectionBody' cols="120" style="height: 93px;" type="text"
               (click)="selectItem($event)">
@@ -245,7 +256,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="row top-buffer" style="margin-top: 20px;"></div>
   </div>
 </div>

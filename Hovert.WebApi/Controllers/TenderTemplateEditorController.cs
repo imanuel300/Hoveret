@@ -42,7 +42,7 @@ namespace WEBAPIODATAV3.Controllers
         [HttpGet]
         public IQueryable<TenderTemplatesBookletSection> GetTenderTemplateEditor()
         {
-            return db.TenderTemplatesBookletSections.OrderBy(d => d.TenderSectionId ?? 0);
+            return db.TenderTemplatesBookletSections.OrderBy(d => d.TenderSectionId  ?? 0).ThenBy(d => d.Id);
         }
 
         //http://localhost:52253/odata/TenderTemplateEditor(10)
@@ -162,17 +162,20 @@ namespace WEBAPIODATAV3.Controllers
                         TenderTemplatesBookletSection result = db.TenderTemplatesBookletSections.SingleOrDefault(s3 => s3.Id == tenderSection.Id);
                         db.Entry(result).CurrentValues.SetValues(tenderSection);//result.SectionBody = tenderSection.SectionBody;
                         db.SaveChanges();
+                        return Ok(tenderSection);
                     }
                     else
                     {
                         db.TenderTemplatesBookletSections.Add(tenderSection);
+                        return Ok(tenderSection);
                     }
                 }
                 catch (Exception e)
                 {
                     Log.Error(e.ToString());
+                    throw;
                 }
-                return Ok(tenderSection);
+                return null;
             }
         }
 

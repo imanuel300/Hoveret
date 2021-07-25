@@ -18,6 +18,7 @@ namespace WEBAPIODATAV3.Models
         public Nullable<int> TenderSectionId { get; set; }
         public int TenderId { get; set; }
         public string SectionNumber { get; set; }
+        public string ConditionText { get; set; }
         public string SectionBody { get; set; }
         public Nullable<bool> CM_0 { get; set; }
         public Nullable<bool> CM_1 { get; set; }
@@ -57,8 +58,9 @@ namespace WEBAPIODATAV3.Models
         public Nullable<bool> Sipsud40K { get; set; }
         public Nullable<bool> ProjectMoreOne { get; set; }
         public Nullable<bool> ProjectMore4 { get; set; }
-        public string ConditionText { get; set; }
         public Nullable<bool> NOConditions { get; set; }
         public Nullable<bool> ProjectOnlyOne { get; set; }
+        public Nullable<int> MULTILEVEL { get; set; }
+        public Nullable<bool> PARAGRAPH { get; set; }
     }
 }

@@ -47,6 +47,8 @@ export class TenderTemplatesBookletSection {
     ////  NEW:
     this.ConditionText = Val != null ? Val.ConditionText : null;
     this.NOConditions = Val != null ? Val.NOConditions : false;
+    this.MULTILEVEL = Val != null ? Val.MULTILEVEL : null;
+    this.PARAGRAPH = Val != null ? Val.PARAGRAPH : false;
 
 
 
@@ -98,5 +100,7 @@ export class TenderTemplatesBookletSection {
   //  NEW :
   ConditionText = "";
   NOConditions : boolean;
+  MULTILEVEL: number;
+  PARAGRAPH: boolean;
 
 }

@@ -34,8 +34,8 @@ namespace WEBAPIODATAV3.Models
         public virtual DbSet<Letter> Letters { get; set; }
         public virtual DbSet<TenderSection> TenderSections { get; set; }
         public virtual DbSet<TenderBookletSection> TenderBookletSections { get; set; }
-        public virtual DbSet<TenderTemplatesBookletSection> TenderTemplatesBookletSections { get; set; }
         public virtual DbSet<TenderSectionType> TenderSectionTypes { get; set; }
+        public virtual DbSet<TenderTemplatesBookletSection> TenderTemplatesBookletSections { get; set; }
     
         public virtual ObjectResult<spTenderBooklettConditions_Result> spTenderBooklettConditions(Nullable<int> tenderId)
         {

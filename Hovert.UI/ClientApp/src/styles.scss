@@ -7,14 +7,7 @@ $accent: #9c9cff;
 //@import "~quill/dist/quill.bubble.css";
 //@import "~quill/dist/quill.snow.css";
 
-li.active {
-  background: #dedede;
-  color: #000;
-  border-radius: 15px;
-}
-li:hover {
-  background: #dedede;
-}
+
 
 .ql-formats .ql-picker-label {
   text-align: left;
@@ -77,3 +70,22 @@ li:hover {
   width   : 100%  !important;
   height  : 100%  !important;
 }
+
+ol {
+  counter-reset: item;
+  li {
+      display: block;
+      &:before {
+          content: counters(item, ". ") ". ";
+          counter-increment: item
+      }
+  }
+}
+// li.active {
+//   background: #dedede;
+//   color: #000;
+//   border-radius: 15px;
+// }
+// li:hover {
+//   background: #dedede;
+// }

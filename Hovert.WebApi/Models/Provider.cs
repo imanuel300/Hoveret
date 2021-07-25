@@ -28,5 +28,6 @@ namespace WEBAPIODATAV3.Models
         public int ModifiedBy { get; set; }
         public Nullable<int> MerkavaActiveType { get; set; }
         public string MerkavaRemark { get; set; }
+        public Nullable<int> CreatedBy { get; set; }
     }
 }
