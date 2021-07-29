@@ -1,8 +1,88 @@
 <div class="mt-2 container">
-  <div *ngFor="let Result of loaderRequestResult; index as i" class="row">
-    <div class="col col-lg-12" style="display: inline-table;">
-      <editor *ngIf="!Result.IsHtml" class="ql-align-right ql-direction-rtl" (change)="onChange($event)"
-        [(ngModel)]="Result.SectionBody" [placeholder]="'כתוב משהוא..'" [init]="{
+  <div dragula="HANDLES">
+    <div *ngFor="let Result of loaderRequestResult; index as i" class="row">
+      <div class="">
+        <div class="col col-lg-2" style="display: inline-table; font-size: 14px;">
+          <div class="handle"> </div>
+          <svg xmlns="http://www.w3.org/2000/svg" [class.disable_b]="i==0" (click)="moveUp(i)" width="30" height="30"
+            fill="currentColor" class="bi bi-arrow-up-square cursorpointer" viewBox="0 0 16 16">
+            <title>הזז למעלה</title>
+            <path fill-rule="evenodd"
+              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" [class.disable_b]="i== loaderRequestResult.length-1"
+            (click)="moveDown(i)" width="30" height="30" fill="currentColor"
+            class="bi bi-arrow-down-square cursorpointer" viewBox="0 0 16 16">
+            <title>הזז למטה</title>
+            <path fill-rule="evenodd"
+              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z" />
+          </svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" [class.disable_b]="Result.MULTILEVEL==0" (click)="moveRight(i)"
+            width="30" height="30" fill="currentColor" class="bi bi-arrow-right-square cursorpointer"
+            viewBox="0 0 16 16">
+            <title>הקטן מספור פסקה</title>
+            <path fill-rule="evenodd"
+              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" [class.disable_b]="Result.MULTILEVEL==5" (click)="moveLeft(i)"
+            width="30" height="30" fill="currentColor" class="bi bi-arrow-left-square cursorpointer"
+            viewBox="0 0 16 16">
+            <title>הגדל מספור פסקה</title>
+            <path fill-rule="evenodd"
+              d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+          </svg>
+
+          <svg (click)="AddNewRow(Result.TenderSectionId, i);" xmlns="http://www.w3.org/2000/svg"
+            width="30" height="30" fill="currentColor" class="bi bi-plus-square cursorpointer" viewBox="0 0 16 16">
+            <title>הוסף שורה</title>
+            <path
+              d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+            <path
+              d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+          </svg>
+          <svg (click)="DellRow(Result.Id, i);" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+            fill="currentColor" class="bi bi-x-square cursorpointer" viewBox="0 0 16 16">
+            <title>מחק</title>
+            <path
+              d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+            <path
+              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+          </svg>
+          <!-- <div><b>תנאים:</b></div> -->
+          <div *ngFor="let item of Result | keyvalue" style="margin-bottom: 5px;">
+            <span *ngIf="item.value == true && item.key!='IsHtml'">{{item.key | translate}}</span>
+          </div>
+        </div>
+        <div class="col col-lg-10 " style="display: inline-table;">
+          <div class="d-flex">
+            <div class="Level_{{Result.MULTILEVEL}}">
+              <svg *ngFor="let item of [].constructor(Result.MULTILEVEL);" xmlns="http://www.w3.org/2000/svg" width="16"
+                height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+                <path
+                  d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z" />
+              </svg>
+              <!-- <svg  xmlns="http://www.w3.org/2000/svg" width="30"
+                height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+              </svg> -->
+            </div>
+            <div class="col">
+              <div *ngIf="Result.IsHtml" class="editAreia"
+                (click)="Result.IsHtml ? Result.IsHtml = false : Result.IsHtml = true;">
+                <div class="b_edit">
+                  <svg xmlns="http://www.w3.org/2000/svg" title="ערוך" width="26" height="26" fill="currentColor"
+                    class="bi bi-pencil" viewBox="0 0 16 16">
+                    <path
+                      d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                  </svg><span> לחץ לעריכה </span><!-- https://icons.getbootstrap.com/ -->
+                </div>
+                <div class="HtmlOutput_{{i}} Overlay" [innerHTML]="Result.SectionBody | safeHtml"></div>
+              </div>
+              <div *ngIf="!Result.IsHtml">
+                <editor class="ql-align-right ql-direction-rtl" (change)="onChange($event)"
+                  [(ngModel)]="Result.SectionBody" [placeholder]="'כתוב משהוא..'" [init]="{
           width  : '100%', 
           toolbar_sticky   : true,     
           toolbar_location : 'top',     
@@ -10,6 +90,7 @@
           language: 'he_IL',
           content_css : '/styles.css',
           menubar: false,
+          statusbar: false,
           table_default_attributes: {border: '0'},
           plugins: ['autoresize lists link table directionality'],
           toolbar:
@@ -17,29 +98,29 @@
             alignleft aligncenter alignright alignjustify | ltr rtl | \
             numlist outdent indent | removeformat | table |link'
         }">
-      </editor>
-      <div class="col col-lg-12 AddNewRow">
-        <button type="button" class="btn btn-success btn-sm shadow-none m-1"
-          (click)="onSubmitSave(Result)">עדכן</button>
-        <!-- <button type="button" class="btn btn-secondary btn-sm shadow-none m-1"
-          (click)="Result.IsHtml ? Result.IsHtml = false : Result.IsHtml = true; "><span
-            *ngIf="!Result.IsHtml">Html</span><span *ngIf="Result.IsHtml">View</span></button> -->
-        <button type="button" class="btn btn-primary btn-sm shadow-none m-1"
-          (click)="Result.IsConditions ? Result.IsConditions = false : Result.IsConditions = true;"><span
-            *ngIf="!Result.IsConditions">הצג תנאים</span><span *ngIf="Result.IsConditions">הסתר תנאים</span></button>
-        <button *ngIf="isParamsId" type="button" class="btn btn-outline-primary btn-sm shadow-none m-1 ShowHide"
-          (click)="AddNewRow(Result.TenderSectionId, i);"><span>הוסף שורה חדשה</span></button>
-        <button *ngIf="isParamsId" type="button" class="btn btn-outline-primary btn-sm shadow-none m-1 ShowHide"
-          (click)="DellRow(Result.Id, i);"><span>מחק שורה</span></button>
-      </div>
-      <div *ngIf="Result.IsHtml">
+                </editor>
 
-      </div>
-      <div *ngIf="Result.IsConditions" class="border border-secondary mt-1 container">
-        <div dir="rtl" class="row">
-          <div class="col">
+                <div class="col col-lg-12 AddNewRow">
+                  <button type="button" class="btn btn-success btn-sm shadow-none m-1"
+                    (click)="onSubmitSave(Result)">עדכן</button>
+                  <!--  -->
+                  <button type="button" class="btn btn-primary btn-sm shadow-none m-1"
+                    (click)="Result.IsConditions ? Result.IsConditions = false : Result.IsConditions = true;"><span
+                      *ngIf="!Result.IsConditions">הצג תנאים</span><span *ngIf="Result.IsConditions">הסתר
+                      תנאים</span></button>
+                  <button *ngIf="isParamsId" type="button"
+                    class="btn btn-outline-primary btn-sm shadow-none m-1 ShowHide"
+                    (click)="AddNewRow(Result.TenderSectionId, i);"><span>הוסף שורה חדשה</span></button>
+                  <button *ngIf="isParamsId" type="button"
+                    class="btn btn-outline-primary btn-sm shadow-none m-1 ShowHide"
+                    (click)="DellRow(Result.Id, i);"><span>מחק שורה</span></button>
+                </div>
 
-            <!-- <label >Example select</label>
+                <div *ngIf="Result.IsConditions" class="border border-secondary mt-1 container">
+                  <div dir="rtl" class="row">
+                    <div class="col">
+
+                      <!-- <label >Example select</label>
             <select class="form-select" multiple aria-label="multiple select example">
               <option selected>Open this select menu</option>
               <option value="1">One</option>
@@ -48,7 +129,7 @@
             </select> -->
 
 
-            <!-- <div class="form-check form-switch">
+                      <!-- <div class="form-check form-switch">
               <label for="CM_0_{{i}}">CM0</label>
               <input class="form-check-input" type="checkbox" id="CM_0_{{i}}" [(ngModel)]="Result.CM_0" />
             </div>
@@ -56,203 +137,213 @@
               <label for="CM_1_{{i}}">CM1</label>
               <input class="form-check-input" type="checkbox" id="CM_1_{{i}}" [(ngModel)]="Result.CM_1" />
             </div> -->
-            <h5>שיטת שיווק</h5>
-            <div class="form-check form-switch">
-              <label for="CM_2_{{i}}">דיור מוגן</label>
-              <input class="form-check-input" type="checkbox" id="CM_2_{{i}}" [(ngModel)]="Result.CM_2" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_3_{{i}}">בנה ביתך - קרקע</label>
-              <input class="form-check-input" type="checkbox" id="CM_3_{{i}}" [(ngModel)]="Result.CM_3" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_4_{{i}}">בנה ביתך - הגרלה</label>
-              <input class="form-check-input" type="checkbox" id="CM_4_{{i}}" [(ngModel)]="Result.CM_4" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_5_{{i}}">הרשמה והגרלה</label>
-              <input class="form-check-input" type="checkbox" id="CM_5_{{i}}" [(ngModel)]="Result.CM_5" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_6_{{i}}">הרשמה והגרלה</label>
-              <input class="form-check-input" type="checkbox" id="CM_6_{{i}}" [(ngModel)]="Result.CM_6" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_7_{{i}}">ר.מ.י קרקע</label>
-              <input class="form-check-input" type="checkbox" id="CM_7_{{i}}" [(ngModel)]="Result.CM_7" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_8_{{i}}">בנה דירתך</label>
-              <input class="form-check-input" type="checkbox" id="CM_8_{{i}}" [(ngModel)]="Result.CM_8" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_9_{{i}}">מחיר למשתכן - ישן</label>
-              <input class="form-check-input" type="checkbox" id="CM_9_{{i}}" [(ngModel)]="Result.CM_9" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_10_{{i}}">מימון מלא</label>
-              <input class="form-check-input" type="checkbox" id="CM_10_{{i}}" [(ngModel)]="Result.CM_10" />
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-check form-switch">
-              <label for="CM_11_{{i}}">בניה להשכרה</label>
-              <input class="form-check-input" type="checkbox" id="CM_11_{{i}}" [(ngModel)]="Result.CM_11" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_12_{{i}}">ועדת ברודט</label>
-              <input class="form-check-input" type="checkbox" id="CM_12_{{i}}" [(ngModel)]="Result.CM_12" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_13_{{i}}">אגודה שיתופית</label>
-              <input class="form-check-input" type="checkbox" id="CM_13_{{i}}" [(ngModel)]="Result.CM_13" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_14_{{i}}">יקבע בהמשך</label>
-              <input class="form-check-input" type="checkbox" id="CM_14_{{i}}" [(ngModel)]="Result.CM_14" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_15_{{i}}">ועדת קבלה</label>
-              <input class="form-check-input" type="checkbox" id="CM_15_{{i}}" [(ngModel)]="Result.CM_15" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_16_{{i}}">מחיר מטרה</label>
-              <input class="form-check-input" type="checkbox" id="CM_16_{{i}}" [(ngModel)]="Result.CM_16" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_17_{{i}}">מחיר מטרה - ר.מ.י</label>
-              <input class="form-check-input" type="checkbox" id="CM_17_{{i}}" [(ngModel)]="Result.CM_17" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_18_{{i}}">מחיר למשתכן</label>
-              <input class="form-check-input" type="checkbox" id="CM_18_{{i}}" [(ngModel)]="Result.CM_18" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_19_{{i}}">מחיר למשתכן - ר.מ.י</label>
-              <input class="form-check-input" type="checkbox" id="CM_19_{{i}}" [(ngModel)]="Result.CM_19" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CM_20_{{i}}">מכרז מסחר ו/או תעסוקה</label>
-              <input class="form-check-input" type="checkbox" id="CM_20_{{i}}" [(ngModel)]="Result.CM_20" />
-            </div>
-          </div>
-          <div class="col">
-            <h5>שיטת פיתוח</h5>
-            <!-- <div class="form-check form-switch">
+                      <h5>שיטת שיווק</h5>
+                      <div class="form-check form-switch">
+                        <label for="CM_2_{{i}}">דיור מוגן</label>
+                        <input class="form-check-input" type="checkbox" id="CM_2_{{i}}" [(ngModel)]="Result.CM_2" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_3_{{i}}">בנה ביתך - קרקע</label>
+                        <input class="form-check-input" type="checkbox" id="CM_3_{{i}}" [(ngModel)]="Result.CM_3" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_4_{{i}}">בנה ביתך - הגרלה</label>
+                        <input class="form-check-input" type="checkbox" id="CM_4_{{i}}" [(ngModel)]="Result.CM_4" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_5_{{i}}">הרשמה והגרלה</label>
+                        <input class="form-check-input" type="checkbox" id="CM_5_{{i}}" [(ngModel)]="Result.CM_5" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_6_{{i}}">הרשמה והגרלה</label>
+                        <input class="form-check-input" type="checkbox" id="CM_6_{{i}}" [(ngModel)]="Result.CM_6" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_7_{{i}}">ר.מ.י קרקע</label>
+                        <input class="form-check-input" type="checkbox" id="CM_7_{{i}}" [(ngModel)]="Result.CM_7" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_8_{{i}}">בנה דירתך</label>
+                        <input class="form-check-input" type="checkbox" id="CM_8_{{i}}" [(ngModel)]="Result.CM_8" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_9_{{i}}">מחיר למשתכן - ישן</label>
+                        <input class="form-check-input" type="checkbox" id="CM_9_{{i}}" [(ngModel)]="Result.CM_9" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_10_{{i}}">מימון מלא</label>
+                        <input class="form-check-input" type="checkbox" id="CM_10_{{i}}" [(ngModel)]="Result.CM_10" />
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-check form-switch">
+                        <label for="CM_11_{{i}}">בניה להשכרה</label>
+                        <input class="form-check-input" type="checkbox" id="CM_11_{{i}}" [(ngModel)]="Result.CM_11" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_12_{{i}}">ועדת ברודט</label>
+                        <input class="form-check-input" type="checkbox" id="CM_12_{{i}}" [(ngModel)]="Result.CM_12" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_13_{{i}}">אגודה שיתופית</label>
+                        <input class="form-check-input" type="checkbox" id="CM_13_{{i}}" [(ngModel)]="Result.CM_13" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_14_{{i}}">יקבע בהמשך</label>
+                        <input class="form-check-input" type="checkbox" id="CM_14_{{i}}" [(ngModel)]="Result.CM_14" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_15_{{i}}">ועדת קבלה</label>
+                        <input class="form-check-input" type="checkbox" id="CM_15_{{i}}" [(ngModel)]="Result.CM_15" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_16_{{i}}">מחיר מטרה</label>
+                        <input class="form-check-input" type="checkbox" id="CM_16_{{i}}" [(ngModel)]="Result.CM_16" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_17_{{i}}">מחיר מטרה - ר.מ.י</label>
+                        <input class="form-check-input" type="checkbox" id="CM_17_{{i}}" [(ngModel)]="Result.CM_17" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_18_{{i}}">מחיר למשתכן</label>
+                        <input class="form-check-input" type="checkbox" id="CM_18_{{i}}" [(ngModel)]="Result.CM_18" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_19_{{i}}">מחיר למשתכן - ר.מ.י</label>
+                        <input class="form-check-input" type="checkbox" id="CM_19_{{i}}" [(ngModel)]="Result.CM_19" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CM_20_{{i}}">מכרז מסחר ו/או תעסוקה</label>
+                        <input class="form-check-input" type="checkbox" id="CM_20_{{i}}" [(ngModel)]="Result.CM_20" />
+                      </div>
+                    </div>
+                    <div class="col">
+                      <h5>שיטת פיתוח</h5>
+                      <!-- <div class="form-check form-switch">
               <label for="CD_0_{{i}}">CD_0</label>
               <input class="form-check-input" type="checkbox" id="CD_0_{{i}}" [(ngModel)]="Result.CD_0" />
             </div> -->
-            <div class="form-check form-switch">
-              <label for="CD_1_{{i}}">חברה מפתחת</label>
-              <input class="form-check-input" type="checkbox" id="CD_1_{{i}}" [(ngModel)]="Result.CD_1" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CD_2_{{i}}">בניה ופתוח</label>
-              <input class="form-check-input" type="checkbox" id="CD_2_{{i}}" [(ngModel)]="Result.CD_2" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CD_3_{{i}}">רשות מקומית</label>
-              <input class="form-check-input" type="checkbox" id="CD_3_{{i}}" [(ngModel)]="Result.CD_3" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CD_4_{{i}}">משרד הבינוי והשיכון</label>
-              <input class="form-check-input" type="checkbox" id="CD_4_{{i}}" [(ngModel)]="Result.CD_4" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CD_5_{{i}}">פתוח בוצע</label>
-              <input class="form-check-input" type="checkbox" id="CD_5_{{i}}" [(ngModel)]="Result.CD_5" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CD_6_{{i}}">בניה והשלמת פתוח</label>
-              <input class="form-check-input" type="checkbox" id="CD_6_{{i}}" [(ngModel)]="Result.CD_6" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CD_7_{{i}}">בניה ופתוח לראש השטח</label>
-              <input class="form-check-input" type="checkbox" id="CD_7_{{i}}" [(ngModel)]="Result.CD_7" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="CD_8_{{i}}">חברה מנהלת</label>
-              <input class="form-check-input" type="checkbox" id="CD_8_{{i}}" [(ngModel)]="Result.CD_8" />
-            </div>
-          </div>
-          <div class="col">
-            <h5>האם מדובר ב:</h5>
-            <div class="form-check form-switch">
-              <label for="onlyDevPayBigZeroo_{{i}}">פיתוח >0 ישן וציבור =0</label>
-              <!-- רק תשלום פיתוח גדול מ 0 ישן וציבור שווה 0 -->
-              <input class="form-check-input" type="checkbox" id="onlyDevPayBigZeroo_{{i}}"
-                [(ngModel)]="Result.onlyDevPayBigZeroo" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="HeadLand_{{i}}">ראש שטח</label><!-- יש מתחמים שצריכים לשלם ראש שטח (כביש גישה ציבורי ) -->
-              <input class="form-check-input" type="checkbox" id="HeadLand_{{i}}" [(ngModel)]="Result.HeadLand" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="PublicBuildingBihZero_{{i}}">מתחם משלם מוסדות.צ</label>
-              <!-- האם המתחם צריך לשלם על מוסדות ציבור. -->
-              <input class="form-check-input" type="checkbox" id="PublicBuildingBihZero_{{i}}"
-                [(ngModel)]="Result.PublicBuildingBihZero" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="OldByNewBigZero_{{i}}">מתחם משלם ישן מול חדש</label>
-              <!-- האם המתחם צריך לשלם על ישן מול חדש. -->
-              <input class="form-check-input" type="checkbox" id="OldByNewBigZero_{{i}}"
-                [(ngModel)]="Result.OldByNewBigZero" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="Ayosh_{{i}}">איו"ש</label>
-              <input class="form-check-input" type="checkbox" id="Ayosh_{{i}}" [(ngModel)]="Result.Ayosh" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="Sipsud40K_{{i}}">סיבסוד 40K</label>
-              <input class="form-check-input" type="checkbox" id="Sipsud40K_{{i}}" [(ngModel)]="Result.Sipsud40K" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="ProjectMoreOne_{{i}}">מעל יחידת דיור אחת</label>
-              <input class="form-check-input" type="checkbox" id="ProjectMoreOne_{{i}}"
-                [(ngModel)]="Result.ProjectMoreOne" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="ProjectMore4_{{i}}">מעל 4 יחידות דיור</label>
-              <input class="form-check-input" type="checkbox" id="ProjectMore4_{{i}}"
-                [(ngModel)]="Result.ProjectMore4" />
-            </div>
-            <div class="form-check form-switch">
-              <label for="NOConditions_{{i}}">ללא תנאים</label>
-              <input class="form-check-input" type="checkbox" id="NOConditions_{{i}}"
-                [(ngModel)]="Result.NOConditions" />
-            </div>
-            <p dir="rtl">האם זו פסקה:
-              <input class="form-check-input" type="checkbox" id="PARAGRAPH_{{i}}" [(ngModel)]="Result.PARAGRAPH" />
-            </p>
-            <input type="text" class="form-control" placeholder="הקלד תנאים נוספים.." aria-label="ConditionText"
-              id="ConditionText_{{i}}" [(ngModel)]="Result.ConditionText">
-          </div>
-        </div>
-        <div dir="rtl" class="row">
-          <div class="col">
-            <!-- <p dir="rtl">Id: {{Result.Id}}</p> -->
-            <p dir="rtl">סדר הופעה:
-              <input type="text" class="form-control" placeholder="סדר ההופעה" aria-label="ConditionText"
-                id="TenderSectionId_{{i}}" [(ngModel)]="Result.TenderSectionId">
-            </p>
-            <p dir="rtl">רמת מספור פסקה:
-              <input type="text" class="form-control" placeholder="סדר ההופעה" aria-label="ConditionText"
-                id="MULTILEVEL_{{i}}" [(ngModel)]="Result.MULTILEVEL">
-            </p>
-          </div>
-          <div class="col">
-            <!-- <p dir="rtl">TenderId: {{Result.TenderId}}</p> -->
-            <p dir="rtl">מספור פסקה:
-              <input type="text" class="form-control" placeholder="SectionNumber" aria-label="ConditionText"
-                id="SectionNumber_{{i}}" [(ngModel)]="Result.SectionNumber">
-            </p>
-           
-          </div>
-          <p dir="ltr"><textarea [(ngModel)]='Result.SectionBody' cols="120" style="height: 93px;" type="text"
-              (click)="selectItem($event)">
+                      <div class="form-check form-switch">
+                        <label for="CD_1_{{i}}">חברה מפתחת</label>
+                        <input class="form-check-input" type="checkbox" id="CD_1_{{i}}" [(ngModel)]="Result.CD_1" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CD_2_{{i}}">בניה ופתוח</label>
+                        <input class="form-check-input" type="checkbox" id="CD_2_{{i}}" [(ngModel)]="Result.CD_2" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CD_3_{{i}}">רשות מקומית</label>
+                        <input class="form-check-input" type="checkbox" id="CD_3_{{i}}" [(ngModel)]="Result.CD_3" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CD_4_{{i}}">משרד הבינוי והשיכון</label>
+                        <input class="form-check-input" type="checkbox" id="CD_4_{{i}}" [(ngModel)]="Result.CD_4" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CD_5_{{i}}">פתוח בוצע</label>
+                        <input class="form-check-input" type="checkbox" id="CD_5_{{i}}" [(ngModel)]="Result.CD_5" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CD_6_{{i}}">בניה והשלמת פתוח</label>
+                        <input class="form-check-input" type="checkbox" id="CD_6_{{i}}" [(ngModel)]="Result.CD_6" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CD_7_{{i}}">בניה ופתוח לראש השטח</label>
+                        <input class="form-check-input" type="checkbox" id="CD_7_{{i}}" [(ngModel)]="Result.CD_7" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="CD_8_{{i}}">חברה מנהלת</label>
+                        <input class="form-check-input" type="checkbox" id="CD_8_{{i}}" [(ngModel)]="Result.CD_8" />
+                      </div>
+                    </div>
+                    <div class="col">
+                      <h5>האם מדובר ב:</h5>
+                      <div class="form-check form-switch">
+                        <label for="onlyDevPayBigZeroo_{{i}}">פיתוח >0 ישן וציבור =0</label>
+                        <!-- רק תשלום פיתוח גדול מ 0 ישן וציבור שווה 0 -->
+                        <input class="form-check-input" type="checkbox" id="onlyDevPayBigZeroo_{{i}}"
+                          [(ngModel)]="Result.onlyDevPayBigZeroo" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="HeadLand_{{i}}">ראש שטח</label>
+                        <!-- יש מתחמים שצריכים לשלם ראש שטח (כביש גישה ציבורי ) -->
+                        <input class="form-check-input" type="checkbox" id="HeadLand_{{i}}"
+                          [(ngModel)]="Result.HeadLand" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="PublicBuildingBihZero_{{i}}">מתחם משלם מוסדות.צ</label>
+                        <!-- האם המתחם צריך לשלם על מוסדות ציבור. -->
+                        <input class="form-check-input" type="checkbox" id="PublicBuildingBihZero_{{i}}"
+                          [(ngModel)]="Result.PublicBuildingBihZero" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="OldByNewBigZero_{{i}}">מתחם משלם ישן מול חדש</label>
+                        <!-- האם המתחם צריך לשלם על ישן מול חדש. -->
+                        <input class="form-check-input" type="checkbox" id="OldByNewBigZero_{{i}}"
+                          [(ngModel)]="Result.OldByNewBigZero" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="Ayosh_{{i}}">איו"ש</label>
+                        <input class="form-check-input" type="checkbox" id="Ayosh_{{i}}" [(ngModel)]="Result.Ayosh" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="Sipsud40K_{{i}}">סיבסוד 40K</label>
+                        <input class="form-check-input" type="checkbox" id="Sipsud40K_{{i}}"
+                          [(ngModel)]="Result.Sipsud40K" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="ProjectMoreOne_{{i}}">מעל יחידת דיור אחת</label>
+                        <input class="form-check-input" type="checkbox" id="ProjectMoreOne_{{i}}"
+                          [(ngModel)]="Result.ProjectMoreOne" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="ProjectMore4_{{i}}">מעל 4 יחידות דיור</label>
+                        <input class="form-check-input" type="checkbox" id="ProjectMore4_{{i}}"
+                          [(ngModel)]="Result.ProjectMore4" />
+                      </div>
+                      <div class="form-check form-switch">
+                        <label for="NOConditions_{{i}}">ללא תנאים</label>
+                        <input class="form-check-input" type="checkbox" id="NOConditions_{{i}}"
+                          [(ngModel)]="Result.NOConditions" />
+                      </div>
+                      <p dir="rtl">האם זו פסקה:
+                        <input class="form-check-input" type="checkbox" id="PARAGRAPH_{{i}}"
+                          [(ngModel)]="Result.PARAGRAPH" />
+                      </p>
+                      <input type="text" class="form-control" placeholder="הקלד תנאים נוספים.."
+                        aria-label="ConditionText" id="ConditionText_{{i}}" [(ngModel)]="Result.ConditionText">
+                    </div>
+                  </div>
+                  <div dir="rtl" class="row">
+                    <div class="col">
+                      <!-- <p dir="rtl">Id: {{Result.Id}}</p> -->
+                      <p dir="rtl">סדר הופעה:
+                        <input type="text" class="form-control" placeholder="סדר ההופעה" aria-label="ConditionText"
+                          id="TenderSectionId_{{i}}" [(ngModel)]="Result.TenderSectionId">
+                      </p>
+                      <p dir="rtl">רמת פסקה:
+                        <input type="text" class="form-control" placeholder="סדר ההופעה" aria-label="ConditionText"
+                          id="MULTILEVEL_{{i}}" [(ngModel)]="Result.MULTILEVEL">
+                      </p>
+
+                    </div>
+                    <div class="col">
+                      <!-- <p dir="rtl">TenderId: {{Result.TenderId}}</p> -->
+                      <p dir="rtl">מספור פסקה:
+                        <input type="text" class="form-control" placeholder="SectionNumber" aria-label="ConditionText"
+                          id="SectionNumber_{{i}}" [(ngModel)]="Result.SectionNumber">
+                      </p>
+
+                    </div>
+                    <p dir="ltr"><textarea [(ngModel)]='Result.SectionBody' cols="120" style="height: 93px;" type="text"
+                        (click)="selectItem($event)">
         </textarea></p>
 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -260,29 +351,3 @@
     <div class="row top-buffer" style="margin-top: 20px;"></div>
   </div>
 </div>
-
-
-
-<!-- https://codepen.io/tarunlalwani/pen/WJwMyg TenderSectionId-->
-
-<!-- <from [formGroup]="editorForm">
-  <div style="display: none;">
-    <pre><code>{{ htmlEditor }}</code></pre>
-  </div>
-  <quill-editor #myEditor [placeholder]="'כתוב משהוא..'" formControlName="editor">
-  </quill-editor>
-
-
-</from> -->
-
-<!-- <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
-  <input name="first" ngModel required #first="ngModel">
-  <input name="last" ngModel>
-  <button>Submit</button>
-</form> -->
-
-
-<!-- <quill-editor [placeholder]="'כתוב משהוא..'" [(ngModel)]="amyEditor" [modules]="editorOptions"
-    (onEditorChanged)="onContentChanged($event)">
-  </quill-editor> -->
-<!-- <input name="ladsdst"  type="text" #ctrl="ngModel" [(ngModel)]="myEditor"> -->

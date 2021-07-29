@@ -1,17 +1,15 @@
 import { AfterViewInit, Component, ElementRef, HostListener, Inject, Injectable, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill'
 import { HttpGeneralService } from '../services/httpGeneralService.service';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
-//import Quill from 'quill';
-//import { CKEditor4 } from 'ckeditor4-angular/ckeditor';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { AlertService } from '../services/_alert'
 import { ActivatedRoute } from '@angular/router';
 import { TenderTemplatesBookletSection } from '../model/TenderTemplatesBookletSections';
 import { SpinnerVisibilityService } from 'ng-http-loader';
 import { Alert, AlertType } from './../services/_alert/alert.model';
-
+import { DragulaService } from 'ng2-dragula';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tender-editor',
@@ -24,19 +22,49 @@ export class TenderEditorComponent {
   htmlEditor: any;
   Id: string = null;
   isParamsId: boolean = true;
-  public loader: number = 5;
+  public loader: number = 225;
   public loaderRequestResult: any = [];
   public requestResult: any = [];
 
 
+  vamps = [
+    { name: "Bad Vamp", age: 342, country: "USA" }
+  ];
+  vamps2 = [];
+  vamps3 = [];
+  subs = new Subscription();
+
   @HostListener("window:scroll", [])
   onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-      this.loaderRequestResult = this.requestResult.slice(0, this.loader = this.loader + 25); //console.log("window:scroll");
+      this.loaderRequestResult = this.requestResult.slice(0, this.loader = this.loader + 50); //console.log("window:scroll");
     }
   }
 
-  constructor(route: ActivatedRoute, alertService: AlertService, private elem: ElementRef, private httpGeneralService: HttpGeneralService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private spinner: SpinnerVisibilityService) {
+  constructor(private dragulaService: DragulaService, route: ActivatedRoute, alertService: AlertService, private elem: ElementRef, private httpGeneralService: HttpGeneralService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private spinner: SpinnerVisibilityService) {
+    dragulaService.createGroup("HANDLES", {
+      moves: (el, container, handle) => {
+        return handle.className === 'handle';
+      },
+      // accepts: (el, target, source, sibling) => {
+      //   if (target.childElementCount>1) return false;
+      // },
+    });
+
+    this.subs.add(dragulaService.dropModel("HANDLES")
+      .subscribe(({ el, target, source, sourceModel, targetModel, item }) => {
+        console.log('dropModel:');
+        console.log(el);
+        console.log(source);
+        console.log(target);
+        console.log(sourceModel);
+        console.log(targetModel);
+        console.log(targetModel.length);
+        //console.log(item);
+      })
+    );
+
+
     var options = { autoClose: 0, keepAfterRouteChange: false };
     let url: string = "TenderTemplateEditor/GetTenderTemplateEditor";
     route.params.subscribe(params => {
@@ -48,7 +76,7 @@ export class TenderEditorComponent {
       //data.value == null ? this.requestResult[0] = data : this.requestResult = data.value;
       this.requestResult = data
       for (let i = 0; i < this.requestResult.length; i++) {
-        this.requestResult[i].IsHtml = false;
+        this.requestResult[i].IsHtml = true;
         this.requestResult[i].IsConditions = false;
       }
       console.log("data: " + url);
@@ -58,6 +86,37 @@ export class TenderEditorComponent {
     }, error => {
       alertService.error('שגיאה בקבלת נתונים מהשרת', options);
     })
+  }
+
+  moveUp(index: number) {
+    console.log("up", this.loaderRequestResult[index]);
+    if (index >= 1)
+      this.swap(index, index - 1)
+  }
+
+  moveDown(index: number) {
+    console.log("down", this.loaderRequestResult[index])
+    if (index < this.loaderRequestResult.length - 1)
+      this.swap(index, index + 1)
+  }
+  moveLeft(index: number) {
+    if (this.loaderRequestResult[index].MULTILEVEL<5) {
+      this.loaderRequestResult[index].MULTILEVEL++;
+      this.onSubmitSave(this.loaderRequestResult[index])
+    }
+  }
+
+  moveRight(index: number) {
+    if (this.loaderRequestResult[index].MULTILEVEL>0) {
+      this.loaderRequestResult[index].MULTILEVEL--;
+      this.onSubmitSave(this.loaderRequestResult[index])
+    }
+  }
+
+  private swap(x: any, y: any) {
+    var b = this.loaderRequestResult[x];
+    this.loaderRequestResult[x] = this.loaderRequestResult[y];
+    this.loaderRequestResult[y] = b;
   }
 
   onSubmitSave(myTenderTemplatesBookletSection: TenderTemplatesBookletSection) {
@@ -169,7 +228,7 @@ export class TenderEditorComponent {
     item.srcElement.style.height = item.srcElement.scrollHeight + 'px';
   }
 
- 
+
 
   // public editorOptions = {
   //   toolbar: {

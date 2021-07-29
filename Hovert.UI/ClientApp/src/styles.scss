@@ -7,8 +7,6 @@ $accent: #9c9cff;
 //@import "~quill/dist/quill.bubble.css";
 //@import "~quill/dist/quill.snow.css";
 
-
-
 .ql-formats .ql-picker-label {
   text-align: left;
 }
@@ -64,28 +62,114 @@ $accent: #9c9cff;
   display: inline;
 }
 
+.editAreia, .cursorpointer {
+  cursor: pointer;
+}
+.Overlay {
+  border: 1px solid rgb(99, 99, 99);
+  padding: 0px 31px;
+  position: relative;
+  min-height: 54px;
+  // opacity: 1;
+}
+
+.editAreia:hover > .Overlay:after {
+  content: "\A";
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.b_edit {
+  display: none;
+  position: absolute;
+}
+.editAreia:hover > .b_edit {
+  display: block;
+  padding: 13px;
+  z-index: 99;
+  color: gainsboro;
+}
 
 #editorBase {
-  display : block !important;
-  width   : 100%  !important;
-  height  : 100%  !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 ol {
   counter-reset: item;
   li {
-      display: block;
-      &:before {
-          content: counters(item, ". ") ". ";
-          counter-increment: item
-      }
+    display: block;
+    &:before {
+      content: counters(item, ". ") ". ";
+      counter-increment: item;
+    }
   }
 }
-// li.active {
-//   background: #dedede;
-//   color: #000;
-//   border-radius: 15px;
+
+/* in-flight clone */
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+  pointer-events: none;
+}
+/* high-performance display:none; helper */
+.gu-hide {
+  left: -9999px !important;
+}
+/* added to mirrorContainer (default = body) while dragging */
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+/* added to the source element while its mirror is dragged */
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+}
+.handle {
+  cursor: move;
+  float: right;
+  border: 2px solid;
+  border-radius: 4px;
+  height: 30px;
+  width: 30px;
+  padding-right: 2px;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrows-move" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10zM.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708l-2-2zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8z" /></svg>');
+  background-repeat: no-repeat;
+  background-position: 2px 2px;
+}
+.disable_b {
+  opacity: 0.2;
+  cursor:initial;
+}
+// .Level_,
+ .Level_0 {
+   margin-right: 0px;
+   display: none;
+ }
+// .Level_1 {
+//   margin-right: 20px;
 // }
-// li:hover {
-//   background: #dedede;
+// .Level_2 {
+//   margin-right: 40px;
+// }
+// .Level_3 {
+//   margin-right: 60px;
+// }
+// .Level_4 {
+//   margin-right: 80px;
+// }
+// .Level_5 {
+//   margin-right: 100px;
 // }

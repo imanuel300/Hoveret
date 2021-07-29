@@ -9,24 +9,23 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { SafePipe } from './pipes/sanitizer-pipe';
 import { SafeurlPipe } from './pipes/safeurl';
+import { TranslatePipe } from './pipes/translate';
 import { HttpGeneralService } from './services/httpGeneralService.service';
 import { TenderTemplateComponent } from './tender-template/tender-template.component';
 import { TenderEditorComponent } from './tender-editor/tender-editor.component';
 import { TenderBookletSection } from './model/TenderBookletSection';
-//import { QuillModule } from 'ngx-quill';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { AlertModule } from './services/_alert';
-import { CKEditorModule } from 'ckeditor4-angular';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import { DragulaModule } from 'ng2-dragula';
 
 @NgModule({
   imports: [
-    //CKEditorModule,
     EditorModule,
     HttpClientModule, // <============ (Perform HTTP requests with this module)
     NgHttpLoaderModule.forRoot(), // <============ Don't forget to call 'forRoot()'!
-   // QuillModule.forRoot(),
+    DragulaModule.forRoot(),
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     ReactiveFormsModule,
@@ -41,6 +40,7 @@ import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
     CounterComponent,
     SafePipe,
     SafeurlPipe,
+    TranslatePipe,
     TenderTemplateComponent,
     TenderEditorComponent,
     PageNotFoundComponent
