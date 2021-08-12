@@ -1,29 +1,35 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">חוברת מכרז</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="#">
+      <div class="pull-right headerLogo"><a routerlink="/Home" href="/Home"><img title="לוגו משרד השיכון"
+            src="../..//assets/logo.png"></a></div>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse pull-right" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-          <a class="nav-link active" routerLink="/" aria-current="page" href="#">מדריך למשתמש</a>
+          <a class="nav-link" routerLink="/Home" aria-current="page" href="#">דף הבית</a>
         </li>
-        <li class="nav-item" [routerLinkActive]="['active']">
-          <a class="nav-link" routerLink="/saver" href="#"> הפקת חוברת מכרז</a>
+        <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+          <a class="nav-link" routerLink="/Guide" aria-current="page" href="#">מדריך למשתמש</a>
         </li>
-        <li class="nav-item" [routerLinkActive]="['active']">
-          <a class="nav-link" routerLink="/template" href="#">הצגת תבנית  </a>
-        </li>
-        <li class="nav-item" [routerLinkActive]="['active']">
-          <a class="nav-link " routerLink="/editor"  href="#" tabindex="-1" >ניהול תבנית</a>
-        </li>
+        <!-- <li class="nav-item" [routerLinkActive]="['active']">
+          <a class="nav-link " routerLink="/Weditor" href="#" tabindex="-1">ניהול תבנית</a>
+        </li> -->
+        <!-- <li class="nav-item" [routerLinkActive]="['active']">
+          <a class="nav-link " routerLink="/editor" href="#" tabindex="-1">ניהול תבנית</a>
+        </li> -->
+        <!-- <li class="nav-item" [routerLinkActive]="['active']">
+          <a class="nav-link" routerLink="/Saver" [queryParams]="{TenderYear: '2019','TenderNumber': '409'}" href="#"> הפקת חוברת מכרז</a>
+        </li> -->
+        <!-- <li class="nav-item" [routerLinkActive]="['active']">
+          <a class="nav-link" routerLink="/template" href="#">הצגת תבנית </a>
+        </li> -->
+        
       </ul>
     </div>
   </div>
 </nav>
-
-
-
-
-

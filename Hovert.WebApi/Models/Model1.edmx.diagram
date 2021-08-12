@@ -13,7 +13,9 @@
         <EntityTypeShape EntityType="DBBMModel.TenderSection" Width="1.5" PointX="8.375" PointY="5.75" />
         <EntityTypeShape EntityType="DBBMModel.TenderBookletSection" Width="1.5" PointX="8.375" PointY="9.75" />
         <EntityTypeShape EntityType="DBBMModel.TenderSectionType" Width="1.5" PointX="5.375" PointY="10.75" />
-        <EntityTypeShape EntityType="DBBMModel.TenderTemplatesBookletSection" Width="1.5" PointX="0.75" PointY="11.75" />
+        <EntityTypeShape EntityType="DBBMModel.TenderTemplatesBookletSection" Width="1.5" PointX="3" PointY="11.875" />
+        <EntityTypeShape EntityType="DBBMModel.MarketingMethodLookup" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DBBMModel.Template" Width="1.5" PointX="10.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

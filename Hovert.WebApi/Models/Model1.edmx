@@ -78,6 +78,13 @@ warning 6002: The table/view 'DBBM.dbo.Letters' does not have a primary key defi
           <Property Name="Header" Type="bit" />
           <Property Name="Footer" Type="bit" />
         </EntityType>
+        <EntityType Name="MarketingMethodLookup">
+          <Key>
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Name="Key" Type="int" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Projects">
           <Key>
             <PropertyRef Name="Id" />
@@ -144,6 +151,17 @@ warning 6002: The table/view 'DBBM.dbo.Letters' does not have a primary key defi
           <Property Name="ModifiedBy" Type="int" Nullable="false" />
           <Property Name="MerkavaActiveType" Type="int" />
           <Property Name="MerkavaRemark" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Templates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Value" Type="nvarchar(max)" />
+          <Property Name="Details" Type="nvarchar(max)" />
+          <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="UpdatedById" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'DBBM.dbo.TenderBookletSections' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -234,17 +252,32 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
           <Property Name="ProjectOnlyOne" Type="bit" />
           <Property Name="MULTILEVEL" Type="int" />
           <Property Name="PARAGRAPH" Type="bit" />
+          <Property Name="CM_21" Type="bit" />
+          <Property Name="MarketingMethod" Type="int" />
         </EntityType>
+        <Function Name="Lookup_Proc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Lookup_Table" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="spGetTenderIdFromTenderYearAndNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TenderId" Type="int" Mode="In" />
+          <Parameter Name="TenderYear" Type="int" Mode="In" />
+        </Function>
         <Function Name="spLett_TenderBooklet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TenderId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spLett_TenderBookMarks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TenderId" Type="int" Mode="In" />
+          <Parameter Name="TenderYear" Type="int" Mode="In" />
         </Function>
         <Function Name="spTenderBooklettConditions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TenderId" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="DBBMModelStoreContainer">
           <EntitySet Name="Emails" EntityType="Self.Emails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MarketingMethodLookup" EntityType="Self.MarketingMethodLookup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Providers" EntityType="Self.Providers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Templates" EntityType="Self.Templates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TenderSectionType" EntityType="Self.TenderSectionType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TenderTemplatesBookletSections" EntityType="Self.TenderTemplatesBookletSections" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BankDoarIncomes" EntityType="Self.BankDoarIncomes" store:Type="Tables" store:Schema="dbo">
@@ -355,6 +388,19 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
           </FunctionImport>
           <EntitySet Name="TenderSectionTypes" EntityType="DBBMModel.TenderSectionType" />
           <EntitySet Name="TenderTemplatesBookletSections" EntityType="DBBMModel.TenderTemplatesBookletSection" />
+          <FunctionImport Name="Lookup_Proc" ReturnType="Collection(DBBMModel.Lookup_Proc_Result)">
+          <Parameter Name="Lookup_Table" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="MarketingMethodLookups" EntityType="DBBMModel.MarketingMethodLookup" />
+          <FunctionImport Name="spLett_TenderBookMarks" ReturnType="Collection(DBBMModel.spLett_TenderBookMarks_Result)">
+            <Parameter Name="TenderId" Mode="In" Type="Int32" />
+            <Parameter Name="TenderYear" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetTenderIdFromTenderYearAndNumber" ReturnType="Collection(Int32)">
+            <Parameter Name="TenderId" Mode="In" Type="Int32" />
+            <Parameter Name="TenderYear" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Templates" EntityType="DBBMModel.Template" />
         </EntityContainer>
         <EntityType Name="Email">
           <Key>
@@ -492,6 +538,10 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
           <Property Name="SectionBody" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="versionBooklat" Type="Int32" />
         </EntityType>
+		<ComplexType Name="Lookup_Proc_Result">
+			<Property Type="Int32" Name="Key" Nullable="false" />
+			<Property Type="String" Name="Value" Nullable="true" />
+          </ComplexType>
         <ComplexType Name="spTenderBooklettConditions_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
           <Property Type="Int32" Name="TenderSectionId" Nullable="true" />
@@ -538,6 +588,9 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
           <Property Type="Boolean" Name="ProjectMoreOne" Nullable="true" />
           <Property Type="Boolean" Name="ProjectMore4" Nullable="true" />
           <Property Type="Boolean" Name="NOConditions" Nullable="true" />
+          <Property Type="Boolean" Name="ProjectOnlyOne" Nullable="true" />
+          <Property Type="Int32" Name="MULTILEVEL" Nullable="true" />
+          <Property Type="Boolean" Name="PARAGRAPH" Nullable="true" />
         </ComplexType>
         <ComplexType Name="spLett_TenderBooklet_Result">
           <Property Type="Int32" Name="ObjectId" Nullable="false" />
@@ -635,6 +688,71 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
           <Property Name="ProjectOnlyOne" Type="Boolean" />
           <Property Name="MULTILEVEL" Type="Int32" />
           <Property Name="PARAGRAPH" Type="Boolean" />
+          <Property Name="CM_21" Type="Boolean" />
+          <Property Name="MarketingMethod" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MarketingMethodLookup">
+          <Key>
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Name="Key" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="spLett_TenderBookMarks_Result">
+          <Property Type="Int32" Name="ObjectId" Nullable="false" />
+          <Property Type="Int32" Name="MahozCode" Nullable="false" />
+          <Property Type="String" Name="MahozName" Nullable="true" MaxLength="17" />
+          <Property Type="String" Name="MachozNameTop" Nullable="true" MaxLength="4000" />
+          <Property Type="Int32" Name="MashbashCode" Nullable="false" />
+          <Property Type="Int32" Name="LamasCode" Nullable="true" />
+          <Property Type="String" Name="MashbashName" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="AtarCode" Nullable="true" />
+          <Property Type="String" Name="AtarName" Nullable="true" MaxLength="17" />
+          <Property Type="String" Name="MashbashName1" Nullable="true" MaxLength="17" />
+          <Property Type="String" Name="DeadlineDate" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="GurenteeLastDate" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="GrantAmount" Nullable="false" MaxLength="611" />
+          <Property Type="Decimal" Name="DevelopmentGrant" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="marketindMethodNispach" Nullable="false" />
+          <Property Type="String" Name="CountProjects" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="hidden_mishtakenMore4" Nullable="false" />
+          <Property Type="Int32" Name="hidden_More1" Nullable="false" />
+          <Property Type="String" Name="SumHousingUnits" Nullable="true" MaxLength="4000" />
+          <Property Type="DateTime" Name="DeadlineDate1" Nullable="true" />
+          <Property Type="Int32" Name="TenderNumber" Nullable="true" />
+          <Property Type="Int32" Name="TenderYear" Nullable="true" />
+          <Property Type="Int32" Name="Hidden_SpecialTenders" Nullable="false" />
+          <Property Type="Int32" Name="TourYesNo" Nullable="false" />
+          <Property Type="DateTime" Name="TourDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Tokef" Nullable="false" />
+          <Property Type="String" Name="Deadline_Date7" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="DeadlineDate8" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Mmi_Mahoz_Name" Nullable="true" MaxLength="17" />
+          <Property Type="String" Name="Mmi_Mahoz_ShortName" Nullable="true" MaxLength="3" />
+          <Property Type="Int32" Name="ArvutPituachClaliYesNo" Nullable="false" />
+          <Property Type="String" Name="DevelopType" Nullable="false" MaxLength="76" />
+          <Property Type="String" Name="LandUseList" Nullable="true" />
+          <Property Type="String" Name="Megurim" Nullable="true" MaxLength="7" />
+          <Property Type="String" Name="Mischar" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="TabasLotsList" Nullable="true" />
+          <Property Type="Int32" Name="BalconyOrGardenAreaSize" Nullable="false" />
+          <Property Type="Int32" Name="WarehousesAreaSize" Nullable="false" />
+          <Property Type="Int32" Name="ParkingSpacesAreaSize" Nullable="false" />
+          <Property Type="Int32" Name="MechirMin" Nullable="true" />
+          <Property Type="Int32" Name="MarketingMethod" Nullable="true" />
+          <Property Type="String" Name="MarketingName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TenderIndexMonth" Nullable="true" MaxLength="21" />
+        </ComplexType>
+        <EntityType Name="Template">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedById" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -853,6 +971,9 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
                 <ScalarProperty Name="ProjectMoreOne" ColumnName="ProjectMoreOne" />
                 <ScalarProperty Name="ProjectMore4" ColumnName="ProjectMore4" />
                 <ScalarProperty Name="NOConditions" ColumnName="NOConditions" />
+                <ScalarProperty Name="ProjectOnlyOne" ColumnName="ProjectOnlyOne" />
+                <ScalarProperty Name="MULTILEVEL" ColumnName="MULTILEVEL" />
+                <ScalarProperty Name="PARAGRAPH" ColumnName="PARAGRAPH" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -908,6 +1029,8 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
           <EntitySetMapping Name="TenderTemplatesBookletSections">
             <EntityTypeMapping TypeName="DBBMModel.TenderTemplatesBookletSection">
               <MappingFragment StoreEntitySet="TenderTemplatesBookletSections">
+                <ScalarProperty Name="MarketingMethod" ColumnName="MarketingMethod" />
+                <ScalarProperty Name="CM_21" ColumnName="CM_21" />
                 <ScalarProperty Name="PARAGRAPH" ColumnName="PARAGRAPH" />
                 <ScalarProperty Name="MULTILEVEL" ColumnName="MULTILEVEL" />
                 <ScalarProperty Name="ProjectOnlyOne" ColumnName="ProjectOnlyOne" />
@@ -955,6 +1078,84 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
                 <ScalarProperty Name="SectionNumber" ColumnName="SectionNumber" />
                 <ScalarProperty Name="TenderId" ColumnName="TenderId" />
                 <ScalarProperty Name="TenderSectionId" ColumnName="TenderSectionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Lookup_Proc" FunctionName="DBBMModel.Store.Lookup_Proc" >
+            <ResultMapping>
+				<ComplexTypeMapping TypeName="DBBMModel.Lookup_Proc_Result">
+					<ScalarProperty Name="Key" ColumnName="Key" />
+					<ScalarProperty Name="Value" ColumnName="Value" />
+				</ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="MarketingMethodLookups">
+            <EntityTypeMapping TypeName="DBBMModel.MarketingMethodLookup">
+              <MappingFragment StoreEntitySet="MarketingMethodLookup">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spLett_TenderBookMarks" FunctionName="DBBMModel.Store.spLett_TenderBookMarks">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBBMModel.spLett_TenderBookMarks_Result">
+                <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
+                <ScalarProperty Name="MahozCode" ColumnName="MahozCode" />
+                <ScalarProperty Name="MahozName" ColumnName="MahozName" />
+                <ScalarProperty Name="MachozNameTop" ColumnName="MachozNameTop" />
+                <ScalarProperty Name="MashbashCode" ColumnName="MashbashCode" />
+                <ScalarProperty Name="LamasCode" ColumnName="LamasCode" />
+                <ScalarProperty Name="MashbashName" ColumnName="MashbashName" />
+                <ScalarProperty Name="AtarCode" ColumnName="AtarCode" />
+                <ScalarProperty Name="AtarName" ColumnName="AtarName" />
+                <ScalarProperty Name="MashbashName1" ColumnName="MashbashName1" />
+                <ScalarProperty Name="DeadlineDate" ColumnName="DeadlineDate" />
+                <ScalarProperty Name="GurenteeLastDate" ColumnName="GurenteeLastDate" />
+                <ScalarProperty Name="GrantAmount" ColumnName="GrantAmount" />
+                <ScalarProperty Name="DevelopmentGrant" ColumnName="DevelopmentGrant" />
+                <ScalarProperty Name="marketindMethodNispach" ColumnName="marketindMethodNispach" />
+                <ScalarProperty Name="CountProjects" ColumnName="CountProjects" />
+                <ScalarProperty Name="hidden_mishtakenMore4" ColumnName="hidden_mishtakenMore4" />
+                <ScalarProperty Name="hidden_More1" ColumnName="hidden_More1" />
+                <ScalarProperty Name="SumHousingUnits" ColumnName="SumHousingUnits" />
+                <ScalarProperty Name="DeadlineDate1" ColumnName="DeadlineDate1" />
+                <ScalarProperty Name="TenderNumber" ColumnName="TenderNumber" />
+                <ScalarProperty Name="TenderYear" ColumnName="TenderYear" />
+                <ScalarProperty Name="Hidden_SpecialTenders" ColumnName="Hidden_SpecialTenders" />
+                <ScalarProperty Name="TourYesNo" ColumnName="TourYesNo" />
+                <ScalarProperty Name="TourDate" ColumnName="TourDate" />
+                <ScalarProperty Name="Tokef" ColumnName="Tokef" />
+                <ScalarProperty Name="Deadline_Date7" ColumnName="Deadline_Date7" />
+                <ScalarProperty Name="DeadlineDate8" ColumnName="DeadlineDate8" />
+                <ScalarProperty Name="Mmi_Mahoz_Name" ColumnName="Mmi_Mahoz_Name" />
+                <ScalarProperty Name="Mmi_Mahoz_ShortName" ColumnName="Mmi_Mahoz_ShortName" />
+                <ScalarProperty Name="ArvutPituachClaliYesNo" ColumnName="ArvutPituachClaliYesNo" />
+                <ScalarProperty Name="DevelopType" ColumnName="DevelopType" />
+                <ScalarProperty Name="LandUseList" ColumnName="LandUseList" />
+                <ScalarProperty Name="Megurim" ColumnName="Megurim" />
+                <ScalarProperty Name="Mischar" ColumnName="Mischar" />
+                <ScalarProperty Name="TabasLotsList" ColumnName="TabasLotsList" />
+                <ScalarProperty Name="BalconyOrGardenAreaSize" ColumnName="BalconyOrGardenAreaSize" />
+                <ScalarProperty Name="WarehousesAreaSize" ColumnName="WarehousesAreaSize" />
+                <ScalarProperty Name="ParkingSpacesAreaSize" ColumnName="ParkingSpacesAreaSize" />
+                <ScalarProperty Name="MechirMin" ColumnName="MechirMin" />
+                <ScalarProperty Name="MarketingMethod" ColumnName="MarketingMethod" />
+                <ScalarProperty Name="MarketingName" ColumnName="MarketingName" />
+                <ScalarProperty Name="TenderIndexMonth" ColumnName="TenderIndexMonth" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetTenderIdFromTenderYearAndNumber" FunctionName="DBBMModel.Store.spGetTenderIdFromTenderYearAndNumber" />
+          <EntitySetMapping Name="Templates">
+            <EntityTypeMapping TypeName="DBBMModel.Template">
+              <MappingFragment StoreEntitySet="Templates">
+                <ScalarProperty Name="UpdatedById" ColumnName="UpdatedById" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

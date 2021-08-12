@@ -261,6 +261,7 @@ namespace WEBAPIODATAV3.Utilities
 
             Log.Info(tenderId);
             string sRet = String.Empty;
+            text = text == null ? "" : text;
             string sText = text.ToLower();
             string sOrigHTML = String.Empty;
             oDict = CreateBookmarksDictionary(tenderId);

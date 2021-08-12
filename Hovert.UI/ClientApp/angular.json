@@ -38,6 +38,9 @@
               }
             ],
             "styles": [
+              {
+                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
+              },
               "src/styles.scss"
             ],
             "scripts": [
@@ -106,7 +109,6 @@
           "configurations": {
             "production": {
               "browserTarget": "ClientApp:build:production"
-              
             }
           }
         },
@@ -133,6 +135,9 @@
               }
             ],
             "styles": [
+              {
+                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
+              },
               "src/styles.scss",
               "src/styles.css"
             ],

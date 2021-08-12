@@ -1,4 +1,4 @@
-<div dir="rtl" class="jumbotron">
+<div dir="rtl" class="">
   <h1>תבנית כללית עבור חוברת מכרז</h1>
   <h3>מסך לביצוע תצוגה והוצאה של חוברות מכרזים</h3>
 
@@ -19,7 +19,7 @@
   </form>
 </div>
 <br />
-<div *ngIf="DisplayExportButton" dir="rtl" class="jumbotron">
+<div *ngIf="DisplayExportButton" dir="rtl" class="">
   <quill-editor *ngIf="!IsHtml" [(ngModel)]="sectionToDisplay.SectionBody" [placeholder]="'כתוב משהוא..'"
     [modules]="editorOptions">
   </quill-editor>

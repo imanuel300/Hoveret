@@ -10,11 +10,11 @@ import { SpinnerVisibilityService } from 'ng-http-loader';
 import { Alert, AlertType } from './../services/_alert/alert.model';
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';
+import { HashTable, KeyValuePair } from '../model/array.interface';
 
 @Component({
   selector: 'app-tender-editor',
-  templateUrl: './tender-editor.component.html',
-  styleUrls: ['./tender-editor.component.css']
+  templateUrl: './tender-editor.component.html'
 })
 //@Injectable()
 export class TenderEditorComponent {
@@ -25,6 +25,11 @@ export class TenderEditorComponent {
   public loader: number = 225;
   public loaderRequestResult: any = [];
   public requestResult: any = [];
+  public Lookup_MarketingMethodLookup: KeyValuePair<number, string>[] = [];
+  public MarketingMethod: number = 21;
+  public TenderId: number;
+  public bookmarks: any;
+  public sumNewLine : number = 0;
 
 
   vamps = [
@@ -36,20 +41,21 @@ export class TenderEditorComponent {
 
   @HostListener("window:scroll", [])
   onScroll(): void {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-      this.loaderRequestResult = this.requestResult.slice(0, this.loader = this.loader + 50); //console.log("window:scroll");
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && (this.loaderRequestResult.length != this.requestResult.length && this.loaderRequestResult.length != this.requestResult.length+this.sumNewLine)) {
+      console.log("window:scroll"+this.loaderRequestResult.length +"|"+ this.requestResult.length+"|"+this.sumNewLine);
+      this.loaderRequestResult = this.requestResult.slice(0, this.loader = this.loader + 50); 
     }
   }
 
   constructor(private dragulaService: DragulaService, route: ActivatedRoute, alertService: AlertService, private elem: ElementRef, private httpGeneralService: HttpGeneralService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private spinner: SpinnerVisibilityService) {
-    dragulaService.createGroup("HANDLES", {
-      moves: (el, container, handle) => {
-        return handle.className === 'handle';
-      },
-      // accepts: (el, target, source, sibling) => {
-      //   if (target.childElementCount>1) return false;
-      // },
-    });
+    // dragulaService.createGroup("HANDLES", {
+    //   moves: (el, container, handle) => {
+    //     return handle.className === 'handle';
+    //   },
+    //   // accepts: (el, target, source, sibling) => {
+    //   //   if (target.childElementCount>1) return false;
+    //   // },
+    // });
 
     this.subs.add(dragulaService.dropModel("HANDLES")
       .subscribe(({ el, target, source, sourceModel, targetModel, item }) => {
@@ -63,6 +69,12 @@ export class TenderEditorComponent {
         //console.log(item);
       })
     );
+
+
+    this.httpGeneralService.GetData('TenderTemplateEditor/GetLookup', '/?table=MarketingMethodLookup', null, null).subscribe((data: any) => {
+      this.Lookup_MarketingMethodLookup = data;
+    });
+
 
 
     var options = { autoClose: 0, keepAfterRouteChange: false };
@@ -88,26 +100,35 @@ export class TenderEditorComponent {
     })
   }
 
+  Getbookmarks() {
+    if (this.TenderId == undefined) this.TenderId = 409;
+      this.httpGeneralService.GetData('TenderTemplateEditor/Getbookmarks', '/?tenderId=' + this.TenderId, null, null).subscribe((data: any) => {
+        //console.log(data);
+        this.bookmarks = data;
+      });
+
+  }
+
   moveUp(index: number) {
     console.log("up", this.loaderRequestResult[index]);
     if (index >= 1)
-      this.swap(index, index - 1)
+      this.swap(index, index - 1);
   }
 
   moveDown(index: number) {
     console.log("down", this.loaderRequestResult[index])
     if (index < this.loaderRequestResult.length - 1)
-      this.swap(index, index + 1)
+      this.swap(index, index + 1);
   }
   moveLeft(index: number) {
-    if (this.loaderRequestResult[index].MULTILEVEL<5) {
+    if (this.loaderRequestResult[index].MULTILEVEL < 5) {
       this.loaderRequestResult[index].MULTILEVEL++;
       this.onSubmitSave(this.loaderRequestResult[index])
     }
   }
 
   moveRight(index: number) {
-    if (this.loaderRequestResult[index].MULTILEVEL>0) {
+    if (this.loaderRequestResult[index].MULTILEVEL > 0) {
       this.loaderRequestResult[index].MULTILEVEL--;
       this.onSubmitSave(this.loaderRequestResult[index])
     }
@@ -188,19 +209,26 @@ export class TenderEditorComponent {
     newItem,// inserted item
     ...arr.slice(index) // part of the array after the specified index
   ];
-  AddNewRow(TenderSectionId: number, i: number) {
+  AddNewRow(TenderSectionId: number, id: number, i: number, Result :TenderTemplatesBookletSection) {
     console.log("AddNewRow(" + TenderSectionId + ")");
     this.spinner.show();
-    let url: string = "TenderTemplateEditor/AddNewRow/?id=" + TenderSectionId;
+    let url: string = "TenderTemplateEditor/AddNewRow/?id="+id+"&TenderSectionId=" + TenderSectionId;
     this.httpGeneralService.PostData(url, null, null, null).subscribe((data: any) => {
       console.log("data: ");
       console.log(data);
       this.spinner.hide();
       let tenderTemplatesBookletSection = new TenderTemplatesBookletSection(null);
+      Object.keys(tenderTemplatesBookletSection).forEach(key => tenderTemplatesBookletSection[key] = Result[key]);
+      //tenderTemplatesBookletSection = Result;//השוואת נתונים
+      tenderTemplatesBookletSection.SectionBody = "";
       tenderTemplatesBookletSection.Id = data;
       tenderTemplatesBookletSection.TenderSectionId = TenderSectionId + 1;
       tenderTemplatesBookletSection.TenderId = 0;
+      this.loaderRequestResult = this.requestResult; //בשביל טעינה - לא עובד ככ טוב לכן השוותי
       this.loaderRequestResult = this.insert(this.loaderRequestResult, i + 1, tenderTemplatesBookletSection);
+     
+      this.sumNewLine = this.sumNewLine + 1;
+      
     })
   }
 
@@ -217,7 +245,10 @@ export class TenderEditorComponent {
         console.log("data: ");
         console.log(data);
         this.spinner.hide();
+        this.loaderRequestResult = this.requestResult; //בשביל טעינה - לא עובד ככ טוב לכן השוותי
         this.loaderRequestResult = this.delete(this.loaderRequestResult, i);//this.loaderRequestResult.slice(i, 1);
+        this.sumNewLine = this.sumNewLine - 1;
+        
       })
     }
   }

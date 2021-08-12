@@ -27,6 +27,7 @@ export class TenderTemplatesBookletSection {
     this.CM_18 = Val != null ? Val.CM_18 : false;
     this.CM_19 = Val != null ? Val.CM_19 : false;
     this.CM_20 = Val != null ? Val.CM_20 : false;
+    this.CM_21 = Val != null ? Val.CM_21 : false;
     this.CD_0 = Val != null ? Val.CD_0 : false;
     this.CD_1 = Val != null ? Val.CD_1 : false;
     this.CD_2 = Val != null ? Val.CD_2 : false;
@@ -80,6 +81,7 @@ export class TenderTemplatesBookletSection {
   CM_18: boolean;
   CM_19: boolean;
   CM_20: boolean;
+  CM_21: boolean;
   CD_0: boolean;
   CD_1: boolean;
   CD_2: boolean;

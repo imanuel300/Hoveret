@@ -104,6 +104,7 @@
       <HintPath>packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -286,6 +287,7 @@
     <Compile Include="Controllers\TenderSectionsController.cs" />
     <Compile Include="Controllers\TenderTemplatesBookletSectionsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\WordEditorController.cs" />
     <Compile Include="ExportAsposeMultilevel.cs" />
     <Compile Include="ExportToWord.cs" />
     <Compile Include="ExportToWordMultilevel.cs" />
@@ -304,6 +306,12 @@
     <Compile Include="Models\Filename.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Letter.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Lookup_Proc_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MarketingMethodLookup.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
@@ -330,7 +338,13 @@
     <Compile Include="Models\spLett_TenderBooklet_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\spLett_TenderBookMarks_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\spTenderBooklettConditions_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Template.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TenderBookletSection.cs">

@@ -15,6 +15,7 @@ using System.Web.Http.OData.Routing;
 using WEBAPIODATAV3.Models;
 using log4net;
 using System.Data.SqlClient;
+using WEBAPIODATAV3.Utilities;
 
 namespace WEBAPIODATAV3.Controllers
 {
@@ -33,16 +34,16 @@ namespace WEBAPIODATAV3.Controllers
     public class TenderTemplateEditorController : ApiController//:ODataController
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-       
+
 
         private DBBMEntities db = new DBBMEntities();
 
         // GET: odata/TenderTemplateEditor
-       // [EnableQuery]
+        // [EnableQuery]
         [HttpGet]
         public IQueryable<TenderTemplatesBookletSection> GetTenderTemplateEditor()
         {
-            return db.TenderTemplatesBookletSections.OrderBy(d => d.TenderSectionId  ?? 0).ThenBy(d => d.Id);
+            return db.TenderTemplatesBookletSections.OrderBy(d => d.TenderSectionId ?? 0).ThenBy(d => d.Id);
         }
 
         //http://localhost:52253/odata/TenderTemplateEditor(10)
@@ -69,31 +70,46 @@ namespace WEBAPIODATAV3.Controllers
         // POST: http://localhost:52253/TenderTemplateEditor/AddNewRow?id=10
         // [EnableQuery]
         [HttpPost]
-        public int AddNewRow(int id)
+        public int AddNewRow(int TenderSectionId, int id)
         {
-            Log.Info("AddNewRow:"+id);
+            Log.Info("AddNewRow:" + TenderSectionId);
             using (var dbEntitie = new DBBMEntities())
             using (var db = new SqlConnection(ConfigurationManager.ConnectionStrings["DBBMEntitiesADO"].ConnectionString))
             {
                 try
                 {
                     DataSet ds = new DataSet();
-                    SqlCommand cmd = new SqlCommand("UPDATE [dbo].[TenderTemplatesBookletSections] SET TenderSectionId = TenderSectionId + 1 where TenderSectionId > " + id, db);
+                    SqlCommand cmd = new SqlCommand("UPDATE [dbo].[TenderTemplatesBookletSections] SET TenderSectionId = TenderSectionId + 1 where TenderSectionId > " + TenderSectionId, db);
                     cmd.CommandType = CommandType.Text;
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(ds);
-                    SqlCommand cmd1 = new SqlCommand("insert into [dbo].[TenderTemplatesBookletSections](Id, TenderSectionId, TenderId) values((select max(id) + 1 from [dbo].[TenderTemplatesBookletSections]),"+ (id+1) +",0)" , db);
+                    SqlCommand cmd1 = new SqlCommand("insert into [dbo].[TenderTemplatesBookletSections](Id, TenderSectionId, TenderId) values((select max(id) + 1 from [dbo].[TenderTemplatesBookletSections])," + (TenderSectionId + 1) + ",0)", db);
                     cmd.CommandType = CommandType.Text;
                     SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
                     da1.Fill(ds);
-                    
+
                     db.Close();
                     //var response = new HttpResponseMessage();
                     //response.Content = new StringContent(ds.ToString());
                     //return response;
+                   // SqlCommand cmd = new SqlCommand("UPDATE [dbo].[TenderTemplatesBookletSections] SET TenderSectionId = TenderSectionId + 1 where TenderSectionId > " + id, db);
+                   // SqlCommand cmd1 = new SqlCommand("insert into [dbo].[TenderTemplatesBookletSections](Id, TenderSectionId, TenderId) values((select max(id) + 1 from [dbo].[TenderTemplatesBookletSections])," + (id + 1) + ",0)", db);
 
-                    var db_TenderTemplatesBookletSections  = dbEntitie.Set<TenderTemplatesBookletSection>();
+                    var db_TenderTemplatesBookletSections = dbEntitie.Set<TenderTemplatesBookletSection>();
                     var ID = db_TenderTemplatesBookletSections.Max(c => c.Id);
+                    //IQueryable<TenderTemplatesBookletSection> oIq = dbEntitie.TenderTemplatesBookletSections.Where(TenderTemplatesBookletSections => TenderTemplatesBookletSections.Id == id);
+                    //if (oIq.Count() > 0 && oIq != null)
+                    //{
+                        
+                        
+                    //    dbEntitie.SaveChanges();
+                    //}
+                    //else
+                    //{
+                    //    Log.Error("err TenderTemplatesBookletSections");
+                    //    return 0;
+                    //}
+                   
                     return ID;
                 }
                 catch (Exception e)
@@ -103,7 +119,7 @@ namespace WEBAPIODATAV3.Controllers
                 }
             }
         }
-       
+
         // PUT: odata/TenderTemplateEditor(5)
         [HttpPut]
         public IHttpActionResult Put([FromODataUri] int key, Delta<TenderSection> patch)
@@ -142,6 +158,41 @@ namespace WEBAPIODATAV3.Controllers
             return Ok(tenderSection);
         }
 
+        [HttpGet] 
+        public Dictionary<string, string> Getbookmarks(int tenderId)
+        {
+           var Data = UtilityMethods.CreateBookmarksDictionary(tenderId);
+                return Data;
+        }
+        [HttpGet] //MarketingMethodLookup
+        public List<KeyValuePair<int, string>> GetLookup(string table)
+        {
+            Log.Info("GetLookup:" + table);
+            //Array resultList = null;
+            List<KeyValuePair<int, string>> result = new List<KeyValuePair<int, string>>();
+            using (var db = new DBBMEntities())
+            {
+                try
+                {
+                    var data = db.Lookup_Proc(table);
+                    if (data != null)
+                    {
+                        //resultList = data.ToArray();
+                        foreach (var item in data)
+                        {
+                            result.Add(new KeyValuePair<int, string>(item.Key, item.Value));
+                        }
+
+                    }
+                    return result;
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e.ToString());
+                    return null;
+                }
+            }
+        }
 
         // POST: odata/TenderTemplateEditor
         [HttpPost]
@@ -152,7 +203,7 @@ namespace WEBAPIODATAV3.Controllers
             {
                 try
                 {
-                    
+
                     if (!ModelState.IsValid)
                     {
                         return BadRequest(ModelState);
@@ -233,7 +284,7 @@ namespace WEBAPIODATAV3.Controllers
             return Ok(tenderSection);
         }
 
-       
+
 
         protected override void Dispose(bool disposing)
         {

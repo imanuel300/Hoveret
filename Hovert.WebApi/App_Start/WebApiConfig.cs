@@ -34,7 +34,6 @@ namespace WEBAPIODATAV3
            
 
           //  ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-          //  builder.EntitySet<BankDoarIncome>("BankDoarIncomes");
                     
           //  builder.EntitySet<Provider>("Providers");
          

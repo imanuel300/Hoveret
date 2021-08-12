@@ -72,9 +72,50 @@ namespace WEBAPIODATAV3.Controllers
             TenderTemplatesBookletSection oRet = new TenderTemplatesBookletSection();
             if (list != null && list.Count() > 0)
             {
+                
+                int level = -1;
                 foreach (var s in list)
                 {
+                    var ended = "";
+                    if (s.MULTILEVEL == null) s.MULTILEVEL = 0;
+                    if (s.MULTILEVEL > 0)
+                    {
+                        if (s.MULTILEVEL > 0 && level == -1)//פעם ראשונה
+                        {
+                            oRet.SectionBody += "<ol><li>";
+                        }
+                        if (level > s.MULTILEVEL && s.MULTILEVEL == 0)//התחלה חדשה לאחר הפסקה
+                        {
+
+                        }
+                        if (level < s.MULTILEVEL && s.MULTILEVEL > 0)
+                        {//עליה בשלב
+                            oRet.SectionBody += "<ol><li>";
+                            //ended = "</li>";
+                        }
+                        if (level == s.MULTILEVEL && s.MULTILEVEL > 0)
+                        {//נשאר באותו שלב
+                            oRet.SectionBody += "</li><li>";
+                            //ended = "</li>";
+                        }
+                        if (level > s.MULTILEVEL)
+                        {//ירידה בשלב
+                            for (int i = 0; i < level - s.MULTILEVEL; i++)
+                            {
+                                oRet.SectionBody += "</li></ol>";
+                            }
+                            //ended = "</li>";
+                        }
+                    }
+                    
+                    level = (int)s.MULTILEVEL;
                     oRet.SectionBody += s.SectionBody;// InsertHTMLStyle(ts);
+                    oRet.SectionBody += ended;
+
+                    //if (list.IndexOf(s) == list.Count - 1)//אחרון
+                    //{
+                    //    oRet.SectionBody += "</li></ol>";
+                    //}
                 }
             }
 

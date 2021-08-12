@@ -1,0 +1,56 @@
+<div class="mt-2 container">
+  <div class="row">
+    <div class="col col-lg-12">
+      <div class="">
+        <h3>תצוגה מקדימה | הפקת קובץ</h3>
+        <br /><br />
+
+        <form style="text-align: center;">
+          <div class="row g-3 align-items-center">
+            <div class="col-auto">
+              <label for="exampleInputEmail1" class="col-form-label">הקלד מספר מכרז המבוקש:</label>
+            </div>
+            <div class="col-auto">
+              <input type="text" style="float: right; width: 110px;" class="form-control" placeholder="שנת מכרז"
+                aria-label="ConditionText" name="TenderYear" [(ngModel)]="httpGeneralService.TenderYear">
+            </div>
+            <div class="col-auto" style="margin-left:0px; margin-right:0px; padding-left:0px; padding-right:0px;"> - </div>
+            <div class="col-auto">
+              <input type="text" style="float: right; width: 110px;" class="form-control"
+                placeholder="מספר מכרז" aria-label="ConditionText" name="TenderNumber" [(ngModel)]="httpGeneralService.TenderNumber">
+            </div>
+            <div class="col-auto">
+              <span id="passwordHelpInline" class="form-text">
+                לדוגמה: 2019 - 409
+              </span>
+            </div>
+          </div>
+
+          <br />
+          <div [class.centered]="cClasses != null">
+            <button (click)="GetData()" class="btn btn-primary">שלב נתונים</button>
+            <svg style="margin:5px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              class="bi bi-arrow-left" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+            </svg>
+            <button [disabled]="!DisplayExportButton" class="btn btn-primary" (click)="SendPostObjToWEBAPI()"> שמירה
+              לקובץ
+            </button>
+            <div>
+              <span *ngIf="LinkToFile != null">לחץ להורדת הקובץ: </span>
+              <a target="_blank" [href]="LinkToFile | safeurl">{{LinkToFile}}</a>
+            </div>
+          </div>
+          <div class="form-group"> </div>
+        </form>
+      </div>
+      <br />
+      <div  class="preview">
+        <div id="output" [innerHTML]="Template.Value | safeHtml"></div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

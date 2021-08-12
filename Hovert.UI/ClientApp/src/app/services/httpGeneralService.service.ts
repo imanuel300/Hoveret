@@ -4,13 +4,28 @@ import { HttpClient, HttpEvent, HttpHandler, HttpParams, HttpRequest, HttpRespon
 import { environment } from "../../environments/environment";
 import { Observable, of, Subject, throwError } from "rxjs";
 import { catchError, map, retry, tap } from 'rxjs/operators';
+import { ActivatedRoute } from "@angular/router";
+import { HashTable } from "../model/array.interface";
 
 @Injectable()
 export class HttpGeneralService {
   [x: string]: any;
   baseURL = this.appWebServiceUrl = `http://${environment.SERVER_NAME}:${environment.SITE_PORT}/api`;
+  public TenderId: any;
+  public TenderNumber: any;
+  public TenderYear: any;
+  public isMenahel: boolean = false;
+  public EditMode: boolean = false;
+  public DebugUsers: Array<string> = ["עמנואל ימיני"];//imanuel
 
-  constructor(private http: HttpClient) { }
+  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient) {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.TenderId = params['tender'];
+      this.TenderNumber = params['TenderNumber'];
+      this.TenderYear = params['TenderYear'];
+      this.TemplateId = params["Id"];
+    });
+  }
 
   handleError(error) {
     let errorMessage = '';
@@ -69,6 +84,21 @@ export class HttpGeneralService {
   public loadData(): Observable<ITenderSection> {
     console.log("In Service");
     return this.http.get<ITenderSection>("http://localhost:53166/odata/TenderSections(800)");
+  }
+
+  public saveEditor(val: any) {
+    let paramsArr: HashTable<any> = {};
+    paramsArr["ID"] = val.ID;
+    paramsArr["Title"] = val.Title;
+    paramsArr["Value"] = val.Value;
+    this.PostData(`Data`, 'UpdateTextEditor', paramsArr, null)
+      .subscribe(
+        (data: any) => {
+          console.log("ID: " + data);
+          //this.dialogService.alertPopup([this.dialogService.alertSaveDone], EStateAlertPopup.Warning);
+        });
+
+
   }
 
 }

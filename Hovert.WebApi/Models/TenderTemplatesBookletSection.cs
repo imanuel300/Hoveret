@@ -62,5 +62,7 @@ namespace WEBAPIODATAV3.Models
         public Nullable<bool> ProjectOnlyOne { get; set; }
         public Nullable<int> MULTILEVEL { get; set; }
         public Nullable<bool> PARAGRAPH { get; set; }
+        public Nullable<bool> CM_21 { get; set; }
+        public Nullable<int> MarketingMethod { get; set; }
     }
 }

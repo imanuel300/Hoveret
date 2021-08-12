@@ -7,23 +7,60 @@ $accent: #9c9cff;
 //@import "~quill/dist/quill.bubble.css";
 //@import "~quill/dist/quill.snow.css";
 
-.ql-formats .ql-picker-label {
-  text-align: left;
-}
+// .ql-formats .ql-picker-label {
+//   text-align: left;
+// }
 
-.primaryButtons {
-  width: 150px;
-  height: 50px;
+// .primaryButtons {
+//   width: 150px;
+//   height: 50px;
+// }
+.header_2 {
+  position: sticky;
+  top: 44px;
+  background: white;
+  z-index: 9;
+  float: right;
+  margin: -63px 17px 0px 0px;
+  background-color: white;
+  width: 100%;
+  padding: 6px;
 }
-
-.headersStyle {
+.form-select{
+  width: 85%;
+}
+.bookmarks {
+  overflow-x: hidden;
+  float: right;
+  position: absolute;
+  overflow: scroll;
+  height: 400px;
+  background-color: #f5e9d9;
+  left: 0;
+}
+.headerTitle {
+  padding-right: 20px;
+  border-right: 1px solid #024073;
+  font-size: 26px;
+  color: #024073;
+}
+.active {
+  color: rgba(0, 0, 0, 0.9);
   font-weight: bold;
-  font-size: medium;
 }
+.preview{
+  border: 1px solid #ababab;
+  padding: 9px;
+  margin-bottom: 20px;
+}
+// .headersStyle {
+//   font-weight: bold;
+//   font-size: medium;
+// }
 
-.k-dialog-content {
-  text-align: center;
-}
+// .k-dialog-content {
+//   text-align: center;
+// }
 
 .error-dialog .k-dialog-titlebar {
   background-color: #ff6666;
@@ -62,9 +99,16 @@ $accent: #9c9cff;
   display: inline;
 }
 
-.editAreia, .cursorpointer {
+.editAreia,
+.cursorpointer, .pointer {
   cursor: pointer;
 }
+
+a.linky {
+  color: #337ab7;
+  text-decoration: underline;
+}
+
 .Overlay {
   border: 1px solid rgb(99, 99, 99);
   padding: 0px 31px;
@@ -104,8 +148,8 @@ ol {
   li {
     display: block;
     &:before {
-      content: counters(item, ". ") ". ";
-      counter-increment: item;
+      content: counters(item, ".") " "; counter-increment: item 
+      
     }
   }
 }
@@ -151,13 +195,13 @@ ol {
 }
 .disable_b {
   opacity: 0.2;
-  cursor:initial;
+  cursor: initial;
 }
 // .Level_,
- .Level_0 {
-   margin-right: 0px;
-   display: none;
- }
+.Level_0 {
+  margin-right: 0px;
+  display: none;
+}
 // .Level_1 {
 //   margin-right: 20px;
 // }
@@ -173,3 +217,12 @@ ol {
 // .Level_5 {
 //   margin-right: 100px;
 // }
+.k-grid thead, .k-grid tbody, .k-grid tfoot {
+  text-align: right;
+}
+.k-grid-header .k-header:first-child, .k-grid th:first-child, .k-grid td:first-child {
+  border-left-width: 1px;
+}
+.k-grid{
+  font-size: 18px;
+}

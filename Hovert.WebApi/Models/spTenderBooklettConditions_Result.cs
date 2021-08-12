@@ -58,5 +58,8 @@ namespace WEBAPIODATAV3.Models
         public Nullable<bool> ProjectMoreOne { get; set; }
         public Nullable<bool> ProjectMore4 { get; set; }
         public Nullable<bool> NOConditions { get; set; }
+        public Nullable<bool> ProjectOnlyOne { get; set; }
+        public Nullable<int> MULTILEVEL { get; set; }
+        public Nullable<bool> PARAGRAPH { get; set; }
     }
 }
