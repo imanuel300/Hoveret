@@ -23,6 +23,7 @@ import { DragulaModule } from 'ng2-dragula';
 import { FooterComponent } from './footer/footer.component';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     BrowserAnimationsModule,
     GridModule,
+    PDFExportModule,
   ],
   declarations: [
     AppComponent,

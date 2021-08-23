@@ -15,6 +15,7 @@ namespace WEBAPIODATAV3.Models
     public partial class Template
     {
         public int Id { get; set; }
+        public Nullable<bool> Publish { get; set; }
         public string Title { get; set; }
         public string Value { get; set; }
         public string Details { get; set; }

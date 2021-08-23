@@ -4,12 +4,13 @@ import { HttpGeneralService } from '../services/httpGeneralService.service';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { AlertService } from '../services/_alert'
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TenderTemplatesBookletSection } from '../model/TenderTemplatesBookletSections';
 import { SpinnerVisibilityService } from 'ng-http-loader';
 import { Alert, AlertType } from './../services/_alert/alert.model';
 import { Subscription } from 'rxjs';
 import { HashTable, KeyValuePair } from '../model/array.interface';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-word-editor',
@@ -30,15 +31,16 @@ export class WordEditorComponent {
   public TenderYear: number;
   public bookmarks: any;
   public sumNewLine: number = 0;
-  public Template : any = [];
+  public Template: any = [];
+  public EventOnChange: boolean = false;
 
 
 
-  constructor(route: ActivatedRoute, alertService: AlertService, private elem: ElementRef, public httpGeneralService: HttpGeneralService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private spinner: SpinnerVisibilityService) {
+
+  constructor(private titleService: Title, private router: Router, route: ActivatedRoute, alertService: AlertService, private elem: ElementRef, public httpGeneralService: HttpGeneralService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private spinner: SpinnerVisibilityService) {
     // this.httpGeneralService.GetData('WordEditor/GetLookup', '/?table=MarketingMethodLookup', null, null).subscribe((data: any) => {
     //   this.Lookup_MarketingMethodLookup = data;
     // });
-
 
 
     var options = { autoClose: 0, keepAfterRouteChange: false };
@@ -51,6 +53,10 @@ export class WordEditorComponent {
       for (let i = 0; i < this.Template.length; i++) {
         this.Template[i].IsConditions = false;
       }
+
+      //let title = this.titleService.getTitle();
+      this.titleService.setTitle(this.Template.Title);
+
 
     }, error => {
       alertService.error('שגיאה בקבלת נתונים מהשרת', options);
@@ -66,8 +72,15 @@ export class WordEditorComponent {
     });
 
   }
+  onChange() {
+    console.log("onChange");
+    this.EventOnChange = true;
+  }
 
-
+  SaveToFile(TemplateId: string) {
+    // if (this.generalService.isMenahel) this.generalService.EditMode= true;
+    this.router.navigateByUrl("/Saver/" + TemplateId);
+  }
   onSubmitSave(Template: any) {
     this.spinner.show();
     console.log(Template);
@@ -76,6 +89,7 @@ export class WordEditorComponent {
       console.log(data);
       this.Template = data;
       this.spinner.hide();
+      this.EventOnChange = false;
     })
   }
 
@@ -85,7 +99,7 @@ export class WordEditorComponent {
 
   }
 
-  
+
   selectItem(item: any) {
     console.log(item);
     item.srcElement.style.height = 'auto';

@@ -1,4 +1,21 @@
 <div class="mt-2 container">
+  <div class="header_2" style="width: 100px; background: transparent;">
+    <svg data-bs-toggle="modal" data-bs-target="#dialogModal" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+      fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+      <path
+        d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
+      <path
+        d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z" />
+    </svg>
+    <span *ngIf="EventOnChange" (click)="onSubmitSave(Template)" class="pointer">
+      <svg style="color: green; margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+        fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
+        <path
+          d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
+        <path
+          d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+      </svg></span>
+  </div>
   <div class="modal fade" id="dialogModal" tabindex="-1" aria-labelledby="dialogModalLabel">
     <div class="modal-dialog modal-dialog-scrollable  modal-xl">
       <div class="modal-content">
@@ -6,9 +23,13 @@
           <div class="">
             <div class="row">
               <!-- <div class="col col-lg-1"></div> -->
-              <div class="col col-lg-5">
+              <div class="col col-lg-4">
                 <input type="text" style="float: right; " class="form-control" placeholder="שם תבנית"
-                aria-label="ConditionText" [(ngModel)]="Template.Title">
+                  aria-label="ConditionText" [(ngModel)]="Template.Title">
+              </div>
+              <div class="col col-lg-1">
+                <button type="button" class="btn btn-success btn-sm shadow-none m-1"
+                  (click)="onSubmitSave(Template)">עדכן</button>
               </div>
               <div class="col col-lg-1 pull-right headerTitle">&nbsp;</div>
               <div class="col col-lg-6">
@@ -19,11 +40,21 @@
                     <input type="text" style="float: right; width: 110px; margin-right: 9px;" class="form-control"
                       placeholder="מספר מכרז" aria-label="ConditionText" [(ngModel)]="TenderNumber">
                   </div>
-                  <div class="col col-lg-6">
+                  <div class="col col-lg-5">
                     <button type="button" class="btn btn-success btn-sm shadow-none m-1" (click)="Getbookmarks()">הצג
                       מילון</button>
                     <button type="button" class="btn btn-primary btn-sm shadow-none m-1"
                       (click)="TenderNumber=undefined; bookmarks=undefined">נקה</button>
+                  </div>
+                  <div class="col col-lg-1">
+                    <a class="pointer" data-bs-dismiss="modal" aria-label="Close"
+                      (click)="SaveToFile(Template.Id);"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                        fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
+                        <path
+                          d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z" />
+                        <path
+                          d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+                      </svg></a>
                   </div>
 
                 </div>
@@ -39,15 +70,7 @@
       </div>
     </div>
   </div>
-  <div class="header_2" style="width: 40px;">
-    <svg data-bs-toggle="modal" data-bs-target="#dialogModal" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-      fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
-      <path
-        d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
-      <path
-        d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z" />
-    </svg>
-  </div>
+
 
   <div>
     <div class="row">
@@ -56,23 +79,25 @@
         <div class="col col-lg-12 " style="display: inline-table;">
           <div class="d-flex">
             <div class="col">
-              <div >
-                <editor class="ql-align-right ql-direction-rtl" 
-                  [(ngModel)]="Template.Value"  [init]="{
+              <div>
+                <editor apiKey="test" (onChange)="onChange()" class="ql-align-right ql-direction-rtl"
+                  [(ngModel)]="Template.Value" [init]="{
           width  : '100%', 
           toolbar_sticky   : true,     
           toolbar_location : 'top',     
           toolbar_mode     : 'floating',
           language: 'he_IL',
           content_css : '/styles.css',
+          font_formats: 'David=David,sans-serif; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde;  Andale Mono=andale mono,times; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Oswald=oswald; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats',
+          content_style: 'body { font-family: David; font-size: 20px; margin: 5px 25px; white-space:pre-line; }',
           menubar: false,
           statusbar: false,
-          table_default_attributes: {border: '0'},
-          plugins: ['autoresize lists link table directionality '],
+          table_default_attributes: {border: '0', 'dir': 'rtl'},
+          plugins: ['nonbreaking autoresize lists link table directionality code case pagebreak print'],
           toolbar:
-            'undo redo | formatselect | fontselect | bold underline italic | backcolor forecolor | \
-            alignleft aligncenter alignright alignjustify | ltr rtl | \
-            numlist outdent indent | removeformat | table |link'
+            'nonbreaking undo redo | formatselect | fontselect | bold underline italic | backcolor forecolor | \
+            alignleft aligncenter alignright alignjustify | rtl ltr | \
+            numlist bullist | outdent indent | removeformat | table |link | case code pagebreak print '
         }">
                 </editor>
                 <div class="col col-lg-12 AddNewRow">
@@ -88,8 +113,8 @@
                 <div *ngIf="Template.IsConditions" class="border border-secondary mt-1 container">
                   <div dir="rtl" class="row">
                     <div class="col">
-                      <p dir="ltr"><textarea [(ngModel)]='Template.Value' cols="120" style="height: 93px;"
-                          type="text" (click)="selectItem($event)"></textarea></p>
+                      <p dir="ltr"><textarea [(ngModel)]='Template.Value' cols="120" style="height: 93px;" type="text"
+                          (click)="selectItem($event)"></textarea></p>
                     </div>
                   </div>
                 </div>

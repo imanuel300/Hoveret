@@ -157,6 +157,7 @@ warning 6002: The table/view 'DBBM.dbo.Letters' does not have a primary key defi
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Publish" Type="bit" />
           <Property Name="Title" Type="nvarchar(max)" />
           <Property Name="Value" Type="nvarchar(max)" />
           <Property Name="Details" Type="nvarchar(max)" />
@@ -748,6 +749,7 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Publish" Type="Boolean" />
           <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -1156,6 +1158,7 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
                 <ScalarProperty Name="Details" ColumnName="Details" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Publish" ColumnName="Publish" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -1,9 +1,22 @@
 <div class="mt-2 container">
   <div class="row">
     <div class="col col-lg-12">
-      <div class="">
-        <h3>תצוגה מקדימה | הפקת קובץ</h3>
-        <br /><br />
+      <div class="row">
+        <div class="col-auto">
+       
+      
+          <h3 style="float: right; ">תצוגה מקדימה | הפקת קובץ</h3>
+          <div style="float: right; margin: 9px 20px;">
+            <a class="pointer" (click)="EditTemplate(Template.Id);"><svg xmlns="http://www.w3.org/2000/svg" title="ערוך"
+                width="26" height="26" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                <path
+                  d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+              </svg></a>
+          </div>
+        </div>
+      </div>
+
+        <div class="row top-buffer" style="margin-top: 20px;"></div>
 
         <form style="text-align: center;">
           <div class="row g-3 align-items-center">
@@ -14,10 +27,11 @@
               <input type="text" style="float: right; width: 110px;" class="form-control" placeholder="שנת מכרז"
                 aria-label="ConditionText" name="TenderYear" [(ngModel)]="httpGeneralService.TenderYear">
             </div>
-            <div class="col-auto" style="margin-left:0px; margin-right:0px; padding-left:0px; padding-right:0px;"> - </div>
+            <div class="col-auto" style="margin-left:0px; margin-right:0px; padding-left:0px; padding-right:0px;"> -
+            </div>
             <div class="col-auto">
-              <input type="text" style="float: right; width: 110px;" class="form-control"
-                placeholder="מספר מכרז" aria-label="ConditionText" name="TenderNumber" [(ngModel)]="httpGeneralService.TenderNumber">
+              <input type="text" style="float: right; width: 110px;" class="form-control" placeholder="מספר מכרז"
+                aria-label="ConditionText" name="TenderNumber" [(ngModel)]="httpGeneralService.TenderNumber">
             </div>
             <div class="col-auto">
               <span id="passwordHelpInline" class="form-text">
@@ -27,30 +41,30 @@
           </div>
 
           <br />
-          <div [class.centered]="cClasses != null">
+          <div style="text-align: right;" >
             <button (click)="GetData()" class="btn btn-primary">שלב נתונים</button>
             <svg style="margin:5px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-arrow-left" viewBox="0 0 16 16">
               <path fill-rule="evenodd"
                 d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
             </svg>
-            <button [disabled]="!DisplayExportButton" class="btn btn-primary" (click)="SendPostObjToWEBAPI()"> שמירה
+            <button [disabled]="!DisplayExportButton" class="btn btn-primary" (click)="DownloadWordFile()"> שמירה
               לקובץ
             </button>
-            <div>
+            <span style="margin:10px;" *ngIf="LinkToFile != undefined">
               <span *ngIf="LinkToFile != null">לחץ להורדת הקובץ: </span>
-              <a target="_blank" [href]="LinkToFile | safeurl">{{LinkToFile}}</a>
-            </div>
+              <a target="_blank" [href]="LinkToFile | safeurl"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16" class="bi bi-file-earmark-arrow-down"><path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"></path><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"></path></svg></a>
+            </span>
           </div>
           <div class="form-group"> </div>
         </form>
-      </div>
       <br />
-      <div  class="preview">
+      <div class="preview">
         <div id="output" [innerHTML]="Template.Value | safeHtml"></div>
 
 
       </div>
+      <div class="row top-buffer" style="margin-top: 20px;"></div>
     </div>
   </div>
 </div>

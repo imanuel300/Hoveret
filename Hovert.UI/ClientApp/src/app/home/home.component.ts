@@ -16,7 +16,7 @@ export class HomeComponent {
   public pageSize: number = 15;
   public skip: number = 0;
   public items: any[];
-  public NameNewTemplate : string;
+  public NameNewTemplate: string;
   public masMyTender: number;
   public state: State = {
     skip: this.skip,
@@ -30,13 +30,13 @@ export class HomeComponent {
       this.loadItems();
     });
   }
- 
+
 
   public dataStateChange(state: DataStateChangeEvent): void {
     this.state = state;
     this.TemplatesHomegridView = process(this.gridData, this.state);
   }
-  
+
   public pageChange(event: PageChangeEvent): void {
     this.skip = event.skip;
     this.loadItems();
@@ -51,23 +51,23 @@ export class HomeComponent {
   }
   onClickEdit(TemplateId: string) {
     // if (this.generalService.isMenahel) this.generalService.EditMode= true;
-    this.router.navigateByUrl("/Weditor/" + TemplateId );
+    this.router.navigateByUrl("/Weditor/" + TemplateId);
   }
   SaveToFile(TemplateId: string) {
     // if (this.generalService.isMenahel) this.generalService.EditMode= true;
-    this.router.navigateByUrl("/Saver/" + TemplateId );
+    this.router.navigateByUrl("/Saver/" + TemplateId);
   }
   addNewTemplate() {
     this.spinner.show();
-    this.HttpGeneralService.GetData("WordEditor/NewTemplate", "/?NameNewTemplate="+this.NameNewTemplate, null, null).subscribe((data: any) => {
+    this.HttpGeneralService.GetData("WordEditor/NewTemplate", "/?NameNewTemplate=" + this.NameNewTemplate, null, null).subscribe((data: any) => {
       console.log("data: ");
       console.log(data);
-      this.gridData = this.gridData.concat(data) 
+      this.gridData = this.gridData.concat(data)
       this.loadItems();
       this.spinner.hide();
       this.router.navigateByUrl("/Weditor/" + data.Id + '');
     })
-    
+
   }
   duplicateRows(TenderID: number) {
     // this.dialogService.alertConfirm("המכרז ישוכפל. האם את/ה בטוח/ה?");
@@ -89,7 +89,20 @@ export class HomeComponent {
     // });
   }
 
-  deleteRow(TenderID: number) {
+  deleteRow(ID: number) {
+    this.spinner.show();
+    console.log("deleteRow: " + ID);
+    this.HttpGeneralService.PostData("WordEditor/deleteRow/" + ID, null, null, null).subscribe((data: any) => {
+      console.log("data: ");
+      console.log(data);
+      if (data == true) {
+        var index = this.gridData.map(x => { return x.Id; }).indexOf(ID);
+        console.log("true: "+index);
+        this.gridData.splice(index, 1);
+        this.loadItems();
+      }
+      this.spinner.hide();
+    })
     // this.dialogService.alertConfirm("לאחר מחיקת המכרז לא ניתן יהיה לשחזר אותו. האם את/ה בטוח/ה?");
     // this.subscription = this.dialogService.getConfirmDialogResult().subscribe((isConfirm: boolean) => {
     //     if (!isConfirm) {
@@ -97,13 +110,7 @@ export class HomeComponent {
     //     }
     //     else {
     //         console.log("yes");
-    //         let paramsArr: HashTable<any> = {};
-    //         paramsArr["TenderID"] = TenderID;
-    //         this.generalService.GetData(`Data`, 'deleteRow', paramsArr, null).subscribe((data: any) => {
-    //             console.log(data);
-    //             this.thumbtackEvent.emit();//this.getAllSearchTenders(); + MyTendersGridComponent.getAllMyModularTenders();
-    //             console.log("send event to parent");
-    //         });
+ 
     //     }
     //     if (this.subscription != null) this.subscription.unsubscribe();
     // });

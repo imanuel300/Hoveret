@@ -5,24 +5,25 @@ import { DOCUMENT } from '@angular/common';
 import { TenderBookletSection } from '../model/TenderBookletSection';
 import { TenderTemplatesBookletSection } from '../model/TenderTemplatesBookletSections';
 import { Filename } from '../model/Filename';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpGeneralService } from '../services/httpGeneralService.service';
 import { AlertService } from '../services/_alert';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-saver-component',
   templateUrl: './saver.component.html'
 })
 export class SaverComponent {
-  constructor(alertService: AlertService, public httpGeneralService: HttpGeneralService, http: HttpClient, @Inject('BASE_URL') baseUrl: string, @Inject(DOCUMENT) private document, private route: ActivatedRoute) {
+  constructor(private titleService: Title,private router: Router, alertService: AlertService, public httpGeneralService: HttpGeneralService, http: HttpClient, @Inject('BASE_URL') baseUrl: string, @Inject(DOCUMENT) private document, private route: ActivatedRoute) {
     var options = { autoClose: 0, keepAfterRouteChange: false };
     route.params.subscribe(params => {
-      params["Id"] != undefined ? this.TemplateId =  params["Id"]  : this.TemplateId = null; console.log(params);
+      params["Id"] != undefined ? this.TemplateId = params["Id"] : this.TemplateId = null; console.log(params);
     });
     this.httpGeneralService.GetData("WordEditor/GetTemplate/?Id=", this.TemplateId, null, null).subscribe((data: any) => {
       console.log(data);
       this.Template = data;
-
+      this.titleService.setTitle(this.Template.Title);
     }, error => {
       alertService.error('שגיאה בקבלת נתונים מהשרת', options);
     })
@@ -36,8 +37,7 @@ export class SaverComponent {
   // public _http: HttpClient;
   // public _ret: string;
   // public _baseUrl: string;
-  public cClasses: string = "centered";
-  public DisplayExportButton: boolean = false;
+  public DisplayExportButton: boolean = true;
   public DisplayData: boolean = false;
   // public TenderId: any ;
   // public TenderNumber: any;
@@ -57,18 +57,21 @@ export class SaverComponent {
     //if (this.httpGeneralService.TenderId == null)
     if (this.httpGeneralService.TenderYear == undefined) this.httpGeneralService.TenderYear = 2019;
     if (this.httpGeneralService.TenderNumber == undefined) this.httpGeneralService.TenderNumber = 409;
-      this.httpGeneralService.GetData("WordEditor/BindDataToTemplate/?TemplateId=" + this.TemplateId + "&TenderYear=" + this.httpGeneralService.TenderYear + "&TenderNumber=" + this.httpGeneralService.TenderNumber, null, null, null)  // "http://localhost:53166/odata/TenderBookletSections?$orderby=TenderSectionId" ("http://localhost:53166/odata/TenderBookletSections(800)")
-        .subscribe(result => {
-          this.Template.Value = result;
-        }, error => { console.log(error); });
+    this.httpGeneralService.GetData("WordEditor/BindDataToTemplate/?TemplateId=" + this.TemplateId + "&TenderYear=" + this.httpGeneralService.TenderYear + "&TenderNumber=" + this.httpGeneralService.TenderNumber, null, null, null)  // "http://localhost:53166/odata/TenderBookletSections?$orderby=TenderSectionId" ("http://localhost:53166/odata/TenderBookletSections(800)")
+      .subscribe(result => {
+        this.Template.Value = result;
+        this.DisplayExportButton = true;
+        
+      }, error => { console.log(error); });
 
   }
 
-  SendPostObjToWEBAPI(): void {
-    this.sectionToDisplay.Id = parseInt(this.httpGeneralService.TenderNumber);
-    this.httpGeneralService.PostData("TenderBookletSections/Post", null, this.Convert(this.sectionToDisplay), null).subscribe((data: any) => {
-      //alert("חוברת המכרז נשמרה בהצלחה <br>" + data.SectionBody);
-      this.LinkToFile = "http://" + data.SectionBody;
+  DownloadWordFile(): void {
+    if (this.httpGeneralService.TenderYear == undefined) this.httpGeneralService.TenderYear = 2019;
+    if (this.httpGeneralService.TenderNumber == undefined) this.httpGeneralService.TenderNumber = 409;
+    this.httpGeneralService.GetData("WordEditor/DownloadWordFile/?TemplateId=" + this.TemplateId + "&TenderYear=" + this.httpGeneralService.TenderYear + "&TenderNumber=" + this.httpGeneralService.TenderNumber, null, null, null).subscribe((data: any) => {
+      this.LinkToFile = "http://" + data;
+      window.open(this.LinkToFile);
     }, e => console.log(e))
   }
 
@@ -82,6 +85,14 @@ export class SaverComponent {
     ret.TenderSectionId = input.TenderSectionId != null ? input.TenderSectionId : null;
     return ret;
   }
+  EditTemplate(TemplateId: string) {
+    // if (this.generalService.isMenahel) this.generalService.EditMode= true;
+    console.log(TemplateId);
+    this.router.navigateByUrl("/Weditor/" + TemplateId);
+  }
+
+
+
 }
 
   // SaveData() {
