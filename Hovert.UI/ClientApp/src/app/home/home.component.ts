@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DataStateChangeEvent, GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { State, process } from '@progress/kendo-data-query';
 import { SpinnerVisibilityService } from 'ng-http-loader';
+import { KeyValuePair } from '../model/array.interface';
 import { HttpGeneralService } from '../services/httpGeneralService.service';
 
 @Component({
@@ -16,6 +17,8 @@ export class HomeComponent {
   public pageSize: number = 15;
   public skip: number = 0;
   public items: any[];
+  public Lookup_MarketingMethodLookup: KeyValuePair<number, string>[] = [];
+  public MarketingMethod: number ;
   public NameNewTemplate: string;
   public masMyTender: number;
   public state: State = {
@@ -28,6 +31,10 @@ export class HomeComponent {
       console.log(data);
       this.gridData = data;
       this.loadItems();
+    });
+
+    this.HttpGeneralService.GetData('WordEditor/GetLookup', '/?table=MarketingMethodLookup', null, null).subscribe((data: any) => {
+      this.Lookup_MarketingMethodLookup = data;
     });
   }
 
@@ -59,7 +66,7 @@ export class HomeComponent {
   }
   addNewTemplate() {
     this.spinner.show();
-    this.HttpGeneralService.GetData("WordEditor/NewTemplate", "/?NameNewTemplate=" + this.NameNewTemplate, null, null).subscribe((data: any) => {
+    this.HttpGeneralService.GetData("WordEditor/NewTemplate", "/?NameNewTemplate=" + this.NameNewTemplate+"&MarketingMethod="+this.MarketingMethod, null, null).subscribe((data: any) => {
       console.log("data: ");
       console.log(data);
       this.gridData = this.gridData.concat(data)

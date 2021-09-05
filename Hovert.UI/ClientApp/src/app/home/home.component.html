@@ -17,13 +17,22 @@
                     <div class="">
                       <div class="row">
                         <div class="col col-lg-1 pull-right">&nbsp;</div>
-                        <div class="col col-lg-6">
+                        <div class="col col-lg-12">
                           <div class="row">
                             <div class="col col-lg-6">
-                              <input type="text" style="float: right; width: 210px;" class="form-control" placeholder="שם תבנית"
+                              <input type="text" style="float: right;" class="form-control" placeholder="שם תבנית"
                                 aria-label="ConditionText" [(ngModel)]="NameNewTemplate">
                             </div>
-                            <div class="col col-lg-6">
+                            <div class="col col-lg-4">
+                              <select [(ngModel)]="MarketingMethod" class="form-select">
+                                <option [ngValue]="undefined" selected>-- שיטת שיווק --</option>
+                                <option *ngFor="let MarketingMethodLookup of Lookup_MarketingMethodLookup"
+                                  [value]="MarketingMethodLookup.Key">
+                                  {{MarketingMethodLookup.Value}}({{MarketingMethodLookup.Key}})
+                                </option>
+                              </select>
+                            </div>
+                            <div class="col col-lg-2">
                               <button type="button" class="btn btn-success btn-sm shadow-none m-1" data-bs-dismiss="modal" aria-label="Close" (click)="addNewTemplate()">צור תבנית</button>
                             </div>
                           </div>

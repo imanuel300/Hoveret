@@ -43,7 +43,7 @@ namespace WEBAPIODATAV3.Utilities
         }
 
 
-      
+
 
         public override VisitorAction VisitFootnoteEnd(Footnote footnote)
         {
@@ -54,7 +54,7 @@ namespace WEBAPIODATAV3.Utilities
         }
 
 
-        
+
 
         public override VisitorAction VisitFormField(FormField formField)
         {

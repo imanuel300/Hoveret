@@ -91,5 +91,14 @@ namespace WEBAPIODATAV3.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("spGetTenderIdFromTenderYearAndNumber", tenderIdParameter, tenderYearParameter);
         }
+    
+        public virtual ObjectResult<spGetTenderYearAndNumberFromTenderId_Result1> spGetTenderYearAndNumberFromTenderId(Nullable<int> tenderId)
+        {
+            var tenderIdParameter = tenderId.HasValue ?
+                new ObjectParameter("TenderId", tenderId) :
+                new ObjectParameter("TenderId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetTenderYearAndNumberFromTenderId_Result1>("spGetTenderYearAndNumberFromTenderId", tenderIdParameter);
+        }
     }
 }

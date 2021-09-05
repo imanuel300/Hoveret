@@ -60,6 +60,17 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col col-lg-4">
+              <select [(ngModel)]="Template.MarketingMethod" class="form-select">
+                <option [ngValue]="undefined" selected>-- שיטת שיווק --</option>
+                <option *ngFor="let MarketingMethodLookup of Lookup_MarketingMethodLookup"
+                  [value]="MarketingMethodLookup.Key">
+                  {{MarketingMethodLookup.Value}}({{MarketingMethodLookup.Key}})
+                </option>
+              </select>
+            </div>
+            </div>
           </div>
           <div *ngIf="bookmarks!=undefined" class="xbookmarks">
             <div *ngFor="let item of bookmarks | keyvalue" style="direction: ltr;">
@@ -93,11 +104,11 @@
           menubar: false,
           statusbar: false,
           table_default_attributes: {border: '0', 'dir': 'rtl'},
-          plugins: ['nonbreaking autoresize lists link table directionality code case pagebreak print'],
+          plugins: ['autoresize lists link table directionality code case mypagebreak print anchor'],
           toolbar:
-            'nonbreaking undo redo | formatselect | fontselect | bold underline italic | backcolor forecolor | \
+            'undo redo | formatselect | fontselect | bold underline italic | backcolor forecolor | \
             alignleft aligncenter alignright alignjustify | rtl ltr | \
-            numlist bullist | outdent indent | removeformat | table |link | case code pagebreak print '
+            numlist bullist | outdent indent | removeformat | table | link anchor | case code mypagebreak print '
         }">
                 </editor>
                 <div class="col col-lg-12 AddNewRow">

@@ -26,7 +26,6 @@ export class WordEditorComponent {
   public loaderRequestResult: any = [];
   public requestResult: any = [];
   public Lookup_MarketingMethodLookup: KeyValuePair<number, string>[] = [];
-  public MarketingMethod: number = 21;
   public TenderNumber: number;
   public TenderYear: number;
   public bookmarks: any;
@@ -38,9 +37,9 @@ export class WordEditorComponent {
 
 
   constructor(private titleService: Title, private router: Router, route: ActivatedRoute, alertService: AlertService, private elem: ElementRef, public httpGeneralService: HttpGeneralService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private spinner: SpinnerVisibilityService) {
-    // this.httpGeneralService.GetData('WordEditor/GetLookup', '/?table=MarketingMethodLookup', null, null).subscribe((data: any) => {
-    //   this.Lookup_MarketingMethodLookup = data;
-    // });
+     this.httpGeneralService.GetData('WordEditor/GetLookup', '/?table=MarketingMethodLookup', null, null).subscribe((data: any) => {
+       this.Lookup_MarketingMethodLookup = data;
+     });
 
 
     var options = { autoClose: 0, keepAfterRouteChange: false };

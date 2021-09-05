@@ -1,0 +1,6 @@
+﻿2021-09-02 11:08:12,637 INFO [5] WEBAPIODATAV3.Controllers.Util.GetBookMarks - spLett_TenderBookMarks
+2021-09-02 11:08:12,684 INFO [5] WEBAPIODATAV3.Controllers.Util.GetDataByCommand_TenderBooklet - OpenConnection
+2021-09-02 11:08:13,721 INFO [5] WEBAPIODATAV3.Controllers.Util.TemplateToWord - GetData: 5470
+2021-09-02 11:08:13,772 INFO [5] WEBAPIODATAV3.Controllers.Util.TemplateToWord - ReplaceBookmarks: 
+2021-09-02 11:08:14,735 INFO [5] WEBAPIODATAV3.Controllers.WordEditorController.DownloadWordFile - new file fileNameLocal:D:\inetpub\WebSites\Hoveret\Hovert.WebApi\Doc\4\50\2\2021-09-02_11-08-14.docx
+2021-09-02 11:08:14,736 INFO [5] WEBAPIODATAV3.Controllers.WordEditorController.DownloadWordFile - new file httpfileName:localhost:52253/Doc/4/50/2/2021-09-02_11-08-14.docx

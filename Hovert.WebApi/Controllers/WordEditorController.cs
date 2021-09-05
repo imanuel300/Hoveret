@@ -21,6 +21,8 @@ using System.Text;
 using Aspose.Words;
 using System.IO;
 using System.Web;
+using Aspose.Words.Lists;
+using System.Text.RegularExpressions;
 
 namespace WEBAPIODATAV3.Controllers
 {
@@ -57,9 +59,15 @@ namespace WEBAPIODATAV3.Controllers
         }
 
         [HttpGet]
-        public IQueryable<Template> GetTemplatesHome()
+        public IQueryable GetTemplatesHome()
         {
-            var data = db.Templates.Where(d => d.Publish == true).OrderByDescending(d => d.UpdatedDate);
+            var data = db.Templates.Where(d => d.Publish == true).OrderByDescending(d => d.UpdatedDate).Select(x => new
+            {
+                Id = x.Id,
+                Title = x.Title,
+                UpdatedById = x.UpdatedById,
+                UpdatedDate = x.UpdatedDate
+            });
             return data;
         }
 
@@ -71,7 +79,7 @@ namespace WEBAPIODATAV3.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult NewTemplate(string NameNewTemplate)
+        public IHttpActionResult NewTemplate(string NameNewTemplate, int MarketingMethod)
         {
             Log.Info("NewTemplate");
             if (!ModelState.IsValid)
@@ -95,6 +103,8 @@ namespace WEBAPIODATAV3.Controllers
                     myTemplate.UpdatedById = 1;// this.getUserId();
                     myTemplate.UpdatedDate = DateTime.Now;
                     myTemplate.Id = TemplateId;
+                    myTemplate.MarketingMethod = MarketingMethod;
+                    myTemplate.Publish = true;
                     myTemplate.Title = NameNewTemplate;
 
 
@@ -161,7 +171,7 @@ namespace WEBAPIODATAV3.Controllers
         [HttpGet]
         public Dictionary<string, string> Getbookmarks(int TenderNumber, int TenderYear)
         {
-            var tenderId = (int)GetTenderIdFromTenderYearAndNumber(TenderYear, TenderNumber)[0];
+            var tenderId = (int)Util.GetTenderIdFromTenderYearAndNumber(TenderYear, TenderNumber)[0];
             var Data = Util.CreateBookmarksDictionary(tenderId);
             return Data;
         }
@@ -269,7 +279,7 @@ namespace WEBAPIODATAV3.Controllers
         [HttpGet]
         public IList<int?> GetTenderIdFromTenderYearAndNumber(int TenderYear, int TenderNumber)//,int year
         {
-            var tmp = db.spGetTenderIdFromTenderYearAndNumber(TenderNumber, TenderYear).ToList();
+            var tmp = Util.GetTenderIdFromTenderYearAndNumber(TenderYear, TenderNumber);
             return tmp;
         }
 
@@ -277,7 +287,7 @@ namespace WEBAPIODATAV3.Controllers
         public IHttpActionResult BindDataToTemplate(int TemplateId, int TenderYear, int TenderNumber)
         {
             Log.Info("BindDataToTemplate: " + TemplateId);
-            var tenderId = (int)GetTenderIdFromTenderYearAndNumber(TenderYear, TenderNumber)[0];
+            var tenderId = (int)Util.GetTenderIdFromTenderYearAndNumber(TenderYear, TenderNumber)[0];
             Util.oDict = Util.CreateBookmarksDictionary(tenderId);
             var data = db.Templates.FirstOrDefault(d => d.Id == TemplateId).Value;
             Log.Info("GetData: " + tenderId);
@@ -287,81 +297,14 @@ namespace WEBAPIODATAV3.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult DownloadWordFile(int TemplateId, int TenderYear, int TenderNumber)
+        public bool SaveInSPWordFile(int tenderId)
         {
-
-            Aspose.Words.License _license;
-            _license = new Aspose.Words.License();
-            _license.SetLicense(ConfigurationManager.AppSettings["Asposelic"]);
-
-            Document doc = new Document(ConfigurationManager.AppSettings["TemplatesFolder"] + @"\tpl.docx");
-            DocumentBuilder builder = new DocumentBuilder(doc);
-            //builder.Font.Bidi = true;
-            //builder.ParagraphFormat.Bidi = true;
-            //Aspose.Words.Font font = builder.Font;
-
-            string sRightMargin = ConfigurationManager.AppSettings["RightMargin"];
-            string sLeftMargin = ConfigurationManager.AppSettings["LeftMargin"];
-            double dRightMargin = 1;
-            double dLeftMargin = 1;
-            Double.TryParse(sRightMargin, out dRightMargin);
-            Double.TryParse(sLeftMargin, out dLeftMargin);
-            builder.PageSetup.RightMargin = ConvertUtil.InchToPoint(dRightMargin);
-            builder.PageSetup.LeftMargin = ConvertUtil.InchToPoint(dLeftMargin);
-            builder.ParagraphFormat.Alignment = ParagraphAlignment.Justify;
-
-            var tenderId = (int)GetTenderIdFromTenderYearAndNumber(TenderYear, TenderNumber)[0];
-            Util.oDict = Util.CreateBookmarksDictionary(tenderId);
-            var data = db.Templates.FirstOrDefault(da => da.Id == TemplateId).Value;
-            Log.Info("GetData: " + tenderId);
-            var final = Util.ReplaceBookmarks(data);
-            Log.Info("ReplaceBookmarks: ");
-            builder.InsertHtml(String.Format(@"<div  style='direction: rtl;'><p dir='rtl' style = '' >{0}</p></div>", final));//הכנסת תוכן מרכזי
-            ////////////////////////////////////
-
-            PageSetup ps = builder.PageSetup;
-            ps.DifferentFirstPageHeaderFooter = true;
-
-            // sFilename ///
-            //string sRet = String.Empty, mahozcode = String.Empty, mashbashcode = String.Empty, atarcode = String.Empty;
-            //Util.oDict.TryGetValue("mahozcode".ToLower(), out mahozcode);
-            //Util.oDict.TryGetValue("mashbashcode".ToLower(), out mashbashcode);
-            //Util.oDict.TryGetValue("atarcode".ToLower(), out atarcode);
-            //sRet = String.Format("{0}/{1}/{2}", mahozcode, mashbashcode, atarcode);
-
-            ////  	מכרז מספר mmi_mahoz_shortname/tendernumber/tenderyear	
-            //oDict = CreateBookmarksDictionary(tenderId);
-            ////////////// הכנסת תוכן כותרת עליונה //////////////////////
-            builder.MoveToHeaderFooter(HeaderFooterType.HeaderPrimary);
-            string mmi_mahoz_shortname = String.Empty, tendernumber = String.Empty, tenderyear = String.Empty;
-            Util.oDict.TryGetValue("mmi_mahoz_shortname".ToLower(), out mmi_mahoz_shortname);
-            Util.oDict.TryGetValue("tendernumber".ToLower(), out tendernumber);
-            Util.oDict.TryGetValue("tenderyear".ToLower(), out tenderyear);
-            var HeaderPrimary = String.Format("מכרז מספר " + "{0}/{1}/{2}", mmi_mahoz_shortname, tendernumber, tenderyear);
-            builder.InsertHtml(String.Format(@"<div  style=''><p style = '' >{0}</p></div>", HeaderPrimary));//הכנסת תוכן כותרת עליונה
-            ////////////////////////////////////
-            string dataDir = ConfigurationManager.AppSettings["Asposelic"];
-            dataDir = dataDir + string.Format("Lists_{0}.doc", DateTime.Now.ToString("dd-MM-yy_HH-mm"));
-            ///////NISPAHIM//////////////////////////////////////////////////////
-            var fileTemplate = ConfigurationManager.AppSettings["TemplateNispachimFileMishtaken"];
-            var dirTemplate = ConfigurationManager.AppSettings["TemplatesFolder"];
-            //Document srcDoc = new Document(dir + @"נספחים א עד ט לחוברת מכרז גנרית מחיר למשתכן.doc");
-            Document srcDoc = new Document(dirTemplate + fileTemplate);
-            doc.AppendDocument(srcDoc, ImportFormatMode.KeepSourceFormatting);
-
-            //////////////////////////////////////////////////////////
-
-            DocumentBuilder build2 = new DocumentBuilder(srcDoc);
-            string sHeaderText2 = "sHeaderText2";
-            build2.MoveToHeaderFooter(HeaderFooterType.HeaderPrimary);
-            build2.InsertHtml(String.Format(@"<div dir='LTR' style='text-align:left'><p style = 'text-align:left;direction:RTL' >{0}</p></div>", sHeaderText2));
-            ///////////////////////////////////////////////////* CODE DES EXPORTTOWORD *////////////////////////////////////////////////////
-
+            Document doc = Util.TemplateToWord(tenderId);
             string sTargetFolder = "", fileName = "";
-            var ts = "4/50/2";
+            var ts = "4/50/2";// http:mochsps/sites/externalsys/4/50/2/%D7%A9%D7%99%D7%95%D7%95%D7%A7/%D7%9E%D7%9B%D7%A8%D7%96%D7%99%D7%9D
 
             string[] sParams = ts.Split(new char[1] { '/' });
-            sTargetFolder = @"/sites/externalsys/" + sParams[0] + "/" + sParams[1] + "/" + sParams[2] + "/שיווק/מכרזים/" + tenderId.ToString() + "";
+            sTargetFolder = @"/sites/externalsys/" + sParams[0] + "/" + sParams[1] + "/" + sParams[2] + "/שיווק/מכרזים/" + tenderId.ToString() + "";// http:/mochsps/sites/externalsys/
             //sTargetFolder = @"/sites/externalsys/" + sParams[0] + "/" + sParams[1] + "/" + sParams[2] + "/XXX/YYY/" + ts.Id.ToString() + "";
             string sTargetFolderASCII = sTargetFolder;//@"/sites/externalsys/2/14/7/9999" ;   
                                                       //  string documentTitle = "FILE"; 
@@ -369,6 +312,9 @@ namespace WEBAPIODATAV3.Controllers
             Dictionary<string, object> spProperties = null;
             try
             {
+                //spProperties = SetDocumentProperties(doc, null, sTargetFolder, documentTitle);
+                //spProperties = SetDocumentProperties(srcDoc, null, sTargetFolder, documentTitle);
+
                 spProperties = new Dictionary<string, object>();
                 spProperties.Add(sTargetFolder, "BamaProject");
                 spProperties.Add("ContentType", "BamaDoc");
@@ -377,29 +323,59 @@ namespace WEBAPIODATAV3.Controllers
             catch (Exception ex)
             {
                 Log.Error("Error: " + ex.Message);
-                return null;
+                return false;
                 throw ex;
             }
             try
             {
                 var uncPath = sTargetFolder.Replace(@"/", @"\");
-                var host = new Uri(@"http://svtmos10").Host;
+                var host = new Uri(@"http://svtmos10").Host;// http:/svtmos10/sites/externalsys/4/50/2/%D7%A9%D7%99%D7%95%D7%95%D7%A7/%D7%9E%D7%9B%D7%A8%D7%96%D7%99%D7%9D
                 uncPath = @"\\" + host + uncPath;
                 fileName = Path.Combine(uncPath, documentTitle + ".docx").ToString();
+
+                // Directory.CreateDirectory(sPathFileSystem + "\\" + sSectionNumber);
+                string sPathFileSystem = ConfigurationManager.AppSettings["PathFileSystem"];
+                string d = string.Format("{0:yyyy-MM-dd_HH-mm-ss}", DateTime.Now);
+                string sSectionNumber = ts.Replace(@"/", @"\");
+                string fileNameLocal = sPathFileSystem + "\\" + sSectionNumber + @"\" + d + ".docx";
+
+                string sLocalFile = Util.SaveFileToMOSS(fileNameLocal, sTargetFolder, d, TemplateId);
+                System.Diagnostics.Process.Start(sLocalFile);
+
+                UtilityMethods.SaveFileURLToDB(TemplateId, sLocalFile);
+
+
             }
             catch (Exception ex)
             {
                 Log.Error("Error: " + ex.Message);
-                return null;
+                return false;
                 throw ex;
             }
             //throw new Exception("Test : ");
+
+
+            return true;
+        }
+
+            [HttpGet]
+        public IHttpActionResult DownloadWordFile(int TemplateId, int TenderYear, int TenderNumber)
+        {
+            Document doc = Util.TemplateToWord(TemplateId, TenderYear, TenderNumber);
+
+
+
+            ///////////////////////////////////////////////////* CODE DES EXPORTTOWORD *////////////////////////////////////////////////////
+
+            
+
 
             #region SAVE TO LOCAL
             // string sPathLocal = System.Web.HttpContext.Current.Server.MapPath(".");
             string sPathFileSystem = ConfigurationManager.AppSettings["PathFileSystem"];
             string d = string.Format("{0:yyyy-MM-dd_HH-mm-ss}", DateTime.Now);
             //string sFolder = @"C:\Users\CarmelS\Downloads\_TEST\OUTPUT\";
+            var ts = "4/50/2";
             string sSectionNumber = ts.Replace(@"/", @"\");
             string httpfileName = HttpContext.Current.Request.Url.Authority + @"/Doc/" + sSectionNumber.Replace(@"\", @"/") + @"/" + d + ".docx";
             string fileNameLocal = sPathFileSystem + "\\" + sSectionNumber + @"\" + d + ".docx";
@@ -434,14 +410,13 @@ namespace WEBAPIODATAV3.Controllers
             //System.Diagnostics.Process.Start(sLocalFile);
 
             //return sLocalFile;
-
             return Ok(httpfileName);
         }
 
         [HttpGet]
         public IList<TenderTemplatesBookletSection> TemplateDisplay(int TenderYear, int TenderNumber)//,int year
         {
-            var tenderId = (int)GetTenderIdFromTenderYearAndNumber(TenderYear, TenderNumber)[0];
+            var tenderId = (int)Util.GetTenderIdFromTenderYearAndNumber(TenderYear, TenderNumber)[0];
             IQueryable<TenderTemplatesBookletSection> oIq = db.TenderTemplatesBookletSections
                  .Where(TenderTemplatesBookletSection => TenderTemplatesBookletSection.Id == tenderId).OrderBy(d => d.Id);
             TenderTemplatesBookletSection section = null;
@@ -482,6 +457,9 @@ namespace WEBAPIODATAV3.Controllers
 
     //--------------------------------------------------//--------------------------------------------------
     //--------------------------------------------------//--------------------------------------------------
+
+
+
     public static class Util
     {
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -489,10 +467,298 @@ namespace WEBAPIODATAV3.Controllers
         public static string _connectionString = ConfigurationManager.ConnectionStrings["DBBMEntitiesADO"].ConnectionString;
         internal static Dictionary<string, string> oDict;
 
+        public static IList<int?> GetTenderIdFromTenderYearAndNumber(int TenderYear, int TenderNumber)//,int year
+        {
+            using (var db = new DBBMEntities())
+            {
+                try
+                {
+                    var tmp = db.spGetTenderIdFromTenderYearAndNumber(TenderNumber, TenderYear).ToList();
+                    return tmp;
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e.ToString());
+                    return null;
+                }
+            }
+        }
+        public static IList<int?> GetTenderYearAndNumberFromTenderId(int TenderId)
+        {
+            using (var db = new DBBMEntities())
+            {
+                try
+                {
+                    var tmp = db.GetTenderYearAndNumberFromTenderId(TenderId).ToList();
+                    return tmp;
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e.ToString());
+                    return null;
+                }
+            }
+        }
+
+        public static Document TemplateToWord(int TemplateId, int TenderYear, int TenderNumber)
+        {
+            using (var db = new DBBMEntities())
+            {
+                try
+                {
+                    Aspose.Words.License _license;
+                    _license = new Aspose.Words.License();
+                    _license.SetLicense(ConfigurationManager.AppSettings["Asposelic"]);
+
+                    Document doc = new Document(ConfigurationManager.AppSettings["TemplatesFolder"] + @"\tpl.docx");
+                    DocumentBuilder builder = new DocumentBuilder(doc);
+                    //builder.Font.Bidi = true;
+                    //builder.ParagraphFormat.Bidi = true;
+                    //Aspose.Words.Font font = builder.Font;
+
+                    string sRightMargin = ConfigurationManager.AppSettings["RightMargin"];
+                    string sLeftMargin = ConfigurationManager.AppSettings["LeftMargin"];
+                    double dRightMargin = 1;
+                    double dLeftMargin = 1;
+                    Double.TryParse(sRightMargin, out dRightMargin);
+                    Double.TryParse(sLeftMargin, out dLeftMargin);
+                    builder.PageSetup.RightMargin = ConvertUtil.InchToPoint(dRightMargin);
+                    builder.PageSetup.LeftMargin = ConvertUtil.InchToPoint(dLeftMargin);
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Justify;
+
+                    var tenderId = (int)GetTenderIdFromTenderYearAndNumber(TenderYear, TenderNumber)[0];
+                    Util.oDict = Util.CreateBookmarksDictionary(tenderId);
+                    var data = db.Templates.FirstOrDefault(da => da.Id == TemplateId).Value;
+                    Log.Info("GetData: " + tenderId);
+                    var final = Util.ReplaceBookmarks(data);
+                    Log.Info("ReplaceBookmarks: ");
+
+                    ///////////// List Number start="x"  ///////////////////////
+                    int index = 0;
+                    int finishtofound = 0;
+                    do
+                    {
+                        if (final.IndexOf("start=", finishtofound) > 0)
+                            index = final.IndexOf("start=", index) + 7;
+                        else break;
+                        var indexline = final.IndexOf("<li>", index) + 4;
+                        var Number = Int32.Parse(final.Substring(index, final.Substring(index).IndexOf("\"")));
+                        final = final.Substring(0, indexline) + "##StartAt#" + Number + "#" + final.Substring(indexline);
+                        finishtofound = finishtofound + index;
+                    }
+                    while (final.Length >= finishtofound);
+
+                    /// ListFormat ///
+                    List list = doc.Lists.Add(ListTemplate.NumberDefault);
+                    list.ListLevels[1].NumberFormat = "\x0000.\x0001";
+                    list.ListLevels[2].NumberFormat = "\x0000.\x0001.\x0002";
+                    list.ListLevels[3].NumberFormat = "\x0000.\x0001.\x0002.\x0003";
+                    list.ListLevels[4].NumberFormat = "\x0000.\x0001.\x0002.\x0003.\x0004";
+                    list.ListLevels[5].NumberFormat = "\x0000.\x0001.\x0002.\x0003.\x0004.\x0005";
+                    foreach (ListLevel l in list.ListLevels)
+                    {
+                        l.NumberStyle = NumberStyle.Arabic;
+                    }
+                    /////////////// insert all Html  /////////////////////
+                    builder.InsertHtml(String.Format(@"<div  style='direction: rtl;'><p dir='rtl' style = '' >{0}</p></div>", final));//הכנסת תוכן מרכזי
+                                                                                                                                      ////////////////////////////////////
+
+
+                    foreach (Paragraph para in doc.GetChildNodes(NodeType.Paragraph, true))
+                    {
+                        if (para.ListFormat.ListLevel != null)
+                        {
+                            if (para.ListFormat.ListLevel.NumberStyle.ToString() != "Bullet")
+                            {
+                                if (para.ListFormat.IsListItem)//&& para.ListFormat.ListLevelNumber > 0
+                                {
+                                    para.ListFormat.List = list;
+                                    if (para.GetText().IndexOf("##StartAt#") >= 0)
+                                    {
+                                        var indexNumberStart = para.GetText().IndexOf("##StartAt#") + 10;
+                                        var indexNumberEnd = para.GetText().IndexOf("#", indexNumberStart);
+                                        var Number = Int32.Parse(para.GetText().Substring(indexNumberStart, indexNumberEnd - indexNumberStart));
+                                        para.Range.Replace("##StartAt#" + Number + "#", "", false, false);
+                                        para.ListFormat.ListLevel.StartAt = Number;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (para.ParentNode.NodeType != NodeType.Cell)
+                            {
+                                list = doc.Lists.Add(ListTemplate.NumberDefault);
+                                list.ListLevels[1].NumberFormat = "\x0000.\x0001";
+                                list.ListLevels[2].NumberFormat = "\x0000.\x0001.\x0002";
+                                list.ListLevels[3].NumberFormat = "\x0000.\x0001.\x0002.\x0003";
+                                list.ListLevels[4].NumberFormat = "\x0000.\x0001.\x0002.\x0003.\x0004";
+                                list.ListLevels[5].NumberFormat = "\x0000.\x0001.\x0002.\x0003.\x0004.\x0005";
+                                foreach (ListLevel l in list.ListLevels)
+                                {
+                                    l.NumberStyle = NumberStyle.Arabic;
+                                }
+                            }
+
+                        }
+
+                    }
+                    //builder.InsertBreak(BreakType.SectionBreakNewPage);
+
+                    ////////////// הכנסת תוכן כותרת עליונה //////////////////////
+                    PageSetup ps = builder.PageSetup;
+                    ps.DifferentFirstPageHeaderFooter = true;
+
+                    builder.MoveToHeaderFooter(HeaderFooterType.HeaderPrimary);
+                    string mmi_mahoz_shortname = String.Empty, tendernumber = String.Empty, tenderyear = String.Empty;
+                    Util.oDict.TryGetValue("mmi_mahoz_shortname".ToLower(), out mmi_mahoz_shortname);
+                    Util.oDict.TryGetValue("tendernumber".ToLower(), out tendernumber);
+                    Util.oDict.TryGetValue("tenderyear".ToLower(), out tenderyear);
+                    var HeaderPrimary = String.Format("מכרז מספר " + "{0}/{1}/{2}", mmi_mahoz_shortname, tendernumber, tenderyear);
+                    builder.InsertHtml(String.Format(@"<div  style=''><p style = '' >{0}</p></div>", HeaderPrimary));//הכנסת תוכן כותרת עליונה
+                                                                                                                     ////////////////////////////////////
+                    string dataDir = ConfigurationManager.AppSettings["Asposelic"];
+                    dataDir = dataDir + string.Format("Lists_{0}.doc", DateTime.Now.ToString("dd-MM-yy_HH-mm"));
+                    ///////NISPAHIM//////////////////////////////////////////////////////
+                    //var fileTemplate = ConfigurationManager.AppSettings["TemplateNispachimFileMishtaken"];
+                    //var dirTemplate = ConfigurationManager.AppSettings["TemplatesFolder"];
+                    //Document srcDoc = new Document(dir + @"נספחים א עד ט לחוברת מכרז גנרית מחיר למשתכן.doc");
+                    //Document srcDoc = new Document(dirTemplate + fileTemplate);
+                    // ביטלתי את הוספת נספחים כי אני רוצה לתת אפשרות לערוך אותם בייחד
+                    //doc.AppendDocument(srcDoc, ImportFormatMode.KeepSourceFormatting);
+
+                    //////////////////////////////////////////////////////////
+
+                   // DocumentBuilder build2 = new DocumentBuilder(srcDoc);
+                   // string sHeaderText2 = "sHeaderText2";
+                   // build2.MoveToHeaderFooter(HeaderFooterType.HeaderPrimary);
+                   // build2.InsertHtml(String.Format(@"<div dir='LTR' style='text-align:left'><p style = 'text-align:left;direction:RTL' >{0}</p></div>", sHeaderText2));
+                    
+
+                   
+                    return doc;
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e.ToString());
+                    return null;
+                }
+            }
+        }
 
 
 
 
+        public static string SaveFileToMOSS(string fileNameFS, string folderNameURL, string fileName, int TemplateId)
+        {
+
+            string res = "";
+            string sEnvironment = ConfigurationManager.AppSettings["Environment"];
+
+            try
+            {
+                if (sEnvironment == "Dev")
+                {
+
+
+
+                    #region CODE FOR TEST ENVIRONMENT
+                    using (var service = new SPWebService.SPWebService())
+                    {
+                        //string tmpFolder = @"\\svpfil02\sps_temp$";
+
+                        string tmpFileName = fileNameFS; //   tmpFolder + @"\" + "sp.txt";
+                                                         //System.IO.File.Copy(mf.importFile.FileName, tmpFileName, true);
+                                                         //string pathUrl = @"http://svtmos10/sites/externalsys/4/50/2" + @"/שיווק/מכרזים/" + @"2475";
+                        var returnValue = service.SaveItem("http://svtmos10" + folderNameURL,
+                                                           tmpFileName,
+                                                           "{ 'ContentType' :'תיקיה' , 'Title' : '" + fileName + "' }",
+                                                           "{'ContentType' :'BamaDoc' , 'Title' : 'חוברת מכרז' }",
+                                                           "y01");
+
+                        if (!returnValue.IsSuccess)
+                            throw new Exception(returnValue.ErrorMsg + "(" + returnValue.ErrorCode + ")");
+
+                        else
+                            res = returnValue.Result;
+
+
+
+                        // System.Diagnostics.Process.Start(returnValue.FolderPath);
+                        // System.Diagnostics.Process.Start(returnValue.Result);
+                    }
+                    #endregion
+
+                }
+                else if (sEnvironment == "Prod")
+                {
+
+
+
+                    #region CODE FOR PROD ENVIRONMENT
+                    using (var service = new svpsps10.SPWebService())
+                    {
+                        //string tmpFolder = @"\\svpfil02\sps_temp$";
+                        string sIdentity = System.Security.Principal.WindowsIdentity.GetCurrent().Name; //  CurrentIdentity.Name
+                                                                                                        //sIdentity = Environment.UserName;
+                                                                                                        //sIdentity = System.Environment.GetEnvironmentVariable("UserName");
+                                                                                                        // sIdentity = "y01";
+
+
+
+
+
+                        string tmpFileName = fileNameFS; //   tmpFolder + @"\" + "sp.txt";
+                                                         //System.IO.File.Copy(mf.importFile.FileName, tmpFileName, true);
+                                                         //string pathUrl = @"http://svtmos10/sites/externalsys/4/50/2" + @"/שיווק/מכרזים/" + @"2475";
+
+                        string sServerProd = "http://svpsps10";// "http://mochsps";
+                        var returnValue = service.SaveItem(sServerProd + folderNameURL,
+                                                                  tmpFileName,
+                                                                  "{ 'ContentType' :'תיקיה' , 'Title' : '" + fileName + "' }",
+                                                                  "{'ContentType' :'BamaDoc' , 'Title' : 'חוברת מכרז' }",
+                                                                  sIdentity);//   "CARMELS"
+
+
+
+                        if (!returnValue.IsSuccess)
+                            throw new Exception(returnValue.ErrorMsg + "(" + returnValue.ErrorCode + " USER = " + sIdentity + ")");
+
+                        else
+                            res = returnValue.Result;
+
+                        try
+                        {
+                            System.IO.File.Delete(tmpFileName);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error("Error: " + ex.Message);
+                        }
+
+                        //System.Diagnostics.Process.Start(returnValue.FolderPath);
+                        //System.Diagnostics.Process.Start(returnValue.Result);
+
+
+                    }
+                    #endregion
+
+
+
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                Log.Error("ERROR EXPORTING TO WORD: " + e.Message);
+                res = "ERROR EXPORTING TO WORD : " + e.Message;
+            }
+
+
+            return res;
+
+        }
 
         //internal static Dictionary<string, string> CreateBookmarksDictionary_TenderBooklet(int tenderId) => GetDictionaryByDataSet(
         //    GetBookMarks_TenderBooklet(tenderId, null)

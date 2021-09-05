@@ -159,6 +159,7 @@ warning 6002: The table/view 'DBBM.dbo.Letters' does not have a primary key defi
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Publish" Type="bit" />
           <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="MarketingMethod" Type="int" />
           <Property Name="Value" Type="nvarchar(max)" />
           <Property Name="Details" Type="nvarchar(max)" />
           <Property Name="UpdatedDate" Type="datetime" />
@@ -262,6 +263,9 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
         <Function Name="spGetTenderIdFromTenderYearAndNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TenderId" Type="int" Mode="In" />
           <Parameter Name="TenderYear" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetTenderYearAndNumberFromTenderId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TenderId" Type="int" Mode="In" />
         </Function>
         <Function Name="spLett_TenderBooklet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TenderId" Type="int" Mode="In" />
@@ -402,6 +406,9 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
             <Parameter Name="TenderYear" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="Templates" EntityType="DBBMModel.Template" />
+          <FunctionImport Name="spGetTenderYearAndNumberFromTenderId" ReturnType="Collection(DBBMModel.spGetTenderYearAndNumberFromTenderId_Result1)">
+            <Parameter Name="TenderId" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Email">
           <Key>
@@ -751,11 +758,20 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Publish" Type="Boolean" />
           <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MarketingMethod" Type="Int32" />
           <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedById" Type="Int32" />
         </EntityType>
+        <ComplexType Name="spGetTenderYearAndNumberFromTenderId_Result">
+          <Property Type="Int32" Name="TenderNumber" Nullable="true" />
+          <Property Type="Int32" Name="TenderYear" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spGetTenderYearAndNumberFromTenderId_Result1">
+          <Property Type="Int32" Name="TenderNumber" Nullable="true" />
+          <Property Type="Int32" Name="TenderYear" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1157,12 +1173,21 @@ warning 6002: The table/view 'DBBM.dbo.TenderSections' does not have a primary k
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="Details" ColumnName="Details" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="MarketingMethod" ColumnName="MarketingMethod" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Publish" ColumnName="Publish" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spGetTenderYearAndNumberFromTenderId" FunctionName="DBBMModel.Store.spGetTenderYearAndNumberFromTenderId">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="DBBMModel.spGetTenderYearAndNumberFromTenderId_Result1">
+                <ScalarProperty Name="TenderNumber" ColumnName="TenderNumber" />
+                <ScalarProperty Name="TenderYear" ColumnName="TenderYear" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

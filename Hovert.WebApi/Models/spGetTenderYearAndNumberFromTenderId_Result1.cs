@@ -10,17 +10,10 @@
 namespace WEBAPIODATAV3.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Template
+    public partial class spGetTenderYearAndNumberFromTenderId_Result1
     {
-        public int Id { get; set; }
-        public Nullable<bool> Publish { get; set; }
-        public string Title { get; set; }
-        public Nullable<int> MarketingMethod { get; set; }
-        public string Value { get; set; }
-        public string Details { get; set; }
-        public Nullable<System.DateTime> UpdatedDate { get; set; }
-        public Nullable<int> UpdatedById { get; set; }
+        public Nullable<int> TenderNumber { get; set; }
+        public Nullable<int> TenderYear { get; set; }
     }
 }

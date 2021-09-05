@@ -141,9 +141,9 @@ a.linky {
 li ol > li{padding-inline-start:16px;}
 li ol > li::before{margin-right: -35px;}
 li ol li ol > li::before{margin-right: -50px;}
-li ol li ol li ol > li::before{margin-right: -65px;}
-li ol li ol li ol li ol> li::before{margin-right: -75px;}
-li ol li ol li ol li ol li ol > li::before{margin-right: -90px;}
+li ol li ol li ol > li::before{margin-right: -67px;}
+li ol li ol li ol li ol> li::before{margin-right: -90px;}
+li ol li ol li ol li ol li ol > li::before{margin-right: -110px;}
 
 ol {
   counter-reset: item;
@@ -162,6 +162,10 @@ ol {
   ol[start="#{$i+1}"] {
     counter-reset: item $i ;
   }
+}
+.pagebreak{
+  background-color: #e4a050;
+    height: 2px;
 }
 
 /* in-flight clone */
